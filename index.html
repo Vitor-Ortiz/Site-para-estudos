@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStudy - Aprenda HTML, CSS e JavaScript</title>
+    <style>
+        /* ===== RESET E ESTILOS GLOBAIS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* ===== CABEÇALHO ===== */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+        }
+
+        /* ===== SEÇÕES DE CONTEÚDO ===== */
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            margin: 0.5rem auto;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-body h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        /* ===== EXEMPLOS INTERATIVOS ===== */
+        .example-container {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .code-example {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .code-comment {
+            color: #75715e;
+        }
+
+        .code-tag {
+            color: #f92672;
+        }
+
+        .code-attr {
+            color: #a6e22e;
+        }
+
+        .code-value {
+            color: #e6db74;
+        }
+
+        .demo-area {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        /* ===== BOTÕES INTERATIVOS ===== */
+        .interactive-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin: 0.5rem;
+        }
+
+        .interactive-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* ===== RODAPÉ ===== */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+            }
+
+            nav ul li {
+                margin: 0 0.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+
+        /* ===== NOVOS ESTILOS PARA A SEÇÃO QUIZ ===== */
+        .quiz-section {
+            background-color: #f8f9fa;
+            padding: 4rem 0;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-progress {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            height: 100%;
+            background-color: var(--secondary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-option.selected {
+            background-color: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+
+        .quiz-option.correct {
+            background-color: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+
+        .quiz-option.incorrect {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .quiz-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .quiz-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .quiz-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .quiz-results {
+            text-align: center;
+            display: none;
+        }
+
+        .quiz-score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin: 1rem 0;
+        }
+
+        .quiz-message {
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+        }
+
+        .restart-btn {
+            background-color: var(--accent-color);
+        }
+
+        .restart-btn:hover {
+            background-color: #c0392b;
+        }
+
+
+        /* ===== NOVOS ESTILOS PARA O BANCO DE COMANDOS ===== */
+        .commands-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .commands-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .commands-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .command-tab {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .command-tab:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .command-tab.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .commands-content {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            color: #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .commands-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .command-category {
+            margin-bottom: 2rem;
+        }
+
+        .category-title {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .command-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .command-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .command-name {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .command-description {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .command-syntax {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        .command-example {
+            background: #e9ecef;
+            padding: 1rem;
+            border-radius: 5px;
+            border-left: 3px solid #28a745;
+        }
+
+        .command-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 1rem;
+        }
+
+        .command-tag {
+            background: #667eea;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+
+        .search-box {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .copy-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #218838;
+        }
+
+        .command-use-case {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .commands-stats {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">Dev<span>Study</span></a>
+                <nav>
+                    <ul>
+                        <li><a href="#html">HTML</a></li>
+                        <li><a href="#css">CSS</a></li>
+                        <li><a href="#javascript">JavaScript</a></li>
+                        <li><a href="#projetos">Projetos</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- SEÇÃO HERO -->
+    <section class="hero">
+        <div class="container">
+            <h1>Aprenda HTML, CSS e JavaScript do Zero</h1>
+            <p>Domine as tecnologias fundamentais para desenvolvimento web com exemplos práticos, dicas valiosas e
+                exercícios interativos.</p>
+            <a href="#html" class="btn">Começar Agora</a>
+        </div>
+    </section>
+
+    <!-- SEÇÃO HTML -->
+    <section id="html">
+        <div class="container">
+            <h2 class="section-title">HTML - Estrutura da Web</h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">O que é HTML?</div>
+                    <div class="card-body">
+                        <h3>Linguagem de Marcação de Hipertexto</h3>
+                        <p>HTML (HyperText Markup Language) é a linguagem fundamental para criar páginas web. Ela define
+                            a estrutura e o significado do conteúdo.</p>
+
+                        <div class="example-container">
+                            <h4>Exemplo Básico:</h4>
+                            <div class="code-example">
+                                <span class="code-comment">&lt;!-- Estrutura básica de um documento HTML
+                                    --&gt;</span><br>
+                                <span class="code-tag">&lt;!DOCTYPE html&gt;</span><br>
+                                <span class="code-tag">&lt;html</span> <span class="code-attr">lang=</span><span
+                                    class="code-value">"pt-br"</span><span class="code-tag">&gt;</span><br>
+                                <span class="code-tag">&lt;head&gt;</span><br>
+                                &nbsp;&nbsp;<span class="code-tag">&lt;meta</span> <span
+                                    class="code-attr">charset=</span><span class="code-value">"UTF-8"</span><span
+                                    class="code-tag">&gt;</span><br>
+                                &nbsp;&nbsp;<span class="code-tag">&lt;title&gt;</span>Título da Página<span
+                                    class="code-tag">&lt;/title&gt;</span><br>
+                                <span class="code-tag">&lt;/head&gt;</span><br>
+                                <span class="code-tag">&lt;body&gt;</span><br>
+                                &nbsp;&nbsp;<span class="code-comment">&lt;!-- Conteúdo visível da página
+                                    --&gt;</span><br>
+                                &nbsp;&nbsp;<span class="code-tag">&lt;h1&gt;</span>Meu Primeiro Título<span
+                                    class="code-tag">&lt;/h1&gt;</span><br>
+                                &nbsp;&nbsp;<span class="code-tag">&lt;p&gt;</span>Meu primeiro parágrafo.<span
+                                    class="code-tag">&lt;/p&gt;</span><br>
+                                <span class="code-tag">&lt;/body&gt;</span><br>
+                                <span class="code-tag">&lt;/html&gt;</span>
+                            </div>
+
+                            <div class="demo-area">
+                                <h1>Meu Primeiro Título</h1>
+                                <p>Meu primeiro parágrafo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Elementos HTML</div>
+                    <div class="card-body">
+                        <h3>Principais Tags HTML</h3>
+                        <p>HTML utiliza "tags" para estruturar o conteúdo. Cada tag tem uma função específica.</p>
+
+                        <div class="example-container">
+                            <h4>Tags Comuns:</h4>
+                            <div class="code-example">
+                                <span class="code-comment">&lt;!-- Títulos --&gt;</span><br>
+                                <span class="code-tag">&lt;h1&gt;</span>Título Principal<span
+                                    class="code-tag">&lt;/h1&gt;</span><br>
+                                <span class="code-tag">&lt;h2&gt;</span>Subtítulo<span
+                                    class="code-tag">&lt;/h2&gt;</span><br>
+                                <span class="code-comment">&lt;!-- Parágrafo --&gt;</span><br>
+                                <span class="code-tag">&lt;p&gt;</span>Este é um parágrafo.<span
+                                    class="code-tag">&lt;/p&gt;</span><br>
+                                <span class="code-comment">&lt;!-- Link --&gt;</span><br>
+                                <span class="code-tag">&lt;a</span> <span class="code-attr">href=</span><span
+                                    class="code-value">"https://exemplo.com"</span><span
+                                    class="code-tag">&gt;</span>Link para exemplo<span
+                                    class="code-tag">&lt;/a&gt;</span><br>
+                                <span class="code-comment">&lt;!-- Imagem --&gt;</span><br>
+                                <span class="code-tag">&lt;img</span> <span class="code-attr">src=</span><span
+                                    class="code-value">"imagem.jpg"</span> <span class="code-attr">alt=</span><span
+                                    class="code-value">"Descrição"</span><span class="code-tag">&gt;</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Formulários HTML</div>
+                    <div class="card-body">
+                        <h3>Coletando Dados do Usuário</h3>
+                        <p>Formulários permitem que os usuários enviem dados para o servidor.</p>
+
+                        <div class="example-container">
+                            <h4>Exemplo de Formulário:</h4>
+                            <div class="code-example">
+                                <span class="code-tag">&lt;form</span> <span class="code-attr">action=</span><span
+                                    class="code-value">"/enviar"</span> <span class="code-attr">method=</span><span
+                                    class="code-value">"post"</span><span class="code-tag">&gt;</span><br>
+                                &nbsp;&nbsp;<span class="code-tag">&lt;label</span> <span
+                                    class="code-attr">for=</span><span class="code-value">"nome"</span><span
+                                    class="code-tag">&gt;</span>Nome:<span class="code-tag">&lt;/label&gt;</span><br>
+                                &nbsp;&nbsp;<span class="code-tag">&lt;input</span> <span
+                                    class="code-attr">type=</span><span class="code-value">"text"</span> <span
+                                    class="code-attr">id=</span><span class="code-value">"nome"</span> <span
+                                    class="code-attr">name=</span><span class="code-value">"nome"</span><span
+                                    class="code-tag">&gt;</span><br><br>
+
+                                &nbsp;&nbsp;<span class="code-tag">&lt;label</span> <span
+                                    class="code-attr">for=</span><span class="code-value">"email"</span><span
+                                    class="code-tag">&gt;</span>Email:<span class="code-tag">&lt;/label&gt;</span><br>
+                                &nbsp;&nbsp;<span class="code-tag">&lt;input</span> <span
+                                    class="code-attr">type=</span><span class="code-value">"email"</span> <span
+                                    class="code-attr">id=</span><span class="code-value">"email"</span> <span
+                                    class="code-attr">name=</span><span class="code-value">"email"</span><span
+                                    class="code-tag">&gt;</span><br><br>
+
+                                &nbsp;&nbsp;<span class="code-tag">&lt;input</span> <span
+                                    class="code-attr">type=</span><span class="code-value">"submit"</span> <span
+                                    class="code-attr">value=</span><span class="code-value">"Enviar"</span><span
+                                    class="code-tag">&gt;</span><br>
+                                <span class="code-tag">&lt;/form&gt;</span>
+                            </div>
+
+                            <div class="demo-area">
+                                <form id="exemploForm">
+                                    <label for="nome">Nome:</label><br>
+                                    <input type="text" id="nome" name="nome"><br><br>
+
+                                    <label for="email">Email:</label><br>
+                                    <input type="email" id="email" name="email"><br><br>
+
+                                    <input type="submit" value="Enviar" class="interactive-btn">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO CSS -->
+    <section id="css">
+        <div class="container">
+            <h2 class="section-title">CSS - Estilização da Web</h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">O que é CSS?</div>
+                    <div class="card-body">
+                        <h3>Folhas de Estilo em Cascata</h3>
+                        <p>CSS (Cascading Style Sheets) é usado para estilizar e layout páginas web - controlando cores,
+                            fontes, espaçamento e posicionamento.</p>
+
+                        <div class="example-container">
+                            <h4>Sintaxe Básica:</h4>
+                            <div class="code-example">
+                                <span class="code-comment">/* Seletor { propriedade: valor; } */</span><br>
+                                <span class="code-tag">body</span> {<br>
+                                &nbsp;&nbsp;<span class="code-attr">background-color</span>: <span
+                                    class="code-value">#f0f0f0</span>;<br>
+                                &nbsp;&nbsp;<span class="code-attr">font-family</span>: <span class="code-value">Arial,
+                                    sans-serif</span>;<br>
+                                &nbsp;&nbsp;<span class="code-attr">margin</span>: <span
+                                    class="code-value">0</span>;<br>
+                                }<br><br>
+
+                                <span class="code-tag">h1</span> {<br>
+                                &nbsp;&nbsp;<span class="code-attr">color</span>: <span
+                                    class="code-value">blue</span>;<br>
+                                &nbsp;&nbsp;<span class="code-attr">text-align</span>: <span
+                                    class="code-value">center</span>;<br>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Seletores CSS</div>
+                    <div class="card-body">
+                        <h3>Como Aplicar Estilos</h3>
+                        <p>Seletores determinam quais elementos HTML receberão os estilos definidos.</p>
+
+                        <div class="example-container">
+                            <h4>Tipos de Seletores:</h4>
+                            <div class="code-example">
+                                <span class="code-comment">/* Seletor de elemento */</span><br>
+                                <span class="code-tag">p</span> { <span class="code-attr">color</span>: <span
+                                    class="code-value">red</span>; }<br><br>
+
+                                <span class="code-comment">/* Seletor de classe */</span><br>
+                                <span class="code-tag">.destaque</span> { <span
+                                    class="code-attr">background-color</span>: <span class="code-value">yellow</span>;
+                                }<br><br>
+
+                                <span class="code-comment">/* Seletor de ID */</span><br>
+                                <span class="code-tag">#cabecalho</span> { <span class="code-attr">font-size</span>:
+                                <span class="code-value">24px</span>; }<br><br>
+
+                                <span class="code-comment">/* Seletor de atributo */</span><br>
+                                <span class="code-tag">input[type="text"]</span> { <span
+                                    class="code-attr">border</span>: <span class="code-value">1px solid #ccc</span>; }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Flexbox e Grid</div>
+                    <div class="card-body">
+                        <h3>Layouts Modernos</h3>
+                        <p>Flexbox e CSS Grid são sistemas de layout que facilitam a criação de designs responsivos.</p>
+
+                        <div class="example-container">
+                            <h4>Exemplo Flexbox:</h4>
+                            <div class="code-example">
+                                <span class="code-tag">.container</span> {<br>
+                                &nbsp;&nbsp;<span class="code-attr">display</span>: <span
+                                    class="code-value">flex</span>;<br>
+                                &nbsp;&nbsp;<span class="code-attr">justify-content</span>: <span
+                                    class="code-value">space-between</span>;<br>
+                                &nbsp;&nbsp;<span class="code-attr">align-items</span>: <span
+                                    class="code-value">center</span>;<br>
+                                }<br><br>
+
+                                <span class="code-tag">.item</span> {<br>
+                                &nbsp;&nbsp;<span class="code-attr">flex</span>: <span class="code-value">1</span>;<br>
+                                &nbsp;&nbsp;<span class="code-attr">margin</span>: <span
+                                    class="code-value">10px</span>;<br>
+                                }
+                            </div>
+
+                            <div class="demo-area">
+                                <div
+                                    style="display: flex; justify-content: space-between; background: #eee; padding: 10px;">
+                                    <div
+                                        style="flex: 1; background: var(--secondary-color); color: white; padding: 10px; margin: 5px;">
+                                        Item 1</div>
+                                    <div
+                                        style="flex: 1; background: var(--secondary-color); color: white; padding: 10px; margin: 5px;">
+                                        Item 2</div>
+                                    <div
+                                        style="flex: 1; background: var(--secondary-color); color: white; padding: 10px; margin: 5px;">
+                                        Item 3</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOVA SEÇÃO QUIZ -->
+    <section id="quiz" class="quiz-section">
+        <div class="container">
+            <h2 class="section-title">Teste Seu Conhecimento</h2>
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h3>Quiz de HTML, CSS e JavaScript</h3>
+                    <p>Responda às perguntas para testar seu conhecimento!</p>
+                </div>
+
+                <div class="quiz-progress">
+                    <div class="quiz-progress-bar" id="quizProgress"></div>
+                </div>
+
+                <div class="quiz-content" id="quizContent">
+                    <div class="quiz-question" id="quizQuestion"></div>
+                    <div class="quiz-options" id="quizOptions"></div>
+                    <div class="quiz-navigation">
+                        <button class="quiz-btn" id="prevBtn" disabled>Anterior</button>
+                        <button class="quiz-btn" id="nextBtn">Próxima</button>
+                    </div>
+                </div>
+
+                <div class="quiz-results" id="quizResults">
+                    <h3>Quiz Concluído!</h3>
+                    <div class="quiz-score" id="quizScore"></div>
+                    <div class="quiz-message" id="quizMessage"></div>
+                    <button class="quiz-btn restart-btn" id="restartBtn">Refazer Quiz</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO JAVASCRIPT -->
+    <section id="javascript">
+        <div class="container">
+            <h2 class="section-title">JavaScript - Interatividade da Web</h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">O que é JavaScript?</div>
+                    <div class="card-body">
+                        <h3>Linguagem de Programação para a Web</h3>
+                        <p>JavaScript permite adicionar interatividade, animações e comportamentos dinâmicos às páginas
+                            web.</p>
+
+                        <div class="example-container">
+                            <h4>Primeiro Código JavaScript:</h4>
+                            <div class="code-example">
+                                <span class="code-comment">// Exibe um alerta no navegador</span><br>
+                                <span class="code-tag">alert</span>(<span class="code-value">'Olá,
+                                    Mundo!'</span>);<br><br>
+
+                                <span class="code-comment">// Escreve no console (F12 para ver)</span><br>
+                                <span class="code-tag">console.log</span>(<span class="code-value">'Mensagem no
+                                    console'</span>);<br><br>
+
+                                <span class="code-comment">// Altera o conteúdo de um elemento HTML</span><br>
+                                <span class="code-tag">document.getElementById</span>(<span
+                                    class="code-value">'meuElemento'</span>).innerHTML = <span class="code-value">'Novo
+                                    conteúdo'</span>;
+                            </div>
+
+                            <button class="interactive-btn" onclick="alert('Olá, Mundo!')">Testar Alerta</button>
+                            <button class="interactive-btn"
+                                onclick="console.log('Mensagem no console - pressione F12 para ver')">Testar
+                                Console</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Variáveis e Funções</div>
+                    <div class="card-body">
+                        <h3>Conceitos Fundamentais</h3>
+                        <p>Variáveis armazenam dados e funções executam ações específicas.</p>
+
+                        <div class="example-container">
+                            <h4>Declarando Variáveis e Funções:</h4>
+                            <div class="code-example">
+                                <span class="code-comment">// Declarando variáveis</span><br>
+                                <span class="code-tag">let</span> nome = <span class="code-value">'João'</span>; <span
+                                    class="code-comment">// Variável que pode ser reatribuída</span><br>
+                                <span class="code-tag">const</span> idade = <span class="code-value">25</span>; <span
+                                    class="code-comment">// Constante (não pode ser reatribuída)</span><br><br>
+
+                                <span class="code-comment">// Declarando uma função</span><br>
+                                <span class="code-tag">function</span> <span class="code-attr">cumprimentar</span>()
+                                {<br>
+                                &nbsp;&nbsp;<span class="code-tag">return</span> <span class="code-value">'Olá, '</span>
+                                + nome + <span class="code-value">'! Você tem '</span> + idade + <span
+                                    class="code-value">' anos.'</span>;<br>
+                                }<br><br>
+
+                                <span class="code-comment">// Chamando a função</span><br>
+                                <span class="code-tag">console.log</span>(cumprimentar());
+                            </div>
+
+                            <button class="interactive-btn" onclick="exemploVariaveis()">Testar Exemplo</button>
+                            <p id="resultadoVariaveis" style="margin-top: 10px;"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Manipulação do DOM</div>
+                    <div class="card-body">
+                        <h3>Interagindo com a Página</h3>
+                        <p>O DOM (Document Object Model) permite que o JavaScript altere o conteúdo e estilo dos
+                            elementos HTML.</p>
+
+                        <div class="example-container">
+                            <h4>Alterando Elementos:</h4>
+                            <div class="code-example">
+                                <span class="code-comment">// Alterar texto de um elemento</span><br>
+                                <span class="code-tag">document.getElementById</span>(<span
+                                    class="code-value">'meuTexto'</span>).textContent = <span class="code-value">'Novo
+                                    texto'</span>;<br><br>
+
+                                <span class="code-comment">// Alterar estilo de um elemento</span><br>
+                                <span class="code-tag">document.getElementById</span>(<span
+                                    class="code-value">'meuElemento'</span>).style.color = <span
+                                    class="code-value">'red'</span>;<br><br>
+
+                                <span class="code-comment">// Adicionar/remover classes</span><br>
+                                <span class="code-tag">document.getElementById</span>(<span
+                                    class="code-value">'meuElemento'</span>).classList.add(<span
+                                    class="code-value">'destaque'</span>);<br>
+                                <span class="code-tag">document.getElementById</span>(<span
+                                    class="code-value">'meuElemento'</span>).classList.remove(<span
+                                    class="code-value">'destaque'</span>);
+                            </div>
+
+                            <button class="interactive-btn" onclick="alterarTexto()">Alterar Texto</button>
+                            <button class="interactive-btn" onclick="alterarCor()">Alterar Cor</button>
+                            <button class="interactive-btn" onclick="adicionarClasse()">Adicionar Classe</button>
+                            <button class="interactive-btn" onclick="removerClasse()">Remover Classe</button>
+
+                            <div id="elementoDemo" style="margin-top: 15px; padding: 10px; border: 1px solid #ccc;">
+                                Este é um elemento de demonstração.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DE PROJETOS -->
+    <section id="projetos">
+        <div class="container">
+            <h2 class="section-title">Projetos Práticos</h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">Projeto 1: Calculadora</div>
+                    <div class="card-body">
+                        <h3>Calculadora Simples</h3>
+                        <p>Uma calculadora básica que realiza operações matemáticas simples.</p>
+
+                        <div class="demo-area">
+                            <div style="background: #f0f0f0; padding: 15px; border-radius: 5px;">
+                                <input type="text" id="display" readonly
+                                    style="width: 100%; padding: 10px; margin-bottom: 10px; font-size: 1.2rem;">
+                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
+                                    <button class="interactive-btn" onclick="adicionarNumero('7')">7</button>
+                                    <button class="interactive-btn" onclick="adicionarNumero('8')">8</button>
+                                    <button class="interactive-btn" onclick="adicionarNumero('9')">9</button>
+                                    <button class="interactive-btn" onclick="adicionarOperador('/')">/</button>
+                                    <button class="interactive-btn" onclick="adicionarNumero('4')">4</button>
+                                    <button class="interactive-btn" onclick="adicionarNumero('5')">5</button>
+                                    <button class="interactive-btn" onclick="adicionarNumero('6')">6</button>
+                                    <button class="interactive-btn" onclick="adicionarOperador('*')">*</button>
+                                    <button class="interactive-btn" onclick="adicionarNumero('1')">1</button>
+                                    <button class="interactive-btn" onclick="adicionarNumero('2')">2</button>
+                                    <button class="interactive-btn" onclick="adicionarNumero('3')">3</button>
+                                    <button class="interactive-btn" onclick="adicionarOperador('-')">-</button>
+                                    <button class="interactive-btn" onclick="adicionarNumero('0')">0</button>
+                                    <button class="interactive-btn" onclick="limparDisplay()">C</button>
+                                    <button class="interactive-btn" onclick="calcular()">=</button>
+                                    <button class="interactive-btn" onclick="adicionarOperador('+')">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Projeto 2: Lista de Tarefas</div>
+                    <div class="card-body">
+                        <h3>Gerenciador de Tarefas</h3>
+                        <p>Um aplicativo para adicionar, marcar como concluído e remover tarefas.</p>
+
+                        <div class="demo-area">
+                            <div style="margin-bottom: 15px;">
+                                <input type="text" id="novaTarefa" placeholder="Digite uma nova tarefa"
+                                    style="width: 70%; padding: 8px;">
+                                <button class="interactive-btn" onclick="adicionarTarefa()">Adicionar</button>
+                            </div>
+                            <ul id="listaTarefas" style="list-style-type: none; padding: 0;">
+                                <!-- As tarefas serão adicionadas aqui via JavaScript -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Projeto 3: Contador</div>
+                    <div class="card-body">
+                        <h3>Contador Interativo</h3>
+                        <p>Um contador simples com botões para incrementar, decrementar e resetar.</p>
+
+                        <div class="demo-area" style="text-align: center;">
+                            <h2 id="valorContador" style="font-size: 3rem; margin: 1rem 0;">0</h2>
+                            <button class="interactive-btn" onclick="incrementar()">+</button>
+                            <button class="interactive-btn" onclick="decrementar()">-</button>
+                            <button class="interactive-btn" onclick="resetar()">Resetar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOVA SEÇÃO: BANCO DE COMANDOS -->
+    <section id="comandos" class="commands-section">
+        <div class="commands-container">
+            <h2 class="section-title" style="color: white;">Banco de Comandos & Referências</h2>
+
+            <div class="commands-stats">
+                <p>Explore nossa biblioteca completa de comandos, tags e funcionalidades</p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number" id="htmlCount">0</span>
+                        <span class="stat-label">Tags HTML</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="cssCount">0</span>
+                        <span class="stat-label">Propriedades CSS</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="jsCount">0</span>
+                        <span class="stat-label">Comandos JS</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalCount">0</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-box">
+                <input type="text" class="search-input" id="commandSearch"
+                    placeholder="Pesquisar comandos, tags ou funcionalidades...">
+            </div>
+
+            <div class="commands-tabs">
+                <button class="command-tab active" data-tab="html">HTML</button>
+                <button class="command-tab" data-tab="css">CSS</button>
+                <button class="command-tab" data-tab="javascript">JavaScript</button>
+                <button class="command-tab" data-tab="apis">APIs Web</button>
+                <button class="command-tab" data-tab="frameworks">Frameworks</button>
+                <button class="command-tab" data-tab="responsivo">Design Responsivo</button>
+            </div>
+
+            <!-- CONTEÚDO HTML -->
+            <div class="commands-content active" id="html-content">
+                <div class="command-category">
+                    <h3 class="category-title">Estrutura Básica</h3>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <div class="command-name">&lt;!DOCTYPE html&gt;</div>
+                            <div class="command-description">Declara o tipo de documento e versão do HTML.</div>
+                            <div class="command-syntax">&lt;!DOCTYPE html&gt;</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> Primeira linha de qualquer documento HTML5.
+                            </div>
+                            <button class="copy-btn" data-code="&lt;!DOCTYPE html&gt;">Copiar</button>
+                            <div class="command-tags">
+                                <span class="command-tag">Declaração</span>
+                                <span class="command-tag">Obrigatório</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">&lt;html&gt;</div>
+                            <div class="command-description">Elemento raiz que contém todo o conteúdo HTML.</div>
+                            <div class="command-syntax">&lt;html lang="pt-br"&gt;...&lt;/html&gt;</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> Envolve todo o conteúdo da página.
+                            </div>
+                            <button class="copy-btn"
+                                data-code="&lt;html lang=&quot;pt-br&quot;&gt;&#10;  ...&#10;&lt;/html&gt;">Copiar</button>
+                            <div class="command-tags">
+                                <span class="command-tag">Raiz</span>
+                                <span class="command-tag">Estrutura</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">&lt;head&gt;</div>
+                            <div class="command-description">Contém metadados, links para CSS, título da página, etc.
+                            </div>
+                            <div class="command-syntax">&lt;head&gt;...&lt;/head&gt;</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> Inclui título, charset, viewport e links.
+                            </div>
+                            <button class="copy-btn"
+                                data-code="&lt;head&gt;&#10;  &lt;meta charset=&quot;UTF-8&quot;&gt;&#10;  &lt;title&gt;Título da Página&lt;/title&gt;&#10;&lt;/head&gt;">Copiar</button>
+                            <div class="command-tags">
+                                <span class="command-tag">Metadados</span>
+                                <span class="command-tag">Cabeçalho</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="command-category">
+                    <h3 class="category-title">Elementos de Texto</h3>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <div class="command-name">&lt;h1&gt; a &lt;h6&gt;</div>
+                            <div class="command-description">Cabeçalhos ou títulos, onde h1 é o mais importante.</div>
+                            <div class="command-syntax">&lt;h1&gt;Título&lt;/h1&gt;</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> &lt;h1&gt;Título Principal&lt;/h1&gt;
+                            </div>
+                            <button class="copy-btn" data-code="&lt;h1&gt;Título Principal&lt;/h1&gt;">Copiar</button>
+                            <div class="command-tags">
+                                <span class="command-tag">Título</span>
+                                <span class="command-tag">Hierarquia</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">&lt;p&gt;</div>
+                            <div class="command-description">Define um parágrafo de texto.</div>
+                            <div class="command-syntax">&lt;p&gt;Texto do parágrafo&lt;/p&gt;</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> &lt;p&gt;Este é um parágrafo de exemplo.&lt;/p&gt;
+                            </div>
+                            <button class="copy-btn"
+                                data-code="&lt;p&gt;Este é um parágrafo de exemplo.&lt;/p&gt;">Copiar</button>
+                            <div class="command-tags">
+                                <span class="command-tag">Texto</span>
+                                <span class="command-tag">Parágrafo</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">&lt;span&gt;</div>
+                            <div class="command-description">Container inline para estilizar parte de um texto.</div>
+                            <div class="command-syntax">&lt;span class="destaque"&gt;texto&lt;/span&gt;</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> &lt;p&gt;Texto com &lt;span
+                                style="color:red;"&gt;destaque&lt;/span&gt;.&lt;/p&gt;
+                            </div>
+                            <button class="copy-btn"
+                                data-code="&lt;span style=&quot;color:red;&quot;&gt;destaque&lt;/span&gt;">Copiar</button>
+                            <div class="command-tags">
+                                <span class="command-tag">Inline</span>
+                                <span class="command-tag">Estilo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="command-category">
+                    <h3 class="category-title">Formulários</h3>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <div class="command-name">&lt;form&gt;</div>
+                            <div class="command-description">Container para elementos de entrada de dados.</div>
+                            <div class="command-syntax">&lt;form action="/enviar" method="post"&gt;...&lt;/form&gt;
+                            </div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> Formulário de login com campos de entrada.
+                            </div>
+                            <button class="copy-btn"
+                                data-code="&lt;form action=&quot;/enviar&quot; method=&quot;post&quot;&gt;&#10;  &lt;input type=&quot;text&quot; name=&quot;usuario&quot;&gt;&#10;  &lt;input type=&quot;submit&quot; value=&quot;Enviar&quot;&gt;&#10;&lt;/form&gt;">Copiar</button>
+                            <div class="command-tags">
+                                <span class="command-tag">Formulário</span>
+                                <span class="command-tag">Dados</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">&lt;input&gt;</div>
+                            <div class="command-description">Campo de entrada de dados com vários tipos.</div>
+                            <div class="command-syntax">&lt;input type="text" name="campo" placeholder="Texto"&gt;</div>
+                            <div class="command-example">
+                                <strong>Tipos:</strong> text, email, password, number, date, checkbox, radio, etc.
+                            </div>
+                            <button class="copy-btn"
+                                data-code="&lt;input type=&quot;text&quot; name=&quot;nome&quot; placeholder=&quot;Seu nome&quot;&gt;">Copiar</button>
+                            <div class="command-tags">
+                                <span class="command-tag">Entrada</span>
+                                <span class="command-tag">Formulário</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">&lt;textarea&gt;</div>
+                            <div class="command-description">Campo de texto multilinha.</div>
+                            <div class="command-syntax">&lt;textarea rows="4" cols="50"&gt;Texto padrão&lt;/textarea&gt;
+                            </div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> Campo para comentários ou descrições longas.
+                            </div>
+                            <button class="copy-btn"
+                                data-code="&lt;textarea rows=&quot;4&quot; cols=&quot;50&quot; placeholder=&quot;Digite seu texto aqui&quot;&gt;&lt;/textarea&gt;">Copiar</button>
+                            <div class="command-tags">
+                                <span class="command-tag">Texto</span>
+                                <span class="command-tag">Multilinha</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTEÚDO CSS -->
+            <div class="commands-content" id="css-content">
+                <div class="command-category">
+                    <h3 class="category-title">Layout e Posicionamento</h3>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <div class="command-name">display</div>
+                            <div class="command-description">Define como um elemento é exibido na página.</div>
+                            <div class="command-syntax">display: block | inline | inline-block | flex | grid | none;
+                            </div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> .container { display: flex; }
+                            </div>
+                            <button class="copy-btn" data-code="display: flex;">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Controla o comportamento de layout do elemento.
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">Layout</span>
+                                <span class="command-tag">Fundamental</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">position</div>
+                            <div class="command-description">Define o método de posicionamento de um elemento.</div>
+                            <div class="command-syntax">position: static | relative | absolute | fixed | sticky;</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> .menu { position: fixed; top: 0; }
+                            </div>
+                            <button class="copy-btn"
+                                data-code="position: fixed;&#10;top: 0;&#10;left: 0;">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Para elementos que precisam de posicionamento específico.
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">Posicionamento</span>
+                                <span class="command-tag">Layout</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">flexbox</div>
+                            <div class="command-description">Sistema de layout unidimensional para organizar itens.
+                            </div>
+                            <div class="command-syntax">display: flex; flex-direction: row; justify-content: center;
+                            </div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> .container { display: flex; justify-content: space-between; }
+                            </div>
+                            <button class="copy-btn"
+                                data-code="display: flex;&#10;justify-content: space-between;&#10;align-items: center;">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Para layouts responsivos e alinhamento fácil de elementos.
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">Layout</span>
+                                <span class="command-tag">Responsivo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="command-category">
+                    <h3 class="category-title">Estilização Visual</h3>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <div class="command-name">box-shadow</div>
+                            <div class="command-description">Adiciona sombra a um elemento.</div>
+                            <div class="command-syntax">box-shadow: offset-x offset-y blur-radius color;</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                            </div>
+                            <button class="copy-btn" data-code="box-shadow: 0 4px 8px rgba(0,0,0,0.1);">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Para criar profundidade e destaque visual.
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">Efeito</span>
+                                <span class="command-tag">Visual</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">border-radius</div>
+                            <div class="command-description">Arredonda os cantos de um elemento.</div>
+                            <div class="command-syntax">border-radius: 10px;</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> border-radius: 50%; /* Cria um círculo */
+                            </div>
+                            <button class="copy-btn" data-code="border-radius: 10px;">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Para suavizar a aparência de elementos.
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">Visual</span>
+                                <span class="command-tag">Forma</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">gradient</div>
+                            <div class="command-description">Cria transições suaves entre cores.</div>
+                            <div class="command-syntax">background: linear-gradient(direction, color1, color2);</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> background: linear-gradient(135deg, #667eea, #764ba2);
+                            </div>
+                            <button class="copy-btn"
+                                data-code="background: linear-gradient(135deg, #667eea, #764ba2);">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Para fundos modernos e visualmente atraentes.
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">Cor</span>
+                                <span class="command-tag">Fundo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTEÚDO JAVASCRIPT -->
+            <div class="commands-content" id="javascript-content">
+                <div class="command-category">
+                    <h3 class="category-title">Manipulação do DOM</h3>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <div class="command-name">document.querySelector()</div>
+                            <div class="command-description">Seleciona o primeiro elemento que corresponde ao seletor
+                                CSS.</div>
+                            <div class="command-syntax">document.querySelector('.classe ou #id ou tag');</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> const elemento = document.querySelector('#meuId');
+                            </div>
+                            <button class="copy-btn"
+                                data-code="const elemento = document.querySelector('#meuId');">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Para selecionar e manipular elementos específicos da página.
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">DOM</span>
+                                <span class="command-tag">Seleção</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">addEventListener()</div>
+                            <div class="command-description">Anexa um manipulador de evento a um elemento.</div>
+                            <div class="command-syntax">elemento.addEventListener('evento', função);</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> botao.addEventListener('click', function() {
+                                alert('Clicado!'); });
+                            </div>
+                            <button class="copy-btn"
+                                data-code="botao.addEventListener('click', function() { &#10;  alert('Clicado!'); &#10;});">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Para responder a interações do usuário (cliques, teclas, etc).
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">Eventos</span>
+                                <span class="command-tag">Interação</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">classList</div>
+                            <div class="command-description">Manipula as classes CSS de um elemento.</div>
+                            <div class="command-syntax">elemento.classList.add() / .remove() / .toggle()</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> elemento.classList.add('ativo');
+                                elemento.classList.remove('inativo');
+                            </div>
+                            <button class="copy-btn" data-code="elemento.classList.add('ativo');">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Para alterar estilos dinamicamente através de classes CSS.
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">Classes</span>
+                                <span class="command-tag">Estilo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="command-category">
+                    <h3 class="category-title">Arrays e Objetos</h3>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <div class="command-name">map()</div>
+                            <div class="command-description">Cria um novo array com os resultados de uma função aplicada
+                                a cada elemento.</div>
+                            <div class="command-syntax">array.map(função);</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> const dobros = numeros.map(num => num * 2);
+                            </div>
+                            <button class="copy-btn"
+                                data-code="const dobros = numeros.map(num => num * 2);">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Para transformar dados de um array de forma eficiente.
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">Array</span>
+                                <span class="command-tag">Transformação</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">filter()</div>
+                            <div class="command-description">Cria um novo array com elementos que passam em um teste.
+                            </div>
+                            <div class="command-syntax">array.filter(função);</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> const maiores = numeros.filter(num => num > 10);
+                            </div>
+                            <button class="copy-btn"
+                                data-code="const maiores = numeros.filter(num => num > 10);">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Para filtrar dados baseado em condições específicas.
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">Array</span>
+                                <span class="command-tag">Filtro</span>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <div class="command-name">reduce()</div>
+                            <div class="command-description">Executa uma função redutora em cada elemento, resultando em
+                                um único valor.</div>
+                            <div class="command-syntax">array.reduce(função, valorInicial);</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> const soma = numeros.reduce((acc, num) => acc + num, 0);
+                            </div>
+                            <button class="copy-btn"
+                                data-code="const soma = numeros.reduce((acc, num) => acc + num, 0);">Copiar</button>
+                            <div class="command-use-case">
+                                <strong>Uso:</strong> Para agregar dados (soma, média, etc) ou transformar arrays em
+                                objetos.
+                            </div>
+                            <div class="command-tags">
+                                <span class="command-tag">Array</span>
+                                <span class="command-tag">Agregação</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OUTRAS ABAS (APIs, Frameworks, Responsivo) -->
+            <div class="commands-content" id="apis-content">
+                <div class="command-category">
+                    <h3 class="category-title">APIs Web Nativas</h3>
+                    <div class="command-grid">
+                        <!-- Conteúdo para APIs -->
+                        <div class="command-card">
+                            <div class="command-name">LocalStorage</div>
+                            <div class="command-description">Armazena dados localmente no navegador do usuário.</div>
+                            <div class="command-syntax">localStorage.setItem('chave', 'valor');</div>
+                            <div class="command-example">
+                                <strong>Exemplo:</strong> localStorage.setItem('usuario', 'João');
+                            </div>
+                            <button class="copy-btn" data-code="localStorage.setItem('chave', 'valor');">Copiar</button>
+                            <div class="command-tags">
+                                <span class="command-tag">Armazenamento</span>
+                                <span class="command-tag">Dados</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adicione mais conteúdo para as outras abas conforme necessário -->
+        </div>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>DevStudy</h3>
+                    <p>Seu guia completo para aprender desenvolvimento web. Domine HTML, CSS e JavaScript com exemplos
+                        práticos e projetos reais.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="#html">HTML</a></li>
+                        <li><a href="#css">CSS</a></li>
+                        <li><a href="#javascript">JavaScript</a></li>
+                        <li><a href="#projetos">Projetos</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Recursos Úteis</h3>
+                    <ul>
+                        <li><a href="#">Documentação MDN</a></li>
+                        <li><a href="#">W3Schools</a></li>
+                        <li><a href="#">CodePen</a></li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 DevStudy. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== EXEMPLOS DE VARIÁVEIS E FUNÇÕES =====
+        function exemploVariaveis() {
+            let nome = 'João';
+            const idade = 25;
+
+            function cumprimentar() {
+                return 'Olá, ' + nome + '! Você tem ' + idade + ' anos.';
+            }
+
+            document.getElementById('resultadoVariaveis').textContent = cumprimentar();
+        }
+
+        // ===== MANIPULAÇÃO DO DOM =====
+        function alterarTexto() {
+            document.getElementById('elementoDemo').textContent = 'Texto alterado com sucesso!';
+        }
+
+        function alterarCor() {
+            document.getElementById('elementoDemo').style.color = 'red';
+        }
+
+        function adicionarClasse() {
+            document.getElementById('elementoDemo').classList.add('destaque');
+            // Adicionando uma classe CSS temporária
+            let estilo = document.createElement('style');
+            estilo.innerHTML = '.destaque { background-color: yellow; padding: 10px; }';
+            document.head.appendChild(estilo);
+        }
+
+        function removerClasse() {
+            document.getElementById('elementoDemo').classList.remove('destaque');
+        }
+
+        // ===== CALCULADORA =====
+        let display = document.getElementById('display');
+        let operador = '';
+        let valor1 = '';
+        let valor2 = '';
+
+        function adicionarNumero(numero) {
+            if (operador === '') {
+                valor1 += numero;
+                display.value = valor1;
+            } else {
+                valor2 += numero;
+                display.value = valor1 + operador + valor2;
+            }
+        }
+
+        function adicionarOperador(op) {
+            if (valor1 !== '') {
+                operador = op;
+                display.value = valor1 + operador;
+            }
+        }
+
+        function limparDisplay() {
+            display.value = '';
+            valor1 = '';
+            valor2 = '';
+            operador = '';
+        }
+
+        function calcular() {
+            if (valor1 !== '' && valor2 !== '' && operador !== '') {
+                let resultado;
+                let num1 = parseFloat(valor1);
+                let num2 = parseFloat(valor2);
+
+                switch (operador) {
+                    case '+':
+                        resultado = num1 + num2;
+                        break;
+                    case '-':
+                        resultado = num1 - num2;
+                        break;
+                    case '*':
+                        resultado = num1 * num2;
+                        break;
+                    case '/':
+                        resultado = num2 !== 0 ? num1 / num2 : 'Erro: Divisão por zero';
+                        break;
+                    default:
+                        resultado = 'Operação inválida';
+                }
+
+                display.value = resultado;
+                valor1 = resultado.toString();
+                valor2 = '';
+                operador = '';
+            }
+        }
+
+        // ===== LISTA DE TAREFAS =====
+        function adicionarTarefa() {
+            const inputTarefa = document.getElementById('novaTarefa');
+            const texto = inputTarefa.value.trim();
+
+            if (texto !== '') {
+                const lista = document.getElementById('listaTarefas');
+                const li = document.createElement('li');
+                li.style.padding = '8px';
+                li.style.borderBottom = '1px solid #ddd';
+                li.style.display = 'flex';
+                li.style.justifyContent = 'space-between';
+                li.style.alignItems = 'center';
+
+                const span = document.createElement('span');
+                span.textContent = texto;
+
+                const btnConcluir = document.createElement('button');
+                btnConcluir.textContent = 'Concluir';
+                btnConcluir.style.backgroundColor = 'var(--success-color)';
+                btnConcluir.style.color = 'white';
+                btnConcluir.style.border = 'none';
+                btnConcluir.style.padding = '5px 10px';
+                btnConcluir.style.borderRadius = '3px';
+                btnConcluir.style.cursor = 'pointer';
+                btnConcluir.style.marginRight = '5px';
+
+                btnConcluir.onclick = function () {
+                    span.style.textDecoration = 'line-through';
+                    span.style.color = '#888';
+                };
+
+                const btnRemover = document.createElement('button');
+                btnRemover.textContent = 'Remover';
+                btnRemover.style.backgroundColor = 'var(--accent-color)';
+                btnRemover.style.color = 'white';
+                btnRemover.style.border = 'none';
+                btnRemover.style.padding = '5px 10px';
+                btnRemover.style.borderRadius = '3px';
+                btnRemover.style.cursor = 'pointer';
+
+                btnRemover.onclick = function () {
+                    lista.removeChild(li);
+                };
+
+                const divBotoes = document.createElement('div');
+                divBotoes.appendChild(btnConcluir);
+                divBotoes.appendChild(btnRemover);
+
+                li.appendChild(span);
+                li.appendChild(divBotoes);
+
+                lista.appendChild(li);
+                inputTarefa.value = '';
+            }
+        }
+
+        // ===== CONTADOR =====
+        let contador = 0;
+
+        function incrementar() {
+            contador++;
+            document.getElementById('valorContador').textContent = contador;
+        }
+
+        function decrementar() {
+            contador--;
+            document.getElementById('valorContador').textContent = contador;
+        }
+
+        function resetar() {
+            contador = 0;
+            document.getElementById('valorContador').textContent = contador;
+        }
+
+        // ===== QUIZ INTERATIVO =====
+        const quizData = [
+            {
+                question: "O que significa HTML?",
+                options: [
+                    "HyperText Markup Language",
+                    "HighTech Modern Language",
+                    "HyperTransfer Markup Language",
+                    "Home Tool Markup Language"
+                ],
+                correct: 0,
+                explanation: "HTML significa HyperText Markup Language (Linguagem de Marcação de Hipertexto)."
+            },
+            {
+                question: "Qual propriedade CSS é usada para alterar a cor do texto?",
+                options: [
+                    "text-color",
+                    "font-color",
+                    "color",
+                    "text-style"
+                ],
+                correct: 2,
+                explanation: "A propriedade 'color' é usada para definir a cor do texto em CSS."
+            },
+            {
+                question: "Como se declara uma variável em JavaScript?",
+                options: [
+                    "variable x = 5;",
+                    "var x = 5;",
+                    "x = 5;",
+                    "declare x = 5;"
+                ],
+                correct: 1,
+                explanation: "Em JavaScript, usamos 'var', 'let' ou 'const' para declarar variáveis."
+            },
+            {
+                question: "Qual tag HTML é usada para criar um link?",
+                options: [
+                    "&lt;link&gt;",
+                    "&lt;a&gt;",
+                    "&lt;href&gt;",
+                    "&lt;hyperlink&gt;"
+                ],
+                correct: 1,
+                explanation: "A tag &lt;a&gt; é usada para criar hyperlinks em HTML."
+            },
+            {
+                question: "Qual seletor CSS seleciona um elemento com id 'header'?",
+                options: [
+                    ".header",
+                    "#header",
+                    "header",
+                    "*header"
+                ],
+                correct: 1,
+                explanation: "O seletor '#' é usado para selecionar elementos por id em CSS."
+            },
+            {
+                question: "Qual método JavaScript é usado para exibir uma caixa de alerta?",
+                options: [
+                    "msg()",
+                    "alert()",
+                    "prompt()",
+                    "display()"
+                ],
+                correct: 1,
+                explanation: "O método alert() exibe uma caixa de diálogo com uma mensagem especificada."
+            },
+            {
+                question: "Qual propriedade CSS é usada para controlar o espaçamento entre elementos?",
+                options: [
+                    "spacing",
+                    "margin",
+                    "padding",
+                    "border-spacing"
+                ],
+                correct: 1,
+                explanation: "A propriedade 'margin' controla o espaço ao redor de um elemento, fora da borda."
+            },
+            {
+                question: "Como se comenta uma linha em JavaScript?",
+                options: [
+                    "// Este é um comentário",
+                    "<!-- Este é um comentário -->",
+                    "/* Este é um comentário */",
+                    "' Este é um comentário"
+                ],
+                correct: 0,
+                explanation: "Em JavaScript, usamos '//' para comentários de uma linha e '/* */' para múltiplas linhas."
+            }
+        ];
+
+        // Variáveis do quiz
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+
+        // Elementos do DOM
+        const quizProgress = document.getElementById('quizProgress');
+        const quizQuestion = document.getElementById('quizQuestion');
+        const quizOptions = document.getElementById('quizOptions');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const quizContent = document.getElementById('quizContent');
+        const quizResults = document.getElementById('quizResults');
+        const quizScore = document.getElementById('quizScore');
+        const quizMessage = document.getElementById('quizMessage');
+        const restartBtn = document.getElementById('restartBtn');
+
+        // Inicializar o quiz
+        function initQuiz() {
+            showQuestion();
+            updateProgress();
+
+            // Event listeners
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', showNextQuestion);
+            restartBtn.addEventListener('click', restartQuiz);
+        }
+
+        // Mostrar a pergunta atual
+        function showQuestion() {
+            const question = quizData[currentQuestion];
+            quizQuestion.textContent = question.question;
+
+            // Limpar opções anteriores
+            quizOptions.innerHTML = '';
+
+            // Adicionar novas opções
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('quiz-option');
+
+                // Marcar se já foi respondida
+                if (userAnswers[currentQuestion] === index) {
+                    optionElement.classList.add('selected');
+                }
+
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => selectOption(index));
+                quizOptions.appendChild(optionElement);
+            });
+
+            // Atualizar estado dos botões
+            prevBtn.disabled = currentQuestion === 0;
+
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.textContent = 'Finalizar';
+            } else {
+                nextBtn.textContent = 'Próxima';
+            }
+        }
+
+        // Selecionar uma opção
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+
+            // Remover seleção anterior
+            const options = quizOptions.querySelectorAll('.quiz-option');
+            options.forEach(option => option.classList.remove('selected'));
+
+            // Adicionar seleção atual
+            options[optionIndex].classList.add('selected');
+        }
+
+        // Mostrar pergunta anterior
+        function showPreviousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+                updateProgress();
+            }
+        }
+
+        // Mostrar próxima pergunta
+        function showNextQuestion() {
+            // Verificar se a pergunta atual foi respondida
+            if (userAnswers[currentQuestion] === null) {
+                alert('Por favor, selecione uma resposta antes de continuar.');
+                return;
+            }
+
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                showQuestion();
+                updateProgress();
+            } else {
+                // Última pergunta - finalizar quiz
+                finishQuiz();
+            }
+        }
+
+        // Atualizar barra de progresso
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / quizData.length) * 100;
+            quizProgress.style.width = `${progress}%`;
+        }
+
+        // Finalizar o quiz
+        function finishQuiz() {
+            // Calcular pontuação
+            score = 0;
+            userAnswers.forEach((answer, index) => {
+                if (answer === quizData[index].correct) {
+                    score++;
+                }
+            });
+
+            // Mostrar resultados
+            quizContent.style.display = 'none';
+            quizResults.style.display = 'block';
+
+            quizScore.textContent = `${score}/${quizData.length}`;
+
+            // Mensagem personalizada baseada na pontuação
+            const percentage = (score / quizData.length) * 100;
+            if (percentage >= 80) {
+                quizMessage.textContent = 'Excelente! Você domina os conceitos básicos de desenvolvimento web!';
+            } else if (percentage >= 60) {
+                quizMessage.textContent = 'Muito bom! Você tem um bom conhecimento, mas ainda pode melhorar.';
+            } else if (percentage >= 40) {
+                quizMessage.textContent = 'Bom começo! Continue estudando para melhorar seu conhecimento.';
+            } else {
+                quizMessage.textContent = 'Não desanime! Revise os materiais e tente novamente.';
+            }
+        }
+
+        // Reiniciar o quiz
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers.fill(null);
+
+            quizContent.style.display = 'block';
+            quizResults.style.display = 'none';
+
+            showQuestion();
+            updateProgress();
+        }
+
+        // Inicializar o quiz quando a página carregar
+        document.addEventListener('DOMContentLoaded', initQuiz);
+
+            // ===== BANCO DE COMANDOS =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Contadores de comandos
+            document.getElementById('htmlCount').textContent = '24';
+            document.getElementById('cssCount').textContent = '18';
+            document.getElementById('jsCount').textContent = '15';
+            document.getElementById('totalCount').textContent = '57+';
+            
+            // Navegação entre abas
+            const tabs = document.querySelectorAll('.command-tab');
+            const contents = document.querySelectorAll('.commands-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.getAttribute('data-tab');
+                    
+                    // Atualizar abas ativas
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Mostrar conteúdo correspondente
+                    contents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `${target}-content`) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Funcionalidade de pesquisa
+            const searchInput = document.getElementById('commandSearch');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const activeContent = document.querySelector('.commands-content.active');
+                const cards = activeContent.querySelectorAll('.command-card');
+                
+                cards.forEach(card => {
+                    const cardText = card.textContent.toLowerCase();
+                    if (cardText.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Funcionalidade de copiar código
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const code = this.getAttribute('data-code');
+                    navigator.clipboard.writeText(code).then(() => {
+                        // Feedback visual
+                        const originalText = this.textContent;
+                        this.textContent = 'Copiado!';
+                        this.style.background = '#28a745';
+                        
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.style.background = '';
+                        }, 2000);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
