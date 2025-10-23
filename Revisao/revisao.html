@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStudy - Página de Revisão</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="revisao.css">
+
+
+</head>
+
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Dev<span>Study</span></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="revisao-hero">
+        <div class="revisao-container">
+            <h1>Página de Revisão</h1>
+            <p>Teste seus conhecimentos e pratique com exercícios interativos!</p>
+        </div>
+    </section>
+
+    <!-- Conteúdo Principal -->
+    <section class="revisao-section">
+        <div class="revisao-container">
+            <h2 class="section-title">Tópicos para Revisão</h2>
+
+            <div class="topics-grid">
+                <div class="topic-card">
+                    <h3>HTML</h3>
+                    <p>Revise tags, estrutura semântica, formulários e acessibilidade.</p>
+                    <button class="revisao-btn" data-categoria="html">Exercícios HTML</button>
+                </div>
+
+                <div class="topic-card">
+                    <h3>CSS</h3>
+                    <p>Pratique seletores, flexbox, grid, animações e responsividade.</p>
+                    <button class="revisao-btn" data-categoria="css">Exercícios CSS</button>
+                </div>
+
+                <div class="topic-card">
+                    <h3>JavaScript</h3>
+                    <p>Teste variáveis, funções, DOM, eventos e manipulação de dados.</p>
+                    <button class="revisao-btn" data-categoria="javascript">Exercícios JS</button>
+                </div>
+            </div>
+
+            <!-- Exercícios HTML -->
+            <div id="exercicio-html" class="exercicio-categoria" style="display: none;">
+                <h3>Exercícios de HTML</h3>
+
+                <div class="exercicio">
+                    <div class="pergunta">1. Qual tag é usada para criar um link em HTML?</div>
+                    <ul class="opcoes">
+                        <li class="opcao" onclick="verificarResposta(this, 'correta')">&lt;a&gt;</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">&lt;link&gt;</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">&lt;href&gt;</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">&lt;url&gt;</li>
+                    </ul>
+                    <div class="resultado" id="resultado-html-1"></div>
+                </div>
+
+                <div class="exercicio">
+                    <div class="pergunta">2. Qual atributo é OBRIGATÓRIO na tag &lt;img&gt;?</div>
+                    <ul class="opcoes">
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">title</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'correta')">alt</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">srcset</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">loading</li>
+                    </ul>
+                    <div class="resultado" id="resultado-html-2"></div>
+                </div>
+
+                <div class="desafio">
+                    <h4>Desafio Prático:</h4>
+                    <p>Crie uma lista ordenada com 3 itens usando HTML:</p>
+                    <div class="code-editor" contenteditable="true" id="editor-html">
+                        &lt;ol&gt;
+                        &lt;li&gt;Primeiro item&lt;/li&gt;
+                        &lt;li&gt;Segundo item&lt;/li&gt;
+                        &lt;li&gt;Terceiro item&lt;/li&gt;
+                        &lt;/ol&gt;
+                    </div>
+                    <button class="revisao-btn" onclick="verificarCodigoHTML()">Verificar Código</button>
+                    <div class="resultado" id="resultado-desafio-html"></div>
+                </div>
+            </div>
+
+            <!-- Exercícios CSS -->
+            <div id="exercicio-css" class="exercicio-categoria" style="display: none;">
+                <h3>Exercícios de CSS</h3>
+
+                <div class="exercicio">
+                    <div class="pergunta">1. Qual propriedade é usada para alterar a cor do texto?</div>
+                    <ul class="opcoes">
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">text-color</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'correta')">color</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">font-color</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">text-style</li>
+                    </ul>
+                    <div class="resultado" id="resultado-css-1"></div>
+                </div>
+
+                <div class="exercicio">
+                    <div class="pergunta">2. Como centralizar um elemento horizontalmente com margin?</div>
+                    <ul class="opcoes">
+                        <li class="opcao" onclick="verificarResposta(this, 'correta')">margin: 0 auto;</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">margin: auto 0;</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">margin: center;</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">align: center;</li>
+                    </ul>
+                    <div class="resultado" id="resultado-css-2"></div>
+                </div>
+
+                <div class="desafio">
+                    <h4>Desafio Prático:</h4>
+                    <p>Crie um botão estilizado com CSS que mude de cor ao passar o mouse:</p>
+                    <div class="code-editor" contenteditable="true" id="editor-css">
+                        .btn {
+                        background-color: #3498db;
+                        color: white;
+                        padding: 10px 20px;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        }
+
+                        .btn:hover {
+                        background-color: #2980b9;
+                        }
+                    </div>
+                    <button class="revisao-btn" onclick="verificarCodigoCSS()">Verificar Código</button>
+                    <div class="resultado" id="resultado-desafio-css"></div>
+                </div>
+            </div>
+
+            <!-- Exercícios JavaScript -->
+            <div id="exercicio-javascript" class="exercicio-categoria" style="display: none;">
+                <h3>Exercícios de JavaScript</h3>
+
+                <div class="exercicio">
+                    <div class="pergunta">1. Como declarar uma variável que pode ser reatribuída?</div>
+                    <ul class="opcoes">
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">const</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'correta')">let</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">var</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">variable</li>
+                    </ul>
+                    <div class="resultado" id="resultado-js-1"></div>
+                </div>
+
+                <div class="exercicio">
+                    <div class="pergunta">2. Qual método adiciona um elemento ao final de um array?</div>
+                    <ul class="opcoes">
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">push()</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'correta')">push()</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">append()</li>
+                        <li class="opcao" onclick="verificarResposta(this, 'incorreta')">addToEnd()</li>
+                    </ul>
+                    <div class="resultado" id="resultado-js-2"></div>
+                </div>
+
+                <div class="desafio">
+                    <h4>Desafio Prático:</h4>
+                    <p>Crie uma função que recebe um nome e retorna uma mensagem de saudação:</p>
+                    <div class="code-editor" contenteditable="true" id="editor-js">
+                        function saudacao(nome) {
+                        return "Olá, " + nome + "! Seja bem-vindo!";
+                        }
+
+                        // Exemplo de uso:
+                        let mensagem = saudacao("João");
+                        console.log(mensagem); // "Olá, João! Seja bem-vindo!"
+                    </div>
+                    <button class="revisao-btn" onclick="verificarCodigoJS()">Verificar Código</button>
+                    <div class="resultado" id="resultado-desafio-js"></div>
+                </div>
+
+                <!-- EXEMPLO DO PROMPT QUE VOCÊ PEDIU -->
+                <div class="exercicio">
+                    <div class="pergunta">3. Exemplo Prático: Botão com Prompt</div>
+                    <p>Clique no botão abaixo para testar um exemplo de window.prompt:</p>
+                    <button class="revisao-btn" onclick="exemploPrompt()">Abrir Prompt</button>
+                    <div id="resultado-prompt"
+                        style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 5px; display: none;">
+                        <!-- O resultado aparecerá aqui -->
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="../index.html" class="btn-voltar">← Voltar para a Página Principal</a>
+            </div>
+        </div>
+    </section </body>
+
+    <script src="revisao.js"></script>
+</html>
