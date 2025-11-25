@@ -1,4 +1,4 @@
-/* ARQUIVO: game-data.js - V5 (Audio Global + Roles + Correção Header) */
+/* ARQUIVO: game-data.js - V9 (New Roles + Admin Tools) */
 
 // --- 1. Configuração do Firebase ---
 const firebaseConfig = {
@@ -10,6 +10,7 @@ const firebaseConfig = {
     appId: "1:894897799858:web:615292d62afc04af61ffab"
 };
 
+// Inicializa Firebase apenas uma vez
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -17,84 +18,66 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-// --- 2. Variáveis Globais ---
-let globalXP = 0;
-let globalLevel = 1;
-let currentUser = null;
+// --- 2. Variáveis Globais (Expostas para todo o site) ---
+window.globalXP = 0;
+window.globalLevel = 1;
+window.currentUser = null;
+window.isAdminUser = false;
+window.userCustomTitle = "";
 
-// --- 3. SISTEMA DE ÁUDIO GLOBAL ---
+// --- 3. Sistema de Áudio Global ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 function playSound(type) {
     if (audioCtx.state === 'suspended') audioCtx.resume();
-
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
-
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
-
     const now = audioCtx.currentTime;
 
     if (type === 'hover') {
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(400, now);
-        oscillator.frequency.exponentialRampToValueAtTime(600, now + 0.05);
-        gainNode.gain.setValueAtTime(0.03, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-        oscillator.start(now);
-        oscillator.stop(now + 0.05);
+        oscillator.type = 'sine'; oscillator.frequency.setValueAtTime(400, now); oscillator.frequency.exponentialRampToValueAtTime(600, now + 0.05); gainNode.gain.setValueAtTime(0.03, now); gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.05); oscillator.start(now); oscillator.stop(now + 0.05);
     } else if (type === 'click') {
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(200, now);
-        oscillator.frequency.exponentialRampToValueAtTime(800, now + 0.1);
-        gainNode.gain.setValueAtTime(0.05, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-        oscillator.start(now);
-        oscillator.stop(now + 0.1);
+        oscillator.type = 'square'; oscillator.frequency.setValueAtTime(200, now); oscillator.frequency.exponentialRampToValueAtTime(800, now + 0.1); gainNode.gain.setValueAtTime(0.05, now); gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.1); oscillator.start(now); oscillator.stop(now + 0.1);
     } else if (type === 'success') {
-        oscillator.type = 'triangle';
-        oscillator.frequency.setValueAtTime(400, now);
-        oscillator.frequency.linearRampToValueAtTime(800, now + 0.1);
-        oscillator.frequency.linearRampToValueAtTime(1200, now + 0.3);
-        gainNode.gain.setValueAtTime(0.1, now);
-        gainNode.gain.linearRampToValueAtTime(0, now + 0.5);
-        oscillator.start(now);
-        oscillator.stop(now + 0.5);
+        oscillator.type = 'triangle'; oscillator.frequency.setValueAtTime(400, now); oscillator.frequency.linearRampToValueAtTime(800, now + 0.1); oscillator.frequency.linearRampToValueAtTime(1200, now + 0.3); gainNode.gain.setValueAtTime(0.1, now); gainNode.gain.linearRampToValueAtTime(0, now + 0.5); oscillator.start(now); oscillator.stop(now + 0.5);
     } else if (type === 'error') {
-        oscillator.type = 'sawtooth';
-        oscillator.frequency.setValueAtTime(100, now);
-        oscillator.frequency.linearRampToValueAtTime(50, now + 0.3);
-        gainNode.gain.setValueAtTime(0.1, now);
-        gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
-        oscillator.start(now);
-        oscillator.stop(now + 0.3);
+        oscillator.type = 'sawtooth'; oscillator.frequency.setValueAtTime(100, now); oscillator.frequency.linearRampToValueAtTime(50, now + 0.3); gainNode.gain.setValueAtTime(0.1, now); gainNode.gain.linearRampToValueAtTime(0, now + 0.3); oscillator.start(now); oscillator.stop(now + 0.3);
     }
 }
-
-// Expõe a função globalmente
 window.playSoundGlobal = playSound;
 
-// --- 4. SISTEMA DE ROLES (CARGOS) ---
-function getRole(level) {
+// --- 4. Carregador de Confetes ---
+function loadConfetti() {
+    if (!window.confetti) {
+        const script = document.createElement('script');
+        script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
+        document.body.appendChild(script);
+    }
+}
+loadConfetti();
+
+// --- 5. Sistema de Roles (Cargos) - ATUALIZADO ---
+window.getRole = function(level) {
+    if (level >= 500) return "Are You Admin ⁇"; // NOVO TÍTULO SECRETO
     if (level >= 50) return "Cyber Legend 👑";
     if (level >= 20) return "Tech Lead 🚀";
     if (level >= 10) return "Developer 💻";
-    if (level >= 5) return "Apprentice ⚡";
+    if (level >= 5)  return "Apprentice ⚡";
     return "Neófito 🌱";
-}
+};
 
-// --- 5. Inicialização ---
+// --- 6. Inicialização e Auth Listener ---
 auth.onAuthStateChanged((user) => {
     if (user) {
-        // LOGADO
-        currentUser = user;
+        window.currentUser = user;
+        console.log("Conectado como:", user.email);
         carregarDados(user.uid);
-
         const nome = user.displayName ? user.displayName.split(' ')[0] : "Dev";
         atualizarUIComNome(nome, true);
     } else {
-        // CONVIDADO
+        window.currentUser = null;
         let guestId = localStorage.getItem('devstudy_guest_id');
         if (!guestId) {
             guestId = 'guest_' + Math.random().toString(36).substr(2, 9);
@@ -105,7 +88,7 @@ auth.onAuthStateChanged((user) => {
     }
 });
 
-// --- 6. Carregar/Salvar ---
+// --- 7. Carregar Dados do Firestore ---
 async function carregarDados(uid) {
     const docRef = db.collection('jogadores').doc(uid);
     try {
@@ -114,45 +97,54 @@ async function carregarDados(uid) {
 
         if (doc.exists) {
             data = doc.data();
-            globalXP = data.xp || 0;
-            globalLevel = data.level || 1;
+            window.globalXP = data.xp || 0;
+            window.globalLevel = data.level || 1;
+            window.userCustomTitle = data.customTitle || "";
         } else {
             data = {
                 xp: 0, level: 1,
-                nome: currentUser ? currentUser.displayName : "Convidado",
+                nome: window.currentUser ? window.currentUser.displayName : "Convidado",
                 isAdmin: false,
+                customTitle: "",
                 criadoEm: firebase.firestore.FieldValue.serverTimestamp()
             };
             await docRef.set(data);
+            window.globalXP = 0;
+            window.globalLevel = 1;
         }
-        if (currentUser && currentUser.email === "vitorortiz512@gmail.com") { // <--- Coloca o teu email aqui!
-            data.isAdmin = true;
-            docRef.update({ isAdmin: true });
+        
+        // Admin Check
+        if(window.currentUser && window.currentUser.email === "vitorortiz512@gmail.com") {
+             data.isAdmin = true;
+             docRef.update({ isAdmin: true });
         }
-
-        // Guarda se é admin globalmente
         window.isAdminUser = data.isAdmin || false;
-
-        // Dispara evento para o header.js saber que carregou
+        
         window.dispatchEvent(new CustomEvent('gameDataLoaded'));
-
         atualizarHUD();
+        const nome = window.currentUser ? window.currentUser.displayName.split(' ')[0] : "Visitante";
+        atualizarUIComNome(nome, !!window.currentUser);
+
     } catch (error) { console.error("Erro DB:", error); }
 }
 
+// --- 8. Funções de XP e Nível ---
+
+// Adicionar XP (Normal)
 async function adicionarXP(qtd) {
-    const roleAntiga = getRole(globalLevel);
-    globalXP += qtd;
-
-    // Level Up
-    if (globalXP >= globalLevel * 100) {
-        globalLevel++;
-        const roleNova = getRole(globalLevel);
-
-        if (roleNova !== roleAntiga) {
-            alert(`🏆 PROMOÇÃO! Cargo Novo: ${roleNova}`);
+    const roleAntiga = window.getRole(window.globalLevel);
+    window.globalXP += qtd;
+    
+    if (window.globalXP >= window.globalLevel * 100) {
+        window.globalLevel++;
+        
+        // Se existir título customizado, usa ele no modal
+        const displayRole = window.userCustomTitle || window.getRole(window.globalLevel);
+        
+        if(typeof showLevelUpModal === "function") {
+             showLevelUpModal(window.globalLevel, displayRole);
         } else {
-            alert(`🎉 LEVEL UP! NÍVEL ${globalLevel}!`);
+             alert(`LEVEL UP! ${window.globalLevel}`);
         }
         playSound('success');
     } else {
@@ -160,65 +152,113 @@ async function adicionarXP(qtd) {
     }
 
     atualizarHUD();
-    mostrarFloatXP(qtd);
+    if(typeof mostrarFloatXP === "function") mostrarFloatXP(qtd);
 
-    // Atualiza cargo na UI
-    const nome = currentUser ? currentUser.displayName.split(' ')[0] : "Visitante";
-    atualizarUIComNome(nome, !!currentUser);
+    salvarProgresso();
+}
 
-    const uid = currentUser ? currentUser.uid : localStorage.getItem('devstudy_guest_id');
-    if (uid) {
-        db.collection('jogadores').doc(uid).update({ xp: globalXP, level: globalLevel }).catch(console.error);
+// NOVA FUNÇÃO: Definir Nível Manualmente (Admin Tool)
+// Uso no Console: definirNivel('ID_DO_USUARIO', 500)
+window.definirNivel = async function(targetUid, novoNivel) {
+    // Se não passar UID, tenta aplicar a si mesmo
+    const uid = targetUid || (window.currentUser ? window.currentUser.uid : localStorage.getItem('devstudy_guest_id'));
+    
+    if(!uid) return console.error("Usuário não identificado");
+
+    try {
+        // Calcula XP base para esse nível (Ex: Nível 500 = 50000 XP)
+        const novoXP = (novoNivel - 1) * 100; 
+        
+        await db.collection('jogadores').doc(uid).update({
+            level: parseInt(novoNivel),
+            xp: novoXP
+        });
+        
+        console.log(`✅ Sucesso! Usuário ${uid} agora é Nível ${novoNivel}`);
+        
+        // Se for o próprio usuário, atualiza a tela
+        if(uid === (window.currentUser?.uid || localStorage.getItem('devstudy_guest_id'))) {
+            window.globalLevel = parseInt(novoNivel);
+            window.globalXP = novoXP;
+            atualizarHUD();
+            const nome = window.currentUser ? window.currentUser.displayName.split(' ')[0] : "Visitante";
+            atualizarUIComNome(nome, !!window.currentUser);
+            playSound('success');
+            alert(`HACK DE SISTEMA: Nível alterado para ${novoNivel}!`);
+        } else {
+            alert(`Usuário atualizado para Nível ${novoNivel}`);
+        }
+
+    } catch(e) {
+        console.error("Erro ao definir nível:", e);
+        alert("Erro: " + e.message);
+    }
+};
+
+// Função auxiliar para salvar
+function salvarProgresso() {
+    const nome = window.currentUser ? window.currentUser.displayName.split(' ')[0] : "Visitante";
+    atualizarUIComNome(nome, !!window.currentUser);
+
+    const uid = window.currentUser ? window.currentUser.uid : localStorage.getItem('devstudy_guest_id');
+    if(uid) {
+        db.collection('jogadores').doc(uid).update({ xp: window.globalXP, level: window.globalLevel }).catch(console.error);
     }
 }
 
-// --- 7. Interface (CORRIGIDA COM TIMEOUT) ---
+// --- 9. Interface e UI ---
+
 function atualizarHUD() {
     const xpEl = document.getElementById('userXP');
     const lvlEl = document.getElementById('userLevel');
-    // Se o header ainda não existe, não faz mal, o atualizarUIComNome vai chamar isto de novo
-    if (xpEl) xpEl.textContent = globalXP;
-    if (lvlEl) lvlEl.textContent = globalLevel;
+    if (xpEl) xpEl.textContent = window.globalXP;
+    if (lvlEl) lvlEl.textContent = window.globalLevel;
 }
 
 function atualizarUIComNome(nome, isLogado) {
     const container = document.getElementById('user-info-display');
-
-    // IMPORTANTE: Se o header.js ainda não criou o HTML, espera e tenta de novo
     if (!container) {
-        setTimeout(() => atualizarUIComNome(nome, isLogado), 500);
+        setTimeout(() => atualizarUIComNome(nome, isLogado), 200);
         return;
     }
 
-    const role = getRole(globalLevel);
+    const role = window.userCustomTitle ? `★ ${window.userCustomTitle}` : window.getRole(window.globalLevel);
+    
+    const isPages = window.location.pathname.includes("/pages/");
+    const profileLink = isPages ? "profile.html" : "pages/profile.html";
 
     if (isLogado) {
+        const avatarSrc = window.currentUser && window.currentUser.photoURL 
+            ? window.currentUser.photoURL 
+            : `https://ui-avatars.com/api/?name=${nome}&background=0D8ABC&color=fff`;
+
         container.innerHTML = `
-            <div style="text-align: right; line-height: 1.2;">
-                <span style="color: #4ade80; font-family: 'Fira Code', monospace; font-size: 0.9rem;">
-                    <i class="fas fa-user-astronaut"></i> ${nome}
-                </span>
-                <br>
-                <span style="color: #facc15; font-size: 0.7rem; font-family: 'Inter', sans-serif; letter-spacing: 1px; text-transform: uppercase;">
-                    ${role}
-                </span>
+            <div class="user-profile-widget">
+                <div class="user-details">
+                    <a href="${profileLink}" class="user-name" title="Ver Perfil">${nome}</a>
+                    <span class="user-role" style="${window.userCustomTitle ? 'color:#f472b6' : ''}">${role}</span>
+                </div>
+                <a href="${profileLink}" class="user-avatar-link">
+                    <img src="${avatarSrc}" alt="Avatar">
+                </a>
+                <button onclick="fazerLogout()" class="btn-logout" title="Sair">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
             </div>
-            <button onclick="fazerLogout()" style="margin-left: 10px; background:none; border:1px solid rgba(248, 113, 113, 0.5); border-radius: 4px; color:#f87171; cursor:pointer; font-size:0.7rem; padding: 4px 8px; transition: all 0.2s;" title="Sair">
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
         `;
     } else {
         container.innerHTML = `
-            <div style="text-align: right;">
-                <span style="color: #94a3b8; font-family: 'Fira Code', monospace; font-size: 0.9rem;">
-                    <i class="fas fa-user-secret"></i> ${nome}
-                </span>
-                <br>
-                <span style="color: #64748b; font-size: 0.7rem;">${role}</span>
+            <div class="user-profile-widget guest">
+                <div class="user-details">
+                    <span class="user-name">${nome}</span>
+                    <span class="user-role">${role}</span>
+                </div>
+                <div class="user-avatar-link guest-avatar">
+                    <i class="fas fa-user-secret"></i>
+                </div>
             </div>
         `;
     }
-
     atualizarHUD();
 }
 
@@ -239,13 +279,37 @@ function mostrarFloatXP(qtd) {
     setTimeout(() => floatXP.remove(), 1500);
 }
 
+function showLevelUpModal(level, role) {
+    const modal = document.createElement('div');
+    modal.className = 'level-up-overlay';
+    modal.innerHTML = `
+        <div class="level-up-card">
+            <div class="level-up-content">
+                <div class="level-up-icon"><i class="fas fa-crown"></i></div>
+                <h2 class="level-up-title">LEVEL UP!</h2>
+                <p style="color: #94a3b8; margin-bottom: 5px;">Nível ${level} Alcançado</p>
+                <div class="level-up-role">${role}</div>
+                <button class="btn-claim" onclick="closeLevelModal(this)">CONTINUAR</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    if (window.confetti) window.confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#facc15', '#38bdf8', '#f472b6'] });
+}
+
+window.closeLevelModal = function(btn) {
+    const modal = btn.closest('.level-up-overlay');
+    modal.style.opacity = '0';
+    setTimeout(() => modal.remove(), 300);
+    playSound('click');
+}
+
 function fazerLogout() {
     auth.signOut().then(() => {
         window.location.reload();
     });
 }
 
-// Ativa sons globais
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const interactives = document.querySelectorAll('button, a, .interactive-btn, .card');

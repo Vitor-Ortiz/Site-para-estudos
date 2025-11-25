@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStudy | Perfil de Operador</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header></header>
+
+    <div class="container">
+        <div class="profile-grid">
+            <aside class="profile-sidebar">
+                <div class="id-card">
+                    <div class="avatar-container">
+                        <img id="profile-avatar" src="https://via.placeholder.com/150" alt="Avatar">
+                        <div class="level-badge" id="profile-lvl-badge">1</div>
+                    </div>
+                    <h2 id="profile-name">Carregando...</h2>
+                    <p class="role-tag" id="profile-role">Recruta</p>
+                    
+                    <div class="id-stats">
+                        <div class="stat">
+                            <span class="label">Total XP</span>
+                            <span class="value" id="profile-xp">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">ID</span>
+                            <span class="value sm" id="profile-id">#0000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="xp-progress-container">
+                        <div class="xp-info">
+                            <span>Progresso do Nível</span>
+                            <span id="xp-percent">0%</span>
+                        </div>
+                        <div class="xp-bar-bg">
+                            <div class="xp-bar-fill" id="profile-xp-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="profile-main">
+                <section class="profile-section">
+                    <h3><i class="fas fa-chart-radar"></i> Radar de Competências</h3>
+                    <div class="chart-container">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                </section>
+
+                <section class="profile-section">
+                    <h3><i class="fas fa-trophy"></i> Galeria de Medalhas</h3>
+                    <div class="medals-grid" id="medals-gallery">
+                        </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="../assets/js/header.js"></script>
+    <script src="../game-data.js"></script>
+    <script src="../assets/js/profile.js"></script>
+</body>
+</html>

@@ -3,123 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy | ADMIN PANEL</title>
+    <title>DevStudy | Command Center</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .admin-card {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
-            padding: 2rem;
-            border-radius: 12px;
-            margin-top: 2rem;
-        }
-        .admin-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .admin-btn:hover { background: #dc2626; }
-        
-        /* Overlay de bloqueio */
-        #security-check {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #020617;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #ef4444;
-            font-family: 'Fira Code', monospace;
-        }
-    </style>
 </head>
 <body>
-    <div id="security-check">
-        <i class="fas fa-shield-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-        <h2>VERIFICANDO CREDENCIAIS...</h2>
-    </div>
-
     <header></header>
 
-    <section class="hero" style="padding: 4rem 0;">
-        <div class="container">
-            <h1 style="color: #ef4444;">PAINEL DE CONTROLE</h1>
-            <p>Área restrita para gestão do sistema DevStudy.</p>
-
-            <div class="card-grid">
-                <div class="card admin-card">
-                    <h3><i class="fas fa-users"></i> Gestão de Utilizadores</h3>
-                    <p>Total de Jogadores Registados: <strong id="total-users">Carregando...</strong></p>
-                    <button class="admin-btn" onclick="listarUsuarios()">Listar no Console</button>
-                </div>
-
-                <div class="card admin-card">
-                    <h3><i class="fas fa-magic"></i> God Mode</h3>
-                    <p>Adicionar XP manual à minha conta.</p>
-                    <input type="number" id="xp-amount" placeholder="Quantidade" style="padding: 8px; border-radius: 4px; border: 1px solid #ef4444; background: #0f172a; color: white;">
-                    <button class="admin-btn" onclick="giveSelfXP()">Adicionar XP</button>
-                </div>
-            </div>
+    <div class="container">
+        <div class="hero" style="padding: 2rem 0; text-align: left;">
+            <h1 style="font-size: 2.5rem; color: #ef4444; text-shadow: 0 0 20px rgba(239, 68, 68, 0.4);">COMMAND CENTER_</h1>
+            <p>Painel de Gestão de Operadores e Sistema.</p>
         </div>
-    </section>
+
+        <div class="admin-grid">
+            <aside class="stats-panel">
+                <h3 style="color: #fff; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                    <i class="fas fa-chart-pie"></i> Métricas
+                </h3>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <small style="color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">Total Jogadores</small>
+                    <div style="font-size: 2.5rem; color: #fff; font-weight: bold; font-family: 'Fira Code';" id="stat-total">--</div>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <small style="color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">XP Distribuído</small>
+                    <div style="font-size: 2rem; color: #facc15; font-weight: bold; font-family: 'Fira Code';" id="stat-xp">--</div>
+                </div>
+                
+                <hr style="border-color: rgba(255,255,255,0.1); margin: 2rem 0;">
+                
+                <h4 style="color: #94a3b8; margin-bottom: 1rem;">Ações Rápidas (Self)</h4>
+                <button class="btn" style="width: 100%; border-color: #ef4444; color: #ef4444; margin-bottom: 10px;" onclick="giveSelfXP()">
+                    <i class="fas fa-plus"></i> Add 1000 XP
+                </button>
+                <button class="btn" style="width: 100%; border-color: #facc15; color: #facc15;" onclick="resetSelf()">
+                    <i class="fas fa-undo"></i> Resetar Meu Perfil
+                </button>
+            </aside>
+
+            <main class="data-table-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3 style="color: #fff;"><i class="fas fa-users-cog"></i> Base de Dados</h3>
+                    <button class="btn" style="font-size: 0.8rem; padding: 8px 15px;" onclick="carregarUsuarios()">
+                        <i class="fas fa-sync"></i> Atualizar
+                    </button>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Utilizador</th>
+                            <th>Nível</th>
+                            <th>Cargo / Título</th>
+                            <th>Acesso</th>
+                            <th>Comandos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <tr><td colspan="5" style="text-align:center; padding: 2rem; color: #64748b;">Buscando dados na rede neural...</td></tr>
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
     <script src="../assets/js/header.js"></script>
     <script src="../game-data.js"></script>
-
-    <script>
-        // Lógica de Proteção e Admin
-        
-        // 1. Ouve quando os dados carregam
-        window.addEventListener('gameDataLoaded', () => {
-            const shield = document.getElementById('security-check');
-            
-            if (window.isAdminUser) {
-                // É ADMIN: Libera acesso
-                shield.style.display = 'none';
-                carregarStats();
-            } else {
-                // NÃO É ADMIN: Expulsa
-                shield.innerHTML = '<h1><i class="fas fa-lock"></i> ACESSO NEGADO</h1><p>Redirecionando...</p>';
-                setTimeout(() => window.location.href = "../index.html", 2000);
-            }
-        });
-
-        // Timeout de segurança (caso demore muito)
-        setTimeout(() => {
-            const shield = document.getElementById('security-check');
-            if(shield.style.display !== 'none' && !window.isAdminUser) {
-                 window.location.href = "../index.html";
-            }
-        }, 5000);
-
-        // Funções do Painel
-        function giveSelfXP() {
-            const qtd = parseInt(document.getElementById('xp-amount').value);
-            if(qtd) adicionarXP(qtd); // Usa função global
-        }
-
-        async function carregarStats() {
-            // Conta documentos na coleção 'jogadores'
-            // Nota: Em produção, 'listUsers' requer Cloud Functions, 
-            // aqui vamos só ler a coleção se as regras permitirem.
-            try {
-                const snapshot = await db.collection('jogadores').get();
-                document.getElementById('total-users').innerText = snapshot.size;
-            } catch(e) {
-                console.log("Erro ao ler stats:", e);
-                document.getElementById('total-users').innerText = "Erro de Permissão";
-            }
-        }
-    </script>
+    <script src="../assets/js/admin.js"></script>
 </body>
 </html>
