@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy | Labs - Flexbox</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../Revisao/revisao.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>DevStudy | Docs</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Estilos Locais para o Laboratório */
+        /* Estilos Locais (Mantidos aqui por simplicidade) */
         .lab-controls {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -18,7 +19,6 @@
             border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.1);
         }
-        
         .control-group label {
             display: block;
             color: var(--secondary-neon);
@@ -26,7 +26,6 @@
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
         }
-
         .control-group select {
             width: 100%;
             padding: 10px;
@@ -36,17 +35,15 @@
             border-radius: 4px;
             font-family: 'Fira Code', monospace;
         }
-
         .flex-preview {
             background: #0f172a;
             border: 2px dashed #333;
-            height: 300px; /* Altura fixa para ver alinhamento vertical */
+            height: 300px;
             border-radius: 8px;
             padding: 10px;
-            display: flex; /* Começa como flex */
+            display: flex;
             transition: all 0.3s ease;
         }
-
         .flex-item {
             width: 80px;
             height: 80px;
@@ -61,10 +58,8 @@
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
             font-size: 1.5rem;
         }
-        
         .flex-item:nth-child(2) { background: var(--secondary-neon); }
         .flex-item:nth-child(3) { background: #facc15; }
-
         .generated-code {
             background: #1e1e1e;
             padding: 1rem;
@@ -72,7 +67,7 @@
             font-family: 'Fira Code', monospace;
             color: #a5f3fc;
             margin-top: 1rem;
-            border-left: 3px solid var(--success);
+            border-left: 3px solid #4ade80;
         }
     </style>
 </head>
@@ -90,8 +85,9 @@
                         <li><a href="../index.html#html">HTML</a></li>
                         <li><a href="../index.html#css">CSS</a></li>
                         <li><a href="../index.html#javascript">JS</a></li>
-                        <li><a href="alinhamento.html" class="active-link">Labs</a></li>
-                        <li><a href="../Revisao/revisao.html">Matrix</a></li>
+                        <li><a href="docs.html" class="active-link">Docs</a></li>
+                        <li><a href="challenges.html">Matrix</a></li>
+                        <li><a href="game.html" style="color: #facc15"><i class="fas fa-gamepad"></i> Game</a></li>
                     </ul>
                 </nav>
             </div>
@@ -181,6 +177,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="../game-data.js"></script>
-    <script src="alinhamento.js"></script>
+    <script src="../assets/js/lab.js"></script>
 </body>
 </html>

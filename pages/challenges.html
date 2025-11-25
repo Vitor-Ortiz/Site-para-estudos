@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy | Sistema de Treino</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="revisao.css">
+    <title>DevStudy | Matrix</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -22,8 +22,9 @@
                         <li><a href="../index.html#html">HTML</a></li>
                         <li><a href="../index.html#css">CSS</a></li>
                         <li><a href="../index.html#javascript">JS</a></li>
-                        <li><a href="../Alinhamento/alinhamento.html">Docs</a></li>
-                        <li><a href="revisao.html" class="active-link">Matrix</a></li>
+                        <li><a href="docs.html">Docs</a></li>
+                        <li><a href="challenges.html" class="active-link">Matrix</a></li>
+                        <li><a href="game.html" style="color: #facc15"><i class="fas fa-gamepad"></i> Game</a></li>
                     </ul>
                 </nav>
             </div>
@@ -46,9 +47,7 @@
                 <li class="module-item" onclick="carregarAba('js')">
                     <i class="fab fa-js"></i> <span>Módulo JS</span>
                 </li>
-                
                 <div class="sidebar-divider"></div>
-                
                 <li class="module-item" onclick="carregarAba('trophies')">
                     <i class="fas fa-trophy" style="color: #facc15;"></i> <span>Conquistas</span>
                 </li>
@@ -63,7 +62,6 @@
         </aside>
 
         <main class="workspace">
-            
             <section id="aba-html" class="module-content active">
                 <div class="module-banner html-bg">
                     <h2><i class="fab fa-html5"></i> HTML Core</h2>
@@ -258,6 +256,6 @@ function contar() {
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="../game-data.js"></script>
-    <script src="revisao.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
 </body>
 </html>

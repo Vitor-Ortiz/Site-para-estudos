@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
+<html lang="en"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy | Plataforma de Treino</title>
-    <link rel="stylesheet" href="style.css">
+    <title>DevStudy | Home</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-
 <body>
     <header>
         <div class="container">
             <div class="header-content">
-                <a href="../index.html" class="logo">&lt;Dev<span>Study</span>/&gt;</a>
-
+                <a href="#" class="logo">&lt;Dev<span>Study</span>/&gt;</a>
+                
                 <div class="xp-container">
                     <span class="xp-label">LVL <span id="userLevel">1</span></span>
                     <span class="xp-value"><span id="userXP">0</span> XP</span>
@@ -21,23 +19,27 @@
 
                 <nav>
                     <ul>
-                        <li><a href="../index.html#html">HTML</a></li>
-                        <li><a href="../index.html#css">CSS</a></li>
-                        <li><a href="../index.html#javascript">JS</a></li>
-                        <li><a href="../index.html#projetos">Labs</a></li>
-                        <li><a href="/Revisao/revisao.html" style="color: var(--primary-neon);">Desafios</a></li>
-                        <li><a href="Projetos/memory.html" style="color: #facc15">GAME</a></li>
+                        <li><a href="#html">HTML</a></li>
+                        <li><a href="#css">CSS</a></li>
+                        <li><a href="#javascript">JS</a></li>
+                        <li><a href="pages/docs.html">Docs</a></li>
+                        <li><a href="pages/challenges.html" class="active-link">Matrix</a></li>
+                        <li><a href="pages/game.html" style="color: #facc15"><i class="fas fa-gamepad"></i> Game</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
     </header>
+
     <section class="hero">
         <div class="container">
-            <h1>Domine o Código.</h1>
-            <p>HTML, CSS e JavaScript não são apenas teoria. São ferramentas de construção. Ganhe XP enquanto pratica e
-                resolve bugs reais.</p>
-            <a href="#projetos" class="btn">COMEÇAR MISSÃO</a>
+            <h1></h1> <p>Plataforma de treino para desenvolvedores. Ganhe XP resolvendo bugs, completando desafios e dominando a stack web.</p>
+            <div class="hero-actions">
+                <a href="pages/challenges.html" class="btn"><i class="fas fa-terminal"></i> INICIAR TREINO</a>
+                <a href="pages/game.html" class="btn btn-outline" style="border-color: #facc15; color: #facc15; margin-left: 10px;">
+                    <i class="fas fa-trophy"></i> JOGAR
+                </a>
+            </div>
         </div>
     </section>
 
@@ -46,33 +48,25 @@
             <h2 class="section-title">Módulo: Estrutura (HTML)</h2>
             <div class="card-grid">
                 <div class="card">
-                    <div class="card-header">index.html</div>
+                    <div class="card-header"><i class="fab fa-html5"></i> index.html</div>
                     <div class="card-body">
                         <h3>O Esqueleto</h3>
-                        <p>Cada site começa aqui. A estrutura semântica define como os robôs e humanos leem o teu
-                            conteúdo.</p>
+                        <p>Estrutura semântica para humanos e máquinas.</p>
                         <div class="code-example">
-                            <span class="code-tag">&lt;h1&gt;</span>Olá Mundo<span
-                                class="code-tag">&lt;/h1&gt;</span><br>
-                            <span class="code-tag">&lt;button&gt;</span>Clique-me<span
-                                class="code-tag">&lt;/button&gt;</span>
+                            <span class="code-tag">&lt;h1&gt;</span>Hello World<span class="code-tag">&lt;/h1&gt;</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="card">
-                    <div class="card-header">input.js</div>
+                    <div class="card-header"><i class="fas fa-keyboard"></i> input.js</div>
                     <div class="card-body">
                         <h3>Interação Real</h3>
-                        <p>Teste este formulário. Ganhe <strong>+10 XP</strong> ao enviar dados.</p>
-                        <br>
-                        <form id="xpForm" onsubmit="return false;">
-                            <input type="text" placeholder="Digite seu nome de dev..."
-                                style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 4px;">
-                            <br><br>
-                            <button class="interactive-btn"
-                                onclick="ganharXP(10); alert('Dados enviados! +10 XP')">Enviar Dados</button>
-                        </form>
+                        <p>Teste este input. Ganhe <strong>+10 XP</strong>.</p>
+                        <div style="margin-top: 15px;">
+                            <input type="text" placeholder="Digite seu nome..." class="cyber-input">
+                            <button class="interactive-btn" onclick="ganharXP(10); alert('Dados enviados! +10 XP')">ENVIAR</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,19 +78,13 @@
             <h2 class="section-title">Módulo: Estilo (CSS)</h2>
             <div class="card-grid">
                 <div class="card">
-                    <div class="card-header">style.css</div>
+                    <div class="card-header"><i class="fab fa-css3-alt"></i> style.css</div>
                     <div class="card-body">
-                        <h3>Flexbox & Layout</h3>
-                        <p>Controle o espaço. Use o Flexbox para alinhar elementos com uma única linha de código.</p>
-                        <div class="code-example">
-                            <span class="code-tag">.box</span> { <br>
-                            &nbsp;&nbsp;<span class="code-attr">display</span>: <span
-                                class="code-value">flex</span>;<br>
-                            &nbsp;&nbsp;<span class="code-attr">gap</span>: <span class="code-value">20px</span>;<br>
-                            }
-                        </div>
-                        <a href="Alinhamento/alinhamento.html" class="btn"
-                            style="font-size: 0.8rem; margin-top: 10px;">Ver Teoria Avançada</a>
+                        <h3>Flexbox & Grid</h3>
+                        <p>Controle o layout com precisão matemática.</p>
+                        <a href="pages/docs.html" class="btn" style="width: 100%; text-align: center; margin-top: 10px;">
+                            <i class="fas fa-flask"></i> ABRIR LABORATÓRIO
+                        </a>
                     </div>
                 </div>
             </div>
@@ -106,51 +94,40 @@
     <section id="projetos">
         <div class="container">
             <h2 class="section-title">Laboratórios Práticos</h2>
-            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Conserte os bugs para ganhar
-                XP extra.</p>
-
             <div class="card-grid">
                 <div class="card">
                     <div class="card-header">
-                        calc.js
-                        <span id="calcStatus" class="project-status status-bug" style="margin-left: auto;">BUG
-                            ENCONTRADO</span>
+                        calc.js 
+                        <span id="calcStatus" class="project-status status-bug" style="margin-left: auto;">BUG DETECTADO</span>
                     </div>
                     <div class="card-body">
                         <h3>Calculadora V1.0</h3>
-                        <p>Atenção: O operador de soma (+) parece estar a subtrair! Use o modo Debug para corrigir.</p>
-
-                        <div style="background: #1e293b; padding: 15px; border-radius: 8px; margin-top: 15px;">
-                            <input type="text" id="display" readonly
-                                style="width: 100%; padding: 10px; margin-bottom: 10px; background: #0f172a; border: none; color: white; text-align: right; font-family: 'Fira Code'; font-size: 1.2rem;">
-
-                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
-                                <button class="interactive-btn" onclick="adicionarNumero('7')">7</button>
-                                <button class="interactive-btn" onclick="adicionarNumero('8')">8</button>
-                                <button class="interactive-btn" onclick="adicionarNumero('9')">9</button>
-                                <button class="interactive-btn" onclick="adicionarOperador('/')">/</button>
-
-                                <button class="interactive-btn" onclick="adicionarNumero('4')">4</button>
-                                <button class="interactive-btn" onclick="adicionarNumero('5')">5</button>
-                                <button class="interactive-btn" onclick="adicionarNumero('6')">6</button>
-                                <button class="interactive-btn" onclick="adicionarOperador('*')">*</button>
-
-                                <button class="interactive-btn" onclick="adicionarNumero('1')">1</button>
-                                <button class="interactive-btn" onclick="adicionarNumero('2')">2</button>
-                                <button class="interactive-btn" onclick="adicionarNumero('3')">3</button>
-                                <button class="interactive-btn" onclick="adicionarOperador('-')">-</button>
-
-                                <button class="interactive-btn" onclick="limparDisplay()">C</button>
-                                <button class="interactive-btn" onclick="adicionarNumero('0')">0</button>
-                                <button class="interactive-btn" onclick="calcular()">=</button>
-                                <button class="interactive-btn" onclick="adicionarOperador('+')">+</button>
+                        <p>A soma está subtraindo! Use o Debug.</p>
+                        
+                        <div class="calc-wrapper">
+                            <input type="text" id="display" readonly class="calc-display">
+                            <div class="calc-keys">
+                                <button onclick="adicionarNumero('7')">7</button>
+                                <button onclick="adicionarNumero('8')">8</button>
+                                <button onclick="adicionarNumero('9')">9</button>
+                                <button onclick="adicionarOperador('/')" class="op">/</button>
+                                <button onclick="adicionarNumero('4')">4</button>
+                                <button onclick="adicionarNumero('5')">5</button>
+                                <button onclick="adicionarNumero('6')">6</button>
+                                <button onclick="adicionarOperador('*')" class="op">*</button>
+                                <button onclick="adicionarNumero('1')">1</button>
+                                <button onclick="adicionarNumero('2')">2</button>
+                                <button onclick="adicionarNumero('3')">3</button>
+                                <button onclick="adicionarOperador('-')" class="op">-</button>
+                                <button onclick="limparDisplay()" class="clear">C</button>
+                                <button onclick="adicionarNumero('0')">0</button>
+                                <button onclick="calcular()" class="equal">=</button>
+                                <button onclick="adicionarOperador('+')" class="op">+</button>
                             </div>
                         </div>
-
-                        <button id="btnDebugCalc" class="btn"
-                            style="width: 100%; margin-top: 15px; border-color: var(--secondary-neon); color: var(--secondary-neon);"
-                            onclick="debugCalculadora()">
-                            <span class="icon">🐞</span> RODAR DEBUG (+50 XP)
+                        
+                        <button id="btnDebugCalc" class="btn debug-btn" onclick="debugCalculadora()">
+                            <i class="fas fa-bug"></i> RODAR DEBUG (+50 XP)
                         </button>
                     </div>
                 </div>
@@ -159,32 +136,27 @@
                     <div class="card-header">todo.js</div>
                     <div class="card-body">
                         <h3>Task Manager</h3>
-                        <p>Organize o seu fluxo de trabalho. Adicionar tarefas gera XP.</p>
-
-                        <div style="margin-top: 15px;">
-                            <div style="display: flex; gap: 5px; margin-bottom: 10px;">
-                                <input type="text" id="novaTarefa" placeholder="Nova tarefa..."
-                                    style="flex: 1; padding: 8px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 4px;">
-                                <button class="interactive-btn" onclick="adicionarTarefa()">Add</button>
-                            </div>
-                            <ul id="listaTarefas" style="list-style: none;"></ul>
+                        <p>Adicionar tarefas gera XP.</p>
+                        
+                        <div class="todo-wrapper">
+                            <input type="text" id="novaTarefa" placeholder="Nova missão..." class="cyber-input">
+                            <button class="interactive-btn" onclick="adicionarTarefa()">ADD</button>
                         </div>
+                        <ul id="listaTarefas" class="task-list"></ul>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer style="text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem;">
-        <p>DevStudy System v3.0 // Conectado à Nuvem ☁️</p>
+    <footer>
+        <p>DevStudy System v4.0 // Architecture Updated</p>
     </footer>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
+    
     <script src="game-data.js"></script>
-
-    <script src="script.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
-
 </html>
