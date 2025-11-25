@@ -1,0 +1,47 @@
+/* assets/css/components.css - ATUALIZADO */
+
+/* ... (Mantenha os estilos de botões, cards e inputs anteriores) ... */
+
+.btn { display: inline-block; padding: 12px 30px; border-radius: 8px; font-family: var(--font-code); font-weight: bold; text-decoration: none; transition: all 0.3s; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+.btn-primary { background: var(--primary-neon); color: #000; border: 1px solid var(--primary-neon); box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(56, 189, 248, 0.5); }
+.btn-outline { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2); }
+.btn-outline:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
+.btn-sm { padding: 6px 15px; font-size: 0.85rem; border-radius: 6px; text-decoration: none; color: white; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; }
+.btn-sm:hover { background: rgba(255,255,255,0.1); }
+.btn-glow { background: rgba(56, 189, 248, 0.1); border-color: var(--primary-neon); color: var(--primary-neon); }
+.btn-glow:hover { background: var(--primary-neon); color: #000; }
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+.card { background: var(--bg-card); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; overflow: hidden; transition: transform 0.3s, border-color 0.3s; }
+.card:hover { transform: translateY(-8px); border-color: var(--primary-neon); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+.card-header { background: rgba(0, 0, 0, 0.3); padding: 1.2rem 1.5rem; font-family: var(--font-code); color: var(--primary-neon); border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; align-items: center; gap: 10px; font-weight: bold; }
+.card-body { padding: 1.5rem; }
+.card-body h3 { color: white; margin-bottom: 1rem; font-size: 1.3rem; }
+.card-body p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+/* Inputs */
+.cyber-input { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 6px; margin-bottom: 10px; font-family: var(--font-code); transition: border-color 0.3s; }
+.cyber-input:focus { border-color: var(--primary-neon); outline: none; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+.code-example { background: #050505; border-radius: 8px; padding: 1rem; margin: 1rem 0; font-family: var(--font-code); border: 1px solid rgba(255,255,255,0.1); overflow-x: auto; font-size: 0.9rem; }
+.code-tag { color: var(--secondary-neon); } .code-attr { color: var(--primary-neon); } .code-value { color: #a5f3fc; } .code-comment { color: #64748b; font-style: italic; }
+
+/* Modal Level Up */
+.level-up-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.9); backdrop-filter: blur(5px); z-index: 9999; display: flex; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
+.level-up-card { background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)); border: 2px solid var(--accent); padding: 3rem; border-radius: 20px; text-align: center; box-shadow: 0 0 50px rgba(250, 204, 21, 0.3); transform: scale(0.8); animation: popIn 0.5s forwards; position: relative; overflow: hidden; }
+.level-up-content { position: relative; z-index: 2; }
+.level-up-icon { font-size: 4rem; color: var(--accent); margin-bottom: 1rem; filter: drop-shadow(0 0 15px rgba(250, 204, 21, 0.5)); }
+.level-up-title { font-family: 'Fira Code'; font-size: 2rem; color: white; margin-bottom: 0.5rem; }
+.level-up-role { color: var(--success); font-family: 'Inter'; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-bottom: 2rem; }
+.btn-claim { background: var(--accent); color: #000; border: none; padding: 12px 30px; font-weight: bold; font-family: 'Fira Code'; border-radius: 50px; cursor: pointer; transition: transform 0.2s; }
+.btn-claim:hover { transform: scale(1.05); }
+
+@keyframes popIn { to { transform: scale(1); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- CORREÇÃO DA ANIMAÇÃO DE XP --- */
+@keyframes floatUp {
+    0% { transform: translate(-50%, -50%); opacity: 1; }
+    100% { transform: translate(-50%, -150%); opacity: 0; }
+}

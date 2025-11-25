@@ -1,23 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy | Docs</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/game.css">
-    <link rel="stylesheet" href="../assets/css/dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>DevStudy | Documentação</title>
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        /* Estilos Locais do Laboratório */
-        .lab-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .control-group label { display: block; color: var(--secondary-neon); font-family: 'Fira Code', monospace; margin-bottom: 0.5rem; font-size: 0.9rem; }
-        .control-group select { width: 100%; padding: 10px; background: #1e1e1e; border: 1px solid #333; color: white; border-radius: 4px; font-family: 'Fira Code', monospace; }
-        .flex-preview { background: #0f172a; border: 2px dashed #333; height: 300px; border-radius: 8px; padding: 10px; display: flex; transition: all 0.3s ease; }
-        .flex-item { width: 80px; height: 80px; background: var(--primary-neon); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: 'Fira Code', monospace; border-radius: 4px; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); font-size: 1.5rem; }
+        .lab-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .control-group label { display: block; color: var(--primary-neon); font-family: 'Fira Code', monospace; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .control-group select { width: 100%; padding: 10px; background: #1e1e1e; border: 1px solid #334155; color: white; border-radius: 4px; font-family: 'Fira Code', monospace; }
+        
+        .flex-preview { background: #0f172a; border: 2px dashed #334155; height: 300px; border-radius: 8px; padding: 10px; display: flex; transition: all 0.3s ease; overflow: hidden; }
+        .flex-item { width: 80px; height: 80px; background: var(--primary-neon); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: 'Fira Code'; border-radius: 4px; font-size: 1.5rem; transition: all 0.3s; }
         .flex-item:nth-child(2) { background: var(--secondary-neon); }
-        .flex-item:nth-child(3) { background: #facc15; }
-        .generated-code { background: #1e1e1e; padding: 1rem; border-radius: 6px; font-family: 'Fira Code', monospace; color: #a5f3fc; margin-top: 1rem; border-left: 3px solid #4ade80; }
+        .flex-item:nth-child(3) { background: var(--accent); }
+
+        /* Atlas Styles */
+        .atlas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .lang-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 2rem; text-align: center; transition: all 0.3s; cursor: pointer; position: relative; overflow: hidden; }
+        .lang-card:hover { transform: translateY(-5px); border-color: var(--primary-neon); background: rgba(255,255,255,0.05); }
+        .lang-icon { font-size: 3.5rem; margin-bottom: 1rem; color: var(--text-muted); transition: color 0.3s; }
+        .lang-card:hover .lang-icon { color: var(--primary-neon); filter: drop-shadow(0 0 10px var(--primary-neon)); }
+        .lang-title { font-size: 1.2rem; color: white; margin-bottom: 0.5rem; font-family: 'Fira Code'; }
+        .lang-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+        
+        /* Cores específicas */
+        .js-card:hover { border-color: #f7df1e; } .js-card:hover .lang-icon { color: #f7df1e; filter: drop-shadow(0 0 10px #f7df1e); }
+        .py-card:hover { border-color: #306998; } .py-card:hover .lang-icon { color: #306998; filter: drop-shadow(0 0 10px #306998); }
+        .css-card:hover { border-color: #264de4; } .css-card:hover .lang-icon { color: #264de4; filter: drop-shadow(0 0 10px #264de4); }
     </style>
 </head>
 <body>
@@ -26,19 +41,68 @@
     <div class="dashboard-container">
         <aside class="skill-sidebar">
             <div class="sidebar-header">
-                <h3><i class="fas fa-flask"></i> LABORATÓRIO</h3>
+                <h3><i class="fas fa-book"></i> BIBLIOTECA</h3>
             </div>
+            
             <ul class="module-list">
-                <li class="module-item active"><i class="fas fa-arrows-alt"></i> <span>Playground Flexbox</span></li>
-                <li class="module-item" style="opacity: 0.5; cursor: not-allowed;"><i class="fas fa-th"></i> <span>Grid (Em breve)</span></li>
+                <li class="module-item active" onclick="carregarAba('atlas')">
+                    <i class="fas fa-globe"></i> <span>Atlas de Linguagens</span>
+                </li>
+                <div class="sidebar-divider"></div>
+                <li class="module-item" onclick="carregarAba('flexbox')">
+                    <i class="fas fa-layer-group"></i> <span>Lab: Flexbox</span>
+                </li>
+                <li class="module-item" style="opacity:0.5; cursor:not-allowed">
+                    <i class="fas fa-th"></i> <span>Lab: Grid (Em breve)</span>
+                </li>
             </ul>
         </aside>
 
         <main class="workspace">
-            <section class="module-content active">
+            
+            <section id="aba-atlas" class="module-content active">
+                <div class="module-banner" style="border-color: #a855f7; background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), transparent);">
+                    <h2><i class="fas fa-map-marked-alt"></i> Atlas do Conhecimento</h2>
+                    <p>O mapa das tecnologias que constroem o futuro.</p>
+                </div>
+
+                <div class="atlas-grid">
+                    <div class="lang-card js-card">
+                        <i class="fab fa-js lang-icon"></i>
+                        <h3 class="lang-title">JavaScript</h3>
+                        <p class="lang-desc">A linguagem da Web. Torna as páginas interativas e roda tanto no navegador quanto no servidor.</p>
+                    </div>
+
+                    <div class="lang-card py-card">
+                        <i class="fab fa-python lang-icon"></i>
+                        <h3 class="lang-title">Python</h3>
+                        <p class="lang-desc">Simples e poderosa. Favorita para Ciência de Dados, IA e Automação.</p>
+                    </div>
+
+                    <div class="lang-card css-card">
+                        <i class="fab fa-css3-alt lang-icon"></i>
+                        <h3 class="lang-title">CSS3</h3>
+                        <p class="lang-desc">A arte do estilo. Controla o layout, cores e animações de tudo o que vês na web.</p>
+                    </div>
+
+                    <div class="lang-card" style="border-color: rgba(227, 76, 38, 0.3);">
+                        <i class="fab fa-html5 lang-icon" style="color: #e34c26;"></i>
+                        <h3 class="lang-title">HTML5</h3>
+                        <p class="lang-desc">O esqueleto. Define a estrutura e o significado do conteúdo.</p>
+                    </div>
+                    
+                    <div class="lang-card" style="border-color: rgba(97, 218, 251, 0.3);">
+                        <i class="fab fa-react lang-icon" style="color: #61dbfb;"></i>
+                        <h3 class="lang-title">React</h3>
+                        <p class="lang-desc">Biblioteca JS para criar interfaces de utilizador dinâmicas e modernas.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aba-flexbox" class="module-content">
                 <div class="module-banner css-bg">
-                    <h2><i class="fas fa-layer-group"></i> Simulador Flexbox</h2>
-                    <p>Manipule as propriedades CSS e veja o resultado em tempo real.</p>
+                    <h2><i class="fas fa-flask"></i> Simulador Flexbox</h2>
+                    <p>Manipule o layout em tempo real.</p>
                 </div>
 
                 <div class="challenge-card">
@@ -46,34 +110,33 @@
                         <div class="control-group">
                             <label>flex-direction</label>
                             <select id="ctrl-direction" onchange="updateFlex()">
-                                <option value="row">row (padrão)</option>
+                                <option value="row">row</option>
                                 <option value="row-reverse">row-reverse</option>
                                 <option value="column">column</option>
                                 <option value="column-reverse">column-reverse</option>
                             </select>
                         </div>
                         <div class="control-group">
-                            <label>justify-content (Eixo Principal)</label>
+                            <label>justify-content</label>
                             <select id="ctrl-justify" onchange="updateFlex()">
                                 <option value="flex-start">flex-start</option>
                                 <option value="center">center</option>
                                 <option value="flex-end">flex-end</option>
                                 <option value="space-between">space-between</option>
                                 <option value="space-around">space-around</option>
-                                <option value="space-evenly">space-evenly</option>
                             </select>
                         </div>
                         <div class="control-group">
-                            <label>align-items (Eixo Cruzado)</label>
+                            <label>align-items</label>
                             <select id="ctrl-align" onchange="updateFlex()">
                                 <option value="stretch">stretch</option>
-                                <option value="flex-start">flex-start</option>
                                 <option value="center">center</option>
+                                <option value="flex-start">flex-start</option>
                                 <option value="flex-end">flex-end</option>
                             </select>
                         </div>
                         <div class="control-group">
-                            <label>gap (Espaçamento)</label>
+                            <label>gap</label>
                             <select id="ctrl-gap" onchange="updateFlex()">
                                 <option value="0px">0px</option>
                                 <option value="10px" selected>10px</option>
@@ -89,14 +152,12 @@
                         <div class="flex-item">3</div>
                     </div>
 
-                    <div class="generated-code" id="code-output">
+                    <div class="code-example" style="margin-top: 1.5rem;">
+                        <div class="code-editor" id="code-output" style="color: #a5f3fc;">
 .container {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 10px;
 }
+                        </div>
                     </div>
                 </div>
             </section>
@@ -107,8 +168,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
-    <script src="../assets/js/header.js"></script>
     <script src="../game-data.js"></script>
+    <script src="../assets/js/header.js"></script>
     <script src="../assets/js/lab.js"></script>
 </body>
 </html>

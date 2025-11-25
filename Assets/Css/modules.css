@@ -1,0 +1,67 @@
+/* assets/css/modules.css - POMODORO & TASKS */
+
+.interactive-btn {
+    background: rgba(56, 189, 248, 0.1); color: var(--primary-neon); border: 1px solid var(--primary-neon);
+    padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-family: var(--font-code); margin: 5px 0; transition: all 0.2s; font-weight: bold;
+}
+.interactive-btn:hover { background: var(--primary-neon); color: var(--bg-dark); }
+
+.project-status { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-code); letter-spacing: 1px; }
+.status-active { background: rgba(74, 222, 128, 0.2); color: var(--success); border: 1px solid var(--success); }
+
+/* --- POMODORO TIMER (FOCO NEURAL) --- */
+.pomodoro-wrapper {
+    background: #1e293b; padding: 20px; border-radius: 12px; margin-top: 15px; 
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.3); text-align: center;
+}
+
+.timer-display {
+    font-size: 3.5rem; font-family: 'Fira Code', monospace; font-weight: bold;
+    color: #fff; text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+    margin: 10px 0;
+}
+
+.timer-controls { display: flex; justify-content: center; gap: 10px; }
+
+.btn-timer {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-muted); width: 45px; height: 45px; border-radius: 50%;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+}
+.btn-timer:hover { background: rgba(255,255,255,0.1); color: white; transform: scale(1.1); }
+.btn-timer.start { border-color: var(--success); color: var(--success); }
+.btn-timer.start:hover { background: var(--success); color: #000; }
+.btn-timer.stop { border-color: var(--danger); color: var(--danger); }
+
+/* --- LISTA DE TAREFAS V2 --- */
+.task-input-group {
+    display: flex; gap: 10px; margin-top: 15px;
+}
+
+.priority-select {
+    background: #0f172a; border: 1px solid #334155; color: var(--text-muted);
+    border-radius: 6px; padding: 0 10px; font-family: 'Fira Code'; cursor: pointer;
+}
+
+.task-list { list-style: none; margin-top: 15px; padding: 0; }
+
+.task-item {
+    padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--text-main); animation: slideIn 0.3s ease;
+    background: rgba(255,255,255,0.02); border-radius: 6px; margin-bottom: 5px;
+    border-left: 3px solid transparent;
+}
+
+/* Cores de Prioridade */
+.task-item.low { border-left-color: #94a3b8; }
+.task-item.medium { border-left-color: #38bdf8; }
+.task-item.high { border-left-color: #facc15; }
+
+.task-actions { display: flex; gap: 5px; }
+.btn-icon { background: none; border: none; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; }
+.btn-icon:hover { opacity: 1; }
+.btn-check { color: var(--success); }
+.btn-trash { color: var(--danger); }
+
+@keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }

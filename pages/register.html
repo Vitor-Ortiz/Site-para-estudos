@@ -3,49 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy | Login</title>
+    <title>DevStudy | Criar Conta</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="login-container">
-        <div class="login-card">
-            <div class="logo-area">
+        <div class="login-card" style="border-top-color: #4ade80;"> <div class="logo-area">
                 <span class="logo">&lt;Dev<span>Study</span>/&gt;</span>
-                <p>Acesso ao Sistema</p>
+                <p>Novo Operador</p>
             </div>
 
             <div class="email-login-form">
                 <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="Escolha seu Nickname">
+                </div>
+                
+                <div class="input-group">
                     <i class="fas fa-envelope"></i>
                     <input type="email" id="email" placeholder="seu@email.com">
                 </div>
+                
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="password" placeholder="Sua senha">
+                    <input type="password" id="password" placeholder="Senha (min. 6 caracteres)">
                 </div>
 
-                <button class="btn-login-email" onclick="fazerLoginEmail()" style="width: 100%; margin-bottom: 10px;">
-                    ENTRAR
+                <button class="btn-register" onclick="criarContaEmail()" style="width: 100%; background: #4ade80; color: #000; margin-bottom: 10px;">
+                    CRIAR CONTA
                 </button>
                 
                 <div style="text-align: center; font-size: 0.8rem; color: #94a3b8;">
-                    Não tem conta? <a href="register.html" style="color: #38bdf8; text-decoration: none;">Crie agora</a>
+                    Já tem conta? <a href="login.html" style="color: #4ade80; text-decoration: none;">Faça Login</a>
                 </div>
             </div>
 
-            <div class="divider"><span>OU</span></div>
-
-            <button class="btn-login-google" onclick="fazerLoginGoogle()">
-                <i class="fab fa-google"></i> Entrar com Google
-            </button>
-
-            <button class="btn-guest" onclick="entrarComoConvidado()">
-                <i class="fas fa-user-secret"></i> Modo Anônimo (Expira em 24h)
-            </button>
-            
-            <p id="status-msg" class="status-text">Aguardando credenciais...</p>
+            <p id="status-msg" class="status-text">Preencha os dados acima.</p>
             
             <a href="../index.html" class="back-link">← Voltar ao Início</a>
         </div>

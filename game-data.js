@@ -1,4 +1,10 @@
-/* ARQUIVO: game-data.js - V9 (New Roles + Admin Tools) */
+/* ARQUIVO: game-data.js - VERSÃO FINAL V13
+   Funcionalidades:
+   1. Autenticação Firebase (Google/Email)
+   2. Sistema de Admin (Protegido)
+   3. Áudio Global e Confetes
+   4. Limpeza Automática de Convidados (24h)
+*/
 
 // --- 1. Configuração do Firebase ---
 const firebaseConfig = {
@@ -18,7 +24,11 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-// --- 2. Variáveis Globais (Expostas para todo o site) ---
+// Expor para outros scripts (Admin e Login precisam disto)
+window.db = db;
+window.auth = auth;
+
+// --- 2. Variáveis Globais ---
 window.globalXP = 0;
 window.globalLevel = 1;
 window.currentUser = null;
@@ -58,9 +68,9 @@ function loadConfetti() {
 }
 loadConfetti();
 
-// --- 5. Sistema de Roles (Cargos) - ATUALIZADO ---
+// --- 5. Sistema de Roles (Cargos) ---
 window.getRole = function(level) {
-    if (level >= 500) return "Are You Admin ⁇"; // NOVO TÍTULO SECRETO
+    if (level >= 500) return "Are You Admin ⁇";
     if (level >= 50) return "Cyber Legend 👑";
     if (level >= 20) return "Tech Lead 🚀";
     if (level >= 10) return "Developer 💻";
@@ -69,27 +79,49 @@ window.getRole = function(level) {
 };
 
 // --- 6. Inicialização e Auth Listener ---
+// Aqui decidimos quem é Visitante e quem é Logado
 auth.onAuthStateChanged((user) => {
     if (user) {
+        // UTILIZADOR LOGADO (Tem conta)
         window.currentUser = user;
         console.log("Conectado como:", user.email);
-        carregarDados(user.uid);
-        const nome = user.displayName ? user.displayName.split(' ')[0] : "Dev";
+        
+        // Garante nome seguro
+        const nome = user.displayName || (user.email ? user.email.split('@')[0] : "Dev");
+        
+        // CHAMA CARREGAR DADOS COM isGuest = FALSE
+        // Isso impede que a lógica de reset 24h rode para eles
+        carregarDados(user.uid, nome, false);
+        
         atualizarUIComNome(nome, true);
     } else {
+        // VISITANTE (Não tem conta)
+        
+        // Segurança: Bloqueia Admin para visitantes
+        if (window.location.pathname.includes("admin.html")) {
+            console.warn("Acesso anônimo ao Admin. Bloqueado.");
+            return;
+        }
+
         window.currentUser = null;
+        
+        // Gera ou recupera ID temporário do LocalStorage
         let guestId = localStorage.getItem('devstudy_guest_id');
         if (!guestId) {
             guestId = 'guest_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('devstudy_guest_id', guestId);
         }
-        carregarDados(guestId);
+        
+        // CHAMA CARREGAR DADOS COM isGuest = TRUE
+        // Isso ativa a verificação de 24h
+        carregarDados(guestId, "Visitante", true);
+        
         atualizarUIComNome("Visitante", false);
     }
 });
 
-// --- 7. Carregar Dados do Firestore ---
-async function carregarDados(uid) {
+// --- 7. Carregar Dados do Firestore (Com Lógica de Reset) ---
+async function carregarDados(uid, nomeAtual, isGuest) {
     const docRef = db.collection('jogadores').doc(uid);
     try {
         const doc = await docRef.get();
@@ -97,13 +129,48 @@ async function carregarDados(uid) {
 
         if (doc.exists) {
             data = doc.data();
+            
+            // === LÓGICA DE AUTO-DESTRUIÇÃO (Só roda se isGuest for true) ===
+            if (isGuest && data.criadoEm) {
+                const agora = new Date();
+                const criadoEm = data.criadoEm.toDate(); // Converte Timestamp do Firebase
+                const diffHoras = Math.abs(agora - criadoEm) / 36e5; // Diferença em horas
+
+                // Se passaram mais de 24 horas
+                if (diffHoras >= 24) {
+                    console.log("Sessão de convidado expirada (>24h). Resetando...");
+                    
+                    // Reinicia os dados para 0
+                    data = {
+                        xp: 0, 
+                        level: 1,
+                        nome: "Visitante", 
+                        isAdmin: false, 
+                        customTitle: "",
+                        criadoEm: firebase.firestore.FieldValue.serverTimestamp() // Nova data de início
+                    };
+                    
+                    // Salva o reset no banco
+                    await docRef.set(data);
+                    alert("Sua sessão de convidado expirou (24h). O progresso foi reiniciado.");
+                }
+            }
+            // ==============================================================
+
             window.globalXP = data.xp || 0;
             window.globalLevel = data.level || 1;
             window.userCustomTitle = data.customTitle || "";
+            
+            // Correção de nome vazio para Logados
+            if (!isGuest && (data.nome === "Convidado" || !data.nome)) {
+                 docRef.update({ nome: nomeAtual });
+            }
+
         } else {
+            // Cria novo perfil se não existir
             data = {
                 xp: 0, level: 1,
-                nome: window.currentUser ? window.currentUser.displayName : "Convidado",
+                nome: nomeAtual,
                 isAdmin: false,
                 customTitle: "",
                 criadoEm: firebase.firestore.FieldValue.serverTimestamp()
@@ -113,39 +180,31 @@ async function carregarDados(uid) {
             window.globalLevel = 1;
         }
         
-        // Admin Check
+        // Verifica se é o Admin Supremo (Teu Email)
         if(window.currentUser && window.currentUser.email === "vitorortiz512@gmail.com") {
              data.isAdmin = true;
              docRef.update({ isAdmin: true });
         }
         window.isAdminUser = data.isAdmin || false;
         
+        // Avisa o sistema que carregou
         window.dispatchEvent(new CustomEvent('gameDataLoaded'));
         atualizarHUD();
-        const nome = window.currentUser ? window.currentUser.displayName.split(' ')[0] : "Visitante";
-        atualizarUIComNome(nome, !!window.currentUser);
+        atualizarUIComNome(nomeAtual, !!window.currentUser);
 
     } catch (error) { console.error("Erro DB:", error); }
 }
 
-// --- 8. Funções de XP e Nível ---
-
-// Adicionar XP (Normal)
+// --- 8. Adicionar XP e Admin Tools ---
 async function adicionarXP(qtd) {
     const roleAntiga = window.getRole(window.globalLevel);
     window.globalXP += qtd;
     
     if (window.globalXP >= window.globalLevel * 100) {
         window.globalLevel++;
-        
-        // Se existir título customizado, usa ele no modal
         const displayRole = window.userCustomTitle || window.getRole(window.globalLevel);
-        
-        if(typeof showLevelUpModal === "function") {
-             showLevelUpModal(window.globalLevel, displayRole);
-        } else {
-             alert(`LEVEL UP! ${window.globalLevel}`);
-        }
+        if(typeof showLevelUpModal === "function") showLevelUpModal(window.globalLevel, displayRole);
+        else alert(`LEVEL UP! ${window.globalLevel}`);
         playSound('success');
     } else {
         playSound('success');
@@ -153,61 +212,39 @@ async function adicionarXP(qtd) {
 
     atualizarHUD();
     if(typeof mostrarFloatXP === "function") mostrarFloatXP(qtd);
-
     salvarProgresso();
 }
 
-// NOVA FUNÇÃO: Definir Nível Manualmente (Admin Tool)
-// Uso no Console: definirNivel('ID_DO_USUARIO', 500)
 window.definirNivel = async function(targetUid, novoNivel) {
-    // Se não passar UID, tenta aplicar a si mesmo
     const uid = targetUid || (window.currentUser ? window.currentUser.uid : localStorage.getItem('devstudy_guest_id'));
-    
     if(!uid) return console.error("Usuário não identificado");
 
     try {
-        // Calcula XP base para esse nível (Ex: Nível 500 = 50000 XP)
         const novoXP = (novoNivel - 1) * 100; 
+        await db.collection('jogadores').doc(uid).update({ level: parseInt(novoNivel), xp: novoXP });
         
-        await db.collection('jogadores').doc(uid).update({
-            level: parseInt(novoNivel),
-            xp: novoXP
-        });
-        
-        console.log(`✅ Sucesso! Usuário ${uid} agora é Nível ${novoNivel}`);
-        
-        // Se for o próprio usuário, atualiza a tela
         if(uid === (window.currentUser?.uid || localStorage.getItem('devstudy_guest_id'))) {
             window.globalLevel = parseInt(novoNivel);
             window.globalXP = novoXP;
             atualizarHUD();
-            const nome = window.currentUser ? window.currentUser.displayName.split(' ')[0] : "Visitante";
+            const nome = window.currentUser ? (window.currentUser.displayName || window.currentUser.email.split('@')[0]) : "Visitante";
             atualizarUIComNome(nome, !!window.currentUser);
             playSound('success');
-            alert(`HACK DE SISTEMA: Nível alterado para ${novoNivel}!`);
+            alert(`Nível definido para ${novoNivel}!`);
         } else {
-            alert(`Usuário atualizado para Nível ${novoNivel}`);
+            alert(`Usuário atualizado.`);
         }
-
-    } catch(e) {
-        console.error("Erro ao definir nível:", e);
-        alert("Erro: " + e.message);
-    }
+    } catch(e) { alert("Erro: " + e.message); }
 };
 
-// Função auxiliar para salvar
 function salvarProgresso() {
-    const nome = window.currentUser ? window.currentUser.displayName.split(' ')[0] : "Visitante";
-    atualizarUIComNome(nome, !!window.currentUser);
-
     const uid = window.currentUser ? window.currentUser.uid : localStorage.getItem('devstudy_guest_id');
     if(uid) {
         db.collection('jogadores').doc(uid).update({ xp: window.globalXP, level: window.globalLevel }).catch(console.error);
     }
 }
 
-// --- 9. Interface e UI ---
-
+// --- 9. Interface ---
 function atualizarHUD() {
     const xpEl = document.getElementById('userXP');
     const lvlEl = document.getElementById('userLevel');
@@ -223,11 +260,12 @@ function atualizarUIComNome(nome, isLogado) {
     }
 
     const role = window.userCustomTitle ? `★ ${window.userCustomTitle}` : window.getRole(window.globalLevel);
-    
     const isPages = window.location.pathname.includes("/pages/");
     const profileLink = isPages ? "profile.html" : "pages/profile.html";
+    const loginLink = isPages ? "login.html" : "pages/login.html";
 
     if (isLogado) {
+        // Avatar Logado
         const avatarSrc = window.currentUser && window.currentUser.photoURL 
             ? window.currentUser.photoURL 
             : `https://ui-avatars.com/api/?name=${nome}&background=0D8ABC&color=fff`;
@@ -247,16 +285,19 @@ function atualizarUIComNome(nome, isLogado) {
             </div>
         `;
     } else {
+        // Avatar Visitante (Link para Login)
         container.innerHTML = `
-            <div class="user-profile-widget guest">
-                <div class="user-details">
-                    <span class="user-name">${nome}</span>
-                    <span class="user-role">${role}</span>
+            <a href="${loginLink}" style="text-decoration:none;">
+                <div class="user-profile-widget guest" title="Fazer Login">
+                    <div class="user-details">
+                        <span class="user-name" style="color:#94a3b8;">${nome}</span>
+                        <span class="user-role">Clique p/ Entrar</span>
+                    </div>
+                    <div class="user-avatar-link guest-avatar">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
                 </div>
-                <div class="user-avatar-link guest-avatar">
-                    <i class="fas fa-user-secret"></i>
-                </div>
-            </div>
+            </a>
         `;
     }
     atualizarHUD();
@@ -306,10 +347,11 @@ window.closeLevelModal = function(btn) {
 
 function fazerLogout() {
     auth.signOut().then(() => {
-        window.location.reload();
+        window.location.href = window.location.pathname.includes("/pages/") ? "../index.html" : "index.html";
     });
 }
 
+// Ativa sons no hover
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const interactives = document.querySelectorAll('button, a, .interactive-btn, .card');

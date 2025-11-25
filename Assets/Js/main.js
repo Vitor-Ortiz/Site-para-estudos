@@ -1,21 +1,22 @@
-/* assets/js/main.js - Lógica da Home (Sem Áudio, pois está no Global) */
+/* assets/js/main.js - Home Logic V3 */
 
-// Inicialização de Eventos Específicos da Home
+// Helpers Globais
+function playSound(type) { if (window.playSoundGlobal) window.playSoundGlobal(type); }
+function ganharXP(qtd) { if (typeof adicionarXP === "function") adicionarXP(qtd); }
+
+// Animação Título
 document.addEventListener('DOMContentLoaded', () => {
-    // Animação de digitação no título
     const heroTitle = document.querySelector('.hero h1');
     if (heroTitle && !heroTitle.classList.contains('typed')) {
-        typeWriter(heroTitle, "Domine o Código.");
+        const text = "Domine o Código.";
+        typeWriter(heroTitle, text);
     }
 });
 
-// Animação Typewriter
 function typeWriter(element, text, speed = 100) {
     element.innerHTML = "";
-    element.classList.add('typing-cursor');
-    element.classList.add('typed');
+    element.classList.add('typing-cursor', 'typed');
     element.style.visibility = 'visible';
-    
     let i = 0;
     function type() {
         if (i < text.length) {
@@ -27,174 +28,108 @@ function typeWriter(element, text, speed = 100) {
     type();
 }
 
-// Animação floatUp (CSS injetado via JS)
-const styleSheet = document.createElement("style");
-styleSheet.innerText = `
-@keyframes floatUp {
-    0% { transform: translate(-50%, -50%); opacity: 1; }
-    100% { transform: translate(-50%, -150%); opacity: 0; }
-}`;
-document.head.appendChild(styleSheet);
+// ===== NOVO: FOCO NEURAL (POMODORO) =====
+let timerInterval;
+let timeLeft = 25 * 60; // 25 minutos
+let isTimerRunning = false;
 
-// Wrapper para ganhar XP (agora chama o global direto)
-function ganharXP(qtd) {
-    if (typeof adicionarXP === "function") {
-        adicionarXP(qtd);
-    } else {
-        console.warn("Sistema de XP offline");
-    }
+function startTimer() {
+    if (isTimerRunning) return;
+    isTimerRunning = true;
+    playSound('click');
+    
+    document.getElementById('timer-status').textContent = "EM FOCO";
+    document.getElementById('timer-status').className = "project-status status-active";
+    
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            playSound('success');
+            alert("Sessão de Foco Completa! +100 XP");
+            ganharXP(100);
+            resetTimer();
+        }
+    }, 1000);
 }
 
-// ===== PROJETO: CALCULADORA =====
-let display = document.getElementById('display');
-let operador = '';
-let valor1 = '';
-let valor2 = '';
-let calculadoraBugada = true;
-
-function adicionarNumero(numero) {
-    if(!display) return; 
-    if (operador === '') {
-        valor1 += numero;
-        display.value = valor1;
-    } else {
-        valor2 += numero;
-        display.value = valor1 + operador + valor2;
-    }
-    playSound('click'); // Usa o global
-}
-
-function adicionarOperador(op) {
-    if(!display) return;
-    if (valor1 !== '') {
-        operador = op;
-        display.value = valor1 + operador;
-    }
+function pauseTimer() {
+    clearInterval(timerInterval);
+    isTimerRunning = false;
+    document.getElementById('timer-status').textContent = "PAUSADO";
+    document.getElementById('timer-status').style.borderColor = "#facc15";
+    document.getElementById('timer-status').style.color = "#facc15";
     playSound('click');
 }
 
-function limparDisplay() {
-    if(!display) return;
-    display.value = '';
-    valor1 = '';
-    valor2 = '';
-    operador = '';
+function resetTimer() {
+    clearInterval(timerInterval);
+    isTimerRunning = false;
+    timeLeft = 25 * 60;
+    updateTimerDisplay();
+    document.getElementById('timer-status').textContent = "AGUARDANDO";
+    document.getElementById('timer-status').style.borderColor = "#94a3b8";
+    document.getElementById('timer-status').style.color = "#94a3b8";
     playSound('click');
 }
 
-function calcular() {
-    if(!display) return;
-    if (valor1 !== '' && valor2 !== '' && operador !== '') {
-        let resultado;
-        let num1 = parseFloat(valor1);
-        let num2 = parseFloat(valor2);
-
-        switch (operador) {
-            case '+':
-                if (calculadoraBugada) {
-                    resultado = num1 - num2;
-                    playSound('error');
-                    alert('⚠️ ERRO DE SOMA! A calculadora subtraiu em vez de somar.');
-                } else {
-                    resultado = num1 + num2;
-                }
-                break;
-            case '-': resultado = num1 - num2; break;
-            case '*': resultado = num1 * num2; break;
-            case '/': resultado = num2 !== 0 ? num1 / num2 : 'Erro'; break;
-            default: resultado = 'Inválido';
-        }
-
-        display.value = resultado;
-        valor1 = resultado.toString();
-        valor2 = '';
-        operador = '';
-        
-        if (!calculadoraBugada) ganharXP(5);
-    }
+function updateTimerDisplay() {
+    const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+    const secs = (timeLeft % 60).toString().padStart(2, '0');
+    document.getElementById('timer-display').textContent = `${mins}:${secs}`;
 }
 
-function debugCalculadora() {
-    if (calculadoraBugada) {
-        calculadoraBugada = false;
-        ganharXP(50);
-        
-        const statusEl = document.getElementById('calcStatus');
-        const btn = document.getElementById('btnDebugCalc');
-        
-        if(statusEl) {
-            statusEl.textContent = "SISTEMA SEGURO";
-            statusEl.className = "project-status status-fixed";
-        }
-        if(btn) {
-            btn.innerHTML = "✅ CÓDIGO CORRIGIDO";
-            btn.disabled = true;
-            btn.style.borderColor = "#4ade80";
-            btn.style.color = "#4ade80";
-        }
-        alert("🐛 PATCH APLICADO! Calculadora reparada.");
-    }
-}
-
-// ===== PROJETO: LISTA DE TAREFAS =====
+// ===== MISSÕES (TASKS V2) =====
 function adicionarTarefa() {
-    const inputTarefa = document.getElementById('novaTarefa');
-    if(!inputTarefa) return;
-    const texto = inputTarefa.value.trim();
+    const input = document.getElementById('novaTarefa');
+    const priority = document.getElementById('taskPriority').value;
+    const texto = input.value.trim();
 
-    if (texto !== '') {
-        const lista = document.getElementById('listaTarefas');
-        const li = document.createElement('li');
-        
-        li.style.padding = '10px';
-        li.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
-        li.style.display = 'flex';
-        li.style.justifyContent = 'space-between';
-        li.style.alignItems = 'center';
-        li.style.color = 'var(--text-main)';
-        li.style.animation = 'slideIn 0.3s ease';
+    if (!texto) return;
 
-        const span = document.createElement('span');
-        span.textContent = texto;
-        span.style.flex = '1';
+    const lista = document.getElementById('listaTarefas');
+    const li = document.createElement('li');
+    
+    // Define classe baseada na prioridade
+    li.className = `task-item ${priority}`;
+    
+    li.innerHTML = `
+        <span>${texto}</span>
+        <div class="task-actions">
+            <button class="btn-icon btn-check" onclick="concluirTarefa(this)" title="Concluir"><i class="fas fa-check"></i></button>
+            <button class="btn-icon btn-trash" onclick="removerTarefa(this)" title="Remover"><i class="fas fa-trash"></i></button>
+        </div>
+    `;
+    
+    lista.appendChild(li);
+    input.value = '';
+    ganharXP(5); // XP por criar
+}
 
-        const divBotoes = document.createElement('div');
-        divBotoes.style.display = 'flex';
-        divBotoes.style.gap = '5px';
+window.concluirTarefa = function(btn) {
+    const li = btn.closest('li');
+    const span = li.querySelector('span');
+    if (span.style.textDecoration === 'line-through') return;
+    
+    span.style.textDecoration = 'line-through';
+    span.style.color = 'var(--text-muted)';
+    span.style.opacity = '0.5';
+    
+    // Efeito visual
+    btn.style.display = 'none';
+    li.style.borderColor = '#4ade80';
+    
+    playSound('success');
+    ganharXP(15); // XP por concluir
+}
 
-        const btnConcluir = document.createElement('button');
-        btnConcluir.textContent = '✓';
-        btnConcluir.className = 'interactive-btn';
-        btnConcluir.style.color = '#4ade80';
-        btnConcluir.style.borderColor = '#4ade80';
-        
-        btnConcluir.onclick = function () {
-            if (span.style.textDecoration === 'line-through') return;
-            span.style.textDecoration = 'line-through';
-            span.style.color = 'var(--text-muted)';
-            this.style.opacity = '0.3';
-            this.style.cursor = 'not-allowed';
-            ganharXP(5);
-        };
-
-        const btnRemover = document.createElement('button');
-        btnRemover.textContent = 'X';
-        btnRemover.className = 'interactive-btn';
-        btnRemover.style.color = '#ef4444';
-        btnRemover.style.borderColor = '#ef4444';
-        btnRemover.onclick = function () {
-            playSound('click');
-            li.style.opacity = '0';
-            setTimeout(() => lista.removeChild(li), 300);
-        };
-
-        divBotoes.appendChild(btnConcluir);
-        divBotoes.appendChild(btnRemover);
-        li.appendChild(span);
-        li.appendChild(divBotoes);
-        lista.appendChild(li);
-        
-        inputTarefa.value = '';
-        ganharXP(2);
-    }
+window.removerTarefa = function(btn) {
+    const li = btn.closest('li');
+    playSound('click');
+    li.style.opacity = '0';
+    li.style.transform = 'translateX(20px)';
+    setTimeout(() => li.remove(), 300);
 }

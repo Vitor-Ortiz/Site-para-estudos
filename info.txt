@@ -1,0 +1,2 @@
+git config --global user.name Vitor-Ortiz
+git config --global user.email vitorortizoficial@gmail.com

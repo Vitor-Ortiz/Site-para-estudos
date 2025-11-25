@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevStudy | Matrix</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/game.css">
-    <link rel="stylesheet" href="../assets/css/dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header></header>
@@ -28,7 +29,9 @@
                 <li class="module-item" onclick="carregarAba('js')">
                     <i class="fab fa-js"></i> <span>Módulo JS</span>
                 </li>
+                
                 <div class="sidebar-divider"></div>
+                
                 <li class="module-item" onclick="carregarAba('trophies')">
                     <i class="fas fa-trophy" style="color: #facc15;"></i> <span>Conquistas</span>
                 </li>
@@ -43,6 +46,7 @@
         </aside>
 
         <main class="workspace">
+            
             <section id="aba-html" class="module-content active">
                 <div class="module-banner html-bg">
                     <h2><i class="fab fa-html5"></i> HTML Core</h2>
@@ -69,11 +73,10 @@
                             <button class="icon-btn" onclick="resetEditor('html-editor')" title="Resetar"><i class="fas fa-undo"></i></button>
                         </div>
                         <div class="code-wrapper">
-                            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+                            <div class="line-numbers">1<br>2<br>3<br>4</div>
                             <div class="code-editor" contenteditable="true" id="html-editor" spellcheck="false">
-&lt;!-- Exemplo: Crie sua lista abaixo --&gt;
+&lt;!-- Crie sua lista aqui --&gt;
 &lt;ol&gt;
-  &lt;!-- Adicione tags &lt;li&gt; aqui --&gt;
   
 &lt;/ol&gt;</div>
                         </div>
@@ -85,14 +88,14 @@
                 <div class="challenge-card">
                     <div class="card-top"><span class="badge code-badge">NOVO</span><span class="xp-reward">+60 XP</span></div>
                     <h3>03. Botão de Envio</h3>
-                    <p>Crie um botão do tipo `submit` com o texto "Enviar".</p>
+                    <p>Adicione um botão do tipo `submit` dentro do formulário.</p>
                     <div class="code-environment">
                         <div class="editor-toolbar"><span>form.html</span> <button class="icon-btn" onclick="resetEditor('html-form-editor')"><i class="fas fa-undo"></i></button></div>
                         <div class="code-wrapper">
                             <div class="line-numbers">1<br>2<br>3</div>
                             <div class="code-editor" contenteditable="true" id="html-form-editor" spellcheck="false">
 &lt;form&gt;
-  &lt;!-- Adicione a tag &lt;button&gt; ou &lt;input&gt; aqui --&gt;
+  &lt;!-- Adicione o botão aqui --&gt;
   
 &lt;/form&gt;</div>
                         </div>
@@ -107,48 +110,51 @@
                     <h2><i class="fab fa-css3-alt"></i> CSS Styling</h2>
                     <p>Layouts Modernos e Efeitos Visuais.</p>
                 </div>
+
                 <div class="challenge-card">
                     <div class="card-top"><span class="badge">QUIZ</span><span class="xp-reward">+10 XP</span></div>
                     <h3>01. Propriedade de Cor</h3>
-                    <p>Qual comando altera a cor do texto de um elemento?</p>
+                    <p>Qual comando altera a cor do texto?</p>
                     <div class="quiz-options">
                         <button class="quiz-opt" onclick="checkQuiz(this, false)">A) text-color</button>
                         <button class="quiz-opt" onclick="checkQuiz(this, true, 10)">B) color</button>
                     </div>
                 </div>
+
                 <div class="challenge-card">
                     <div class="card-top"><span class="badge code-badge">FLEXBOX</span><span class="xp-reward">+60 XP</span></div>
                     <h3>02. Centralização Total</h3>
-                    <p>Use Flexbox para centralizar itens nos dois eixos.</p>
+                    <p>Use Flexbox para centralizar itens nos dois eixos (X e Y).</p>
                     <div class="code-environment">
                         <div class="editor-toolbar"><span>style.css</span> <button class="icon-btn" onclick="resetEditor('css-flex-editor')"><i class="fas fa-undo"></i></button></div>
                         <div class="code-wrapper">
                             <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
                             <div class="code-editor" contenteditable="true" id="css-flex-editor" spellcheck="false">
 .box {
-display: flex;
-/* Dica: Use justify-content e align-items */
-
-
+  display: flex;
+  /* Use justify-content e align-items */
+  
+  
 }</div>
                         </div>
                     </div>
                     <button class="deploy-btn" onclick="validarFlexbox()"><i class="fas fa-play"></i> COMPILAR CÓDIGO</button>
                     <div id="feedback-css-flex" class="feedback-area"></div>
                 </div>
+
                 <div class="challenge-card">
                     <div class="card-top"><span class="badge code-badge">GRID</span><span class="xp-reward">+70 XP</span></div>
                     <h3>03. Layout em Grade</h3>
-                    <p>Crie um Grid com 2 colunas de larguras iguais (use `1fr`).</p>
+                    <p>Crie um Grid com 2 colunas de larguras iguais (`1fr`).</p>
                     <div class="code-environment">
                         <div class="editor-toolbar"><span>grid.css</span> <button class="icon-btn" onclick="resetEditor('css-grid-editor')"><i class="fas fa-undo"></i></button></div>
                         <div class="code-wrapper">
                             <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
                             <div class="code-editor" contenteditable="true" id="css-grid-editor" spellcheck="false">
 .container {
-display: grid;
-/* Defina grid-template-columns abaixo */
-
+  display: grid;
+  /* Defina grid-template-columns */
+  
 }</div>
                         </div>
                     </div>
@@ -162,6 +168,7 @@ display: grid;
                     <h2><i class="fab fa-js"></i> JS Logic</h2>
                     <p>Algoritmos e Lógica de Programação.</p>
                 </div>
+
                 <div class="challenge-card">
                     <div class="card-top"><span class="badge code-badge">LÓGICA</span><span class="xp-reward">+70 XP</span></div>
                     <h3>01. Verificador de Idade</h3>
@@ -172,30 +179,34 @@ display: grid;
                             <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
                             <div class="code-editor" contenteditable="true" id="js-if-editor" spellcheck="false">
 function verificar(idade) {
-// Dica: if (idade >= 18) { ... }
-
+  // Dica: if (idade >= 18) { ... }
+  
 }</div>
                         </div>
                     </div>
                     <button class="deploy-btn" onclick="validarJSIf()"><i class="fas fa-play"></i> COMPILAR CÓDIGO</button>
                     <div id="feedback-js-if" class="feedback-area"></div>
                 </div>
+
                 <div class="challenge-card">
                     <div class="card-top"><span class="badge code-badge">LOOPS</span><span class="xp-reward">+80 XP</span></div>
                     <h3>02. Contador Automático</h3>
-                    <p>Crie um loop `for` que conte de 0 até 4 (5 repetições).</p>
+                    <p>Crie um loop `for` que conte de 0 até 4.</p>
                     <div class="code-environment">
                         <div class="editor-toolbar"><span>loop.js</span> <button class="icon-btn" onclick="resetEditor('js-loop-editor')"><i class="fas fa-undo"></i></button></div>
                         <div class="code-wrapper">
                             <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
                             <div class="code-editor" contenteditable="true" id="js-loop-editor" spellcheck="false">
 function contar() {
-for (let i = 0; i < 5; i++) { // console.log(i); } }</div>
-                            </div>
+  for (let i = 0; i < 5; i++) {
+    // console.log(i);
+  }
+}</div>
                         </div>
-                        <button class="deploy-btn" onclick="validarJSLoop()"><i class="fas fa-play"></i> COMPILAR CÓDIGO</button>
-                        <div id="feedback-js-loop" class="feedback-area"></div>
                     </div>
+                    <button class="deploy-btn" onclick="validarJSLoop()"><i class="fas fa-play"></i> COMPILAR CÓDIGO</button>
+                    <div id="feedback-js-loop" class="feedback-area"></div>
+                </div>
             </section>
 
             <section id="aba-trophies" class="module-content">

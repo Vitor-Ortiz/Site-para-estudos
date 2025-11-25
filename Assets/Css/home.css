@@ -1,0 +1,51 @@
+.hero { padding: 6rem 0; text-align: center; position: relative; overflow: hidden; }
+.badge-new { background: rgba(56, 189, 248, 0.1); color: var(--primary-neon); padding: 5px 12px; border-radius: 20px; border: 1px solid var(--primary-neon); font-size: 0.8rem; font-family: var(--font-code); margin-bottom: 1rem; display: inline-block; }
+.hero h1 { font-size: 3.5rem; margin-bottom: 1rem; color: white; min-height: 1.3em; }
+.hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 2rem; }
+.hero-actions { display: flex; justify-content: center; gap: 15px; margin-bottom: 3rem; }
+.typing-cursor::after { content: '|'; animation: blink 1s infinite; color: var(--primary-neon); margin-left: 5px; }
+@keyframes blink { 50% { opacity: 0; } }
+.typewriter-text { visibility: hidden; }
+.tech-stack { font-size: 2.5rem; color: var(--text-muted); display: flex; justify-content: center; gap: 2rem; opacity: 0.5; margin-top: 3rem; }
+.tech-stack i:hover { color: white; opacity: 1; transform: scale(1.1); transition: all 0.3s; }
+
+.stats-banner { background: rgba(15, 23, 42, 0.8); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2rem 0; margin-bottom: 4rem; }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; }
+.stat-item h3 { font-size: 2rem; color: white; margin: 0; }
+
+/* Timeline */
+.roadmap-section { padding: 2rem 0; }
+.section-title { text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem; color: white; font-family: var(--font-code); }
+.section-desc { text-align: center; color: var(--text-muted); margin-bottom: 4rem; }
+.timeline { position: relative; max-width: 800px; margin: 0 auto; }
+.timeline::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: rgba(255,255,255,0.1); transform: translateX(-50%); }
+.timeline-item { position: relative; margin-bottom: 4rem; width: 50%; }
+.timeline-item:nth-child(odd) { left: 0; padding-right: 40px; text-align: right; }
+.timeline-item:nth-child(even) { left: 50%; padding-left: 40px; text-align: left; }
+.timeline-marker { position: absolute; top: 0; width: 50px; height: 50px; border-radius: 50%; background: var(--bg-dark); border: 2px solid var(--primary-neon); color: var(--primary-neon); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 2; }
+.timeline-item:nth-child(odd) .timeline-marker { right: -25px; }
+.timeline-item:nth-child(even) .timeline-marker { left: -25px; }
+.html-marker { border-color: #e34c26; color: #e34c26; box-shadow: 0 0 20px rgba(227, 76, 38, 0.3); }
+.css-marker { border-color: #264de4; color: #264de4; box-shadow: 0 0 20px rgba(38, 77, 228, 0.3); }
+.js-marker { border-color: #f7df1e; color: #f7df1e; box-shadow: 0 0 20px rgba(247, 223, 30, 0.3); }
+.timeline-content { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 2rem; transition: transform 0.3s; }
+.timeline-content:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
+.content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px; }
+.difficulty { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold; }
+.easy { background: rgba(74, 222, 128, 0.1); color: #4ade80; }
+.medium { background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
+.hard { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+.content-actions { display: flex; gap: 10px; margin-top: 1.5rem; justify-content: inherit; }
+
+.features-section { padding: 4rem 0; background: rgba(255,255,255,0.02); }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+.feature-card { text-align: center; padding: 2rem; }
+.icon-box { width: 60px; height: 60px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.5rem; color: var(--accent); }
+
+@media (max-width: 768px) {
+    .timeline::before { left: 20px; }
+    .timeline-item { width: 100%; padding-left: 50px; padding-right: 0; text-align: left; }
+    .timeline-item:nth-child(even) { left: 0; margin-left: 0; }
+    .timeline-item:nth-child(odd) .timeline-marker, .timeline-item:nth-child(even) .timeline-marker { left: -5px; right: auto; }
+    .content-actions { justify-content: flex-start; }
+}

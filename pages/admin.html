@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevStudy | Command Center</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/admin.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header></header>
 
     <div class="container">
-        <div class="hero" style="padding: 2rem 0; text-align: left;">
-            <h1 style="font-size: 2.5rem; color: #ef4444; text-shadow: 0 0 20px rgba(239, 68, 68, 0.4);">COMMAND CENTER_</h1>
-            <p>Painel de Gestão de Operadores e Sistema.</p>
+        <div class="hero" style="padding: 2rem 0; text-align: left; min-height: auto;">
+            <h1 style="font-size: 2.5rem; color: #38bdf8; text-shadow: 0 0 20px rgba(68, 228, 239, 0.4);">COMMAND CENTER_</h1>
+            <p style="margin: 0; color: #94a3b8;">Painel de Gestão de Operadores e Sistema.</p>
         </div>
 
         <div class="admin-grid">
@@ -34,11 +37,11 @@
                 
                 <hr style="border-color: rgba(255,255,255,0.1); margin: 2rem 0;">
                 
-                <h4 style="color: #94a3b8; margin-bottom: 1rem;">Ações Rápidas (Self)</h4>
-                <button class="btn" style="width: 100%; border-color: #ef4444; color: #ef4444; margin-bottom: 10px;" onclick="giveSelfXP()">
+                <h4 style="color: #94a3b8; margin-bottom: 1rem;">God Mode (Self)</h4>
+                <button class="btn btn-outline" style="width: 100%; border-color: #ef4444; color: #ef4444; margin-bottom: 10px;" onclick="giveSelfXP()">
                     <i class="fas fa-plus"></i> Add 1000 XP
                 </button>
-                <button class="btn" style="width: 100%; border-color: #facc15; color: #facc15;" onclick="resetSelf()">
+                <button class="btn btn-outline" style="width: 100%; border-color: #facc15; color: #facc15;" onclick="resetSelf()">
                     <i class="fas fa-undo"></i> Resetar Meu Perfil
                 </button>
             </aside>
@@ -46,8 +49,8 @@
             <main class="data-table-container">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                     <h3 style="color: #fff;"><i class="fas fa-users-cog"></i> Base de Dados</h3>
-                    <button class="btn" style="font-size: 0.8rem; padding: 8px 15px;" onclick="carregarUsuarios()">
-                        <i class="fas fa-sync"></i> Atualizar
+                    <button class="btn btn-sm" onclick="carregarUsuarios()">
+                        <i class="fas fa-sync"></i> Atualizar Lista
                     </button>
                 </div>
                 
@@ -57,12 +60,12 @@
                             <th>Utilizador</th>
                             <th>Nível</th>
                             <th>Cargo / Título</th>
-                            <th>Acesso</th>
+                            <th>Status</th>
                             <th>Comandos</th>
                         </tr>
                     </thead>
                     <tbody id="users-table-body">
-                        <tr><td colspan="5" style="text-align:center; padding: 2rem; color: #64748b;">Buscando dados na rede neural...</td></tr>
+                        <tr><td colspan="5" style="text-align:center; padding: 2rem; color: #64748b;">Acedendo à rede neural...</td></tr>
                     </tbody>
                 </table>
             </main>

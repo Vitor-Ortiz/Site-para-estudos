@@ -1,38 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy | Game</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/game.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>DevStudy | Cyber Typer</title>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/game.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header></header>
 
     <main class="game-wrapper">
         <div class="game-header">
-            <h1><i class="fas fa-microchip"></i> SYSTEM BREACH</h1>
-            <p>Combine os pares para hackear o sistema.</p>
+            <h1><i class="fas fa-keyboard"></i> CYBER TYPER</h1>
+            <p>Digite os comandos antes que o sistema colapse.</p>
+            
             <div class="stats">
-                <div class="stat-box">Tempo: <span id="timer">00:00</span></div>
-                <div class="stat-box">Jogadas: <span id="moves">0</span></div>
+                <div class="stat-box">
+                    <span class="label">SCORE</span>
+                    <span class="value" id="score">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="label">VIDAS</span>
+                    <span class="value lives" id="lives">❤️❤️❤️❤️❤️</span>
+                </div>
             </div>
         </div>
 
-        <div class="memory-grid" id="grid">
+        <div class="game-container" id="game-area">
+            <div class="start-screen" id="start-screen">
+                <i class="fas fa-terminal" style="font-size: 3rem; color: #38bdf8; margin-bottom: 1rem;"></i>
+                <h2>PRONTO PARA O HACK?</h2>
+                <p style="color: #94a3b8; margin-bottom: 20px;">Digite as palavras que caem.</p>
+                <button class="btn btn-primary" onclick="startGame()">INICIAR SISTEMA</button>
             </div>
+        </div>
 
-        <button class="btn-restart" onclick="startGame()">REINICIAR SISTEMA</button>
+        <div class="input-zone">
+            <input type="text" id="word-input" class="cyber-input" placeholder="Aguardando comando..." autocomplete="off" disabled>
+        </div>
     </main>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
-    <script src="../assets/js/header.js"></script>
     <script src="../game-data.js"></script>
+    <script src="../assets/js/header.js"></script>
     <script src="../assets/js/game.js"></script>
 </body>
 </html>
