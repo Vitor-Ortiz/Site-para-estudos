@@ -4,1070 +4,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy - Aprenda HTML, CSS e JavaScript</title>
+    <title>DevStudy | Plataforma de Treino</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
-    <!-- CABEÇALHO -->
     <header>
         <div class="container">
             <div class="header-content">
-                <a href="#" class="logo">Dev<span>Study</span></a>
+                <a href="../index.html" class="logo">&lt;Dev<span>Study</span>/&gt;</a>
+
+                <div class="xp-container">
+                    <span class="xp-label">LVL <span id="userLevel">1</span></span>
+                    <span class="xp-value"><span id="userXP">0</span> XP</span>
+                </div>
+
                 <nav>
                     <ul>
-                        <li><a href="#html">HTML</a></li>
-                        <li><a href="#css">CSS</a></li>
-                        <li><a href="#javascript">JavaScript</a></li>
-                        <li><a href="#projetos">Projetos</a></li>
-                        <li><a href="/Alinhamento/alinhamento.html">Alinhamento</a></li>
+                        <li><a href="../index.html#html">HTML</a></li>
+                        <li><a href="../index.html#css">CSS</a></li>
+                        <li><a href="../index.html#javascript">JS</a></li>
+                        <li><a href="../index.html#projetos">Labs</a></li>
+                        <li><a href="/Revisao/revisao.html" style="color: var(--primary-neon);">Desafios</a></li>
+                        <li><a href="Projetos/memory.html" style="color: #facc15">GAME</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
     </header>
-
-    <!-- SEÇÃO HERO -->
     <section class="hero">
         <div class="container">
-            <h1>Aprenda HTML, CSS e JavaScript do Zero</h1>
-            <p>Domine as tecnologias fundamentais para desenvolvimento web com exemplos práticos, dicas valiosas e
-                exercícios interativos.</p>
-            <a href="#html" class="btn">Começar Agora</a>
-        </div>
-
-    </section>
-    <!-- SEÇÃO DE REVISAO -->
-    <section class="revisao-section">
-        <div class="container">
-            <h2 class="section-title">Pronto para Revisar?</h2>
-            <div class="revisao-content">
-                <p>Teste seus conhecimentos com nossa página de revisão interativa!</p>
-                <a href="Revisao/revisao.html" class="btn revisao-btn">Ir para Revisão</a>
-            </div>
-        </div>
-    </section>
-    <!-- SEÇÃO DE TEORIA DE ALINHAMENTO -->
-    <section class="teoria-section">
-        <div class="container">
-            <h2>Quer Aprender Teoria?</h2>
-            <p>Entenda os conceitos fundamentais de alinhamento CSS</p>
-            <a href="Alinhamento/alinhamento.html" class="btn">Ver Teoria de Alinhamento</a>
+            <h1>Domine o Código.</h1>
+            <p>HTML, CSS e JavaScript não são apenas teoria. São ferramentas de construção. Ganhe XP enquanto pratica e
+                resolve bugs reais.</p>
+            <a href="#projetos" class="btn">COMEÇAR MISSÃO</a>
         </div>
     </section>
 
-    <!-- SEÇÃO HTML -->
     <section id="html">
         <div class="container">
-            <h2 class="section-title">HTML - Estrutura da Web</h2>
-
+            <h2 class="section-title">Módulo: Estrutura (HTML)</h2>
             <div class="card-grid">
                 <div class="card">
-                    <div class="card-header">O que é HTML?</div>
+                    <div class="card-header">index.html</div>
                     <div class="card-body">
-                        <h3>Linguagem de Marcação de Hipertexto</h3>
-                        <p>HTML (HyperText Markup Language) é a linguagem fundamental para criar páginas web. Ela define
-                            a estrutura e o significado do conteúdo.</p>
-
-                        <div class="example-container">
-                            <h4>Exemplo Básico:</h4>
-                            <div class="code-example">
-                                <span class="code-comment">&lt;!-- Estrutura básica de um documento HTML
-                                    --&gt;</span><br>
-                                <span class="code-tag">&lt;!DOCTYPE html&gt;</span><br>
-                                <span class="code-tag">&lt;html</span> <span class="code-attr">lang=</span><span
-                                    class="code-value">"pt-br"</span><span class="code-tag">&gt;</span><br>
-                                <span class="code-tag">&lt;head&gt;</span><br>
-                                &nbsp;&nbsp;<span class="code-tag">&lt;meta</span> <span
-                                    class="code-attr">charset=</span><span class="code-value">"UTF-8"</span><span
-                                    class="code-tag">&gt;</span><br>
-                                &nbsp;&nbsp;<span class="code-tag">&lt;title&gt;</span>Título da Página<span
-                                    class="code-tag">&lt;/title&gt;</span><br>
-                                <span class="code-tag">&lt;/head&gt;</span><br>
-                                <span class="code-tag">&lt;body&gt;</span><br>
-                                &nbsp;&nbsp;<span class="code-comment">&lt;!-- Conteúdo visível da página
-                                    --&gt;</span><br>
-                                &nbsp;&nbsp;<span class="code-tag">&lt;h1&gt;</span>Meu Primeiro Título<span
-                                    class="code-tag">&lt;/h1&gt;</span><br>
-                                &nbsp;&nbsp;<span class="code-tag">&lt;p&gt;</span>Meu primeiro parágrafo.<span
-                                    class="code-tag">&lt;/p&gt;</span><br>
-                                <span class="code-tag">&lt;/body&gt;</span><br>
-                                <span class="code-tag">&lt;/html&gt;</span>
-                            </div>
-
-                            <div class="demo-area">
-                                <h1>Meu Primeiro Título</h1>
-                                <p>Meu primeiro parágrafo.</p>
-                            </div>
+                        <h3>O Esqueleto</h3>
+                        <p>Cada site começa aqui. A estrutura semântica define como os robôs e humanos leem o teu
+                            conteúdo.</p>
+                        <div class="code-example">
+                            <span class="code-tag">&lt;h1&gt;</span>Olá Mundo<span
+                                class="code-tag">&lt;/h1&gt;</span><br>
+                            <span class="code-tag">&lt;button&gt;</span>Clique-me<span
+                                class="code-tag">&lt;/button&gt;</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="card">
-                    <div class="card-header">Elementos HTML</div>
+                    <div class="card-header">input.js</div>
                     <div class="card-body">
-                        <h3>Principais Tags HTML</h3>
-                        <p>HTML utiliza "tags" para estruturar o conteúdo. Cada tag tem uma função específica.</p>
-
-                        <div class="example-container">
-                            <h4>Tags Comuns:</h4>
-                            <div class="code-example">
-                                <span class="code-comment">&lt;!-- Títulos --&gt;</span><br>
-                                <span class="code-tag">&lt;h1&gt;</span>Título Principal<span
-                                    class="code-tag">&lt;/h1&gt;</span><br>
-                                <span class="code-tag">&lt;h2&gt;</span>Subtítulo<span
-                                    class="code-tag">&lt;/h2&gt;</span><br>
-                                <span class="code-comment">&lt;!-- Parágrafo --&gt;</span><br>
-                                <span class="code-tag">&lt;p&gt;</span>Este é um parágrafo.<span
-                                    class="code-tag">&lt;/p&gt;</span><br>
-                                <span class="code-comment">&lt;!-- Link --&gt;</span><br>
-                                <span class="code-tag">&lt;a</span> <span class="code-attr">href=</span><span
-                                    class="code-value">"https://exemplo.com"</span><span
-                                    class="code-tag">&gt;</span>Link para exemplo<span
-                                    class="code-tag">&lt;/a&gt;</span><br>
-                                <span class="code-comment">&lt;!-- Imagem --&gt;</span><br>
-                                <span class="code-tag">&lt;img</span> <span class="code-attr">src=</span><span
-                                    class="code-value">"imagem.jpg"</span> <span class="code-attr">alt=</span><span
-                                    class="code-value">"Descrição"</span><span class="code-tag">&gt;</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">Formulários HTML</div>
-                    <div class="card-body">
-                        <h3>Coletando Dados do Usuário</h3>
-                        <p>Formulários permitem que os usuários enviem dados para o servidor.</p>
-
-                        <div class="example-container">
-                            <h4>Exemplo de Formulário:</h4>
-                            <div class="code-example">
-                                <span class="code-tag">&lt;form</span> <span class="code-attr">action=</span><span
-                                    class="code-value">"/enviar"</span> <span class="code-attr">method=</span><span
-                                    class="code-value">"post"</span><span class="code-tag">&gt;</span><br>
-                                &nbsp;&nbsp;<span class="code-tag">&lt;label</span> <span
-                                    class="code-attr">for=</span><span class="code-value">"nome"</span><span
-                                    class="code-tag">&gt;</span>Nome:<span class="code-tag">&lt;/label&gt;</span><br>
-                                &nbsp;&nbsp;<span class="code-tag">&lt;input</span> <span
-                                    class="code-attr">type=</span><span class="code-value">"text"</span> <span
-                                    class="code-attr">id=</span><span class="code-value">"nome"</span> <span
-                                    class="code-attr">name=</span><span class="code-value">"nome"</span><span
-                                    class="code-tag">&gt;</span><br><br>
-
-                                &nbsp;&nbsp;<span class="code-tag">&lt;label</span> <span
-                                    class="code-attr">for=</span><span class="code-value">"email"</span><span
-                                    class="code-tag">&gt;</span>Email:<span class="code-tag">&lt;/label&gt;</span><br>
-                                &nbsp;&nbsp;<span class="code-tag">&lt;input</span> <span
-                                    class="code-attr">type=</span><span class="code-value">"email"</span> <span
-                                    class="code-attr">id=</span><span class="code-value">"email"</span> <span
-                                    class="code-attr">name=</span><span class="code-value">"email"</span><span
-                                    class="code-tag">&gt;</span><br><br>
-
-                                &nbsp;&nbsp;<span class="code-tag">&lt;input</span> <span
-                                    class="code-attr">type=</span><span class="code-value">"submit"</span> <span
-                                    class="code-attr">value=</span><span class="code-value">"Enviar"</span><span
-                                    class="code-tag">&gt;</span><br>
-                                <span class="code-tag">&lt;/form&gt;</span>
-                            </div>
-
-                            <div class="demo-area">
-                                <form id="exemploForm">
-                                    <label for="nome">Nome:</label><br>
-                                    <input type="text" id="nome" name="nome"><br><br>
-
-                                    <label for="email">Email:</label><br>
-                                    <input type="email" id="email" name="email"><br><br>
-
-                                    <input type="submit" value="Enviar" class="interactive-btn">
-                                </form>
-                            </div>
-                        </div>
+                        <h3>Interação Real</h3>
+                        <p>Teste este formulário. Ganhe <strong>+10 XP</strong> ao enviar dados.</p>
+                        <br>
+                        <form id="xpForm" onsubmit="return false;">
+                            <input type="text" placeholder="Digite seu nome de dev..."
+                                style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 4px;">
+                            <br><br>
+                            <button class="interactive-btn"
+                                onclick="ganharXP(10); alert('Dados enviados! +10 XP')">Enviar Dados</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SEÇÃO CSS -->
     <section id="css">
         <div class="container">
-            <h2 class="section-title">CSS - Estilização da Web</h2>
-
+            <h2 class="section-title">Módulo: Estilo (CSS)</h2>
             <div class="card-grid">
                 <div class="card">
-                    <div class="card-header">O que é CSS?</div>
+                    <div class="card-header">style.css</div>
                     <div class="card-body">
-                        <h3>Folhas de Estilo em Cascata</h3>
-                        <p>CSS (Cascading Style Sheets) é usado para estilizar e layout páginas web - controlando cores,
-                            fontes, espaçamento e posicionamento.</p>
-
-                        <div class="example-container">
-                            <h4>Sintaxe Básica:</h4>
-                            <div class="code-example">
-                                <span class="code-comment">/* Seletor { propriedade: valor; } */</span><br>
-                                <span class="code-tag">body</span> {<br>
-                                &nbsp;&nbsp;<span class="code-attr">background-color</span>: <span
-                                    class="code-value">#f0f0f0</span>;<br>
-                                &nbsp;&nbsp;<span class="code-attr">font-family</span>: <span class="code-value">Arial,
-                                    sans-serif</span>;<br>
-                                &nbsp;&nbsp;<span class="code-attr">margin</span>: <span
-                                    class="code-value">0</span>;<br>
-                                }<br><br>
-
-                                <span class="code-tag">h1</span> {<br>
-                                &nbsp;&nbsp;<span class="code-attr">color</span>: <span
-                                    class="code-value">blue</span>;<br>
-                                &nbsp;&nbsp;<span class="code-attr">text-align</span>: <span
-                                    class="code-value">center</span>;<br>
-                                }
-                            </div>
+                        <h3>Flexbox & Layout</h3>
+                        <p>Controle o espaço. Use o Flexbox para alinhar elementos com uma única linha de código.</p>
+                        <div class="code-example">
+                            <span class="code-tag">.box</span> { <br>
+                            &nbsp;&nbsp;<span class="code-attr">display</span>: <span
+                                class="code-value">flex</span>;<br>
+                            &nbsp;&nbsp;<span class="code-attr">gap</span>: <span class="code-value">20px</span>;<br>
+                            }
                         </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">Seletores CSS</div>
-                    <div class="card-body">
-                        <h3>Como Aplicar Estilos</h3>
-                        <p>Seletores determinam quais elementos HTML receberão os estilos definidos.</p>
-
-                        <div class="example-container">
-                            <h4>Tipos de Seletores:</h4>
-                            <div class="code-example">
-                                <span class="code-comment">/* Seletor de elemento */</span><br>
-                                <span class="code-tag">p</span> { <span class="code-attr">color</span>: <span
-                                    class="code-value">red</span>; }<br><br>
-
-                                <span class="code-comment">/* Seletor de classe */</span><br>
-                                <span class="code-tag">.destaque</span> { <span
-                                    class="code-attr">background-color</span>: <span class="code-value">yellow</span>;
-                                }<br><br>
-
-                                <span class="code-comment">/* Seletor de ID */</span><br>
-                                <span class="code-tag">#cabecalho</span> { <span class="code-attr">font-size</span>:
-                                <span class="code-value">24px</span>; }<br><br>
-
-                                <span class="code-comment">/* Seletor de atributo */</span><br>
-                                <span class="code-tag">input[type="text"]</span> { <span
-                                    class="code-attr">border</span>: <span class="code-value">1px solid #ccc</span>; }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">Flexbox e Grid</div>
-                    <div class="card-body">
-                        <h3>Layouts Modernos</h3>
-                        <p>Flexbox e CSS Grid são sistemas de layout que facilitam a criação de designs responsivos.</p>
-
-                        <div class="example-container">
-                            <h4>Exemplo Flexbox:</h4>
-                            <div class="code-example">
-                                <span class="code-tag">.container</span> {<br>
-                                &nbsp;&nbsp;<span class="code-attr">display</span>: <span
-                                    class="code-value">flex</span>;<br>
-                                &nbsp;&nbsp;<span class="code-attr">justify-content</span>: <span
-                                    class="code-value">space-between</span>;<br>
-                                &nbsp;&nbsp;<span class="code-attr">align-items</span>: <span
-                                    class="code-value">center</span>;<br>
-                                }<br><br>
-
-                                <span class="code-tag">.item</span> {<br>
-                                &nbsp;&nbsp;<span class="code-attr">flex</span>: <span class="code-value">1</span>;<br>
-                                &nbsp;&nbsp;<span class="code-attr">margin</span>: <span
-                                    class="code-value">10px</span>;<br>
-                                }
-                            </div>
-
-                            <div class="demo-area">
-                                <div
-                                    style="display: flex; justify-content: space-between; background: #eee; padding: 10px;">
-                                    <div
-                                        style="flex: 1; background: var(--secondary-color); color: white; padding: 10px; margin: 5px;">
-                                        Item 1</div>
-                                    <div
-                                        style="flex: 1; background: var(--secondary-color); color: white; padding: 10px; margin: 5px;">
-                                        Item 2</div>
-                                    <div
-                                        style="flex: 1; background: var(--secondary-color); color: white; padding: 10px; margin: 5px;">
-                                        Item 3</div>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="Alinhamento/alinhamento.html" class="btn"
+                            style="font-size: 0.8rem; margin-top: 10px;">Ver Teoria Avançada</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- NOVA SEÇÃO QUIZ -->
-    <section id="quiz" class="quiz-section">
-        <div class="container">
-            <h2 class="section-title">Teste Seu Conhecimento</h2>
-            <div class="quiz-container">
-                <div class="quiz-header">
-                    <h3>Quiz de HTML, CSS e JavaScript</h3>
-                    <p>Responda às perguntas para testar seu conhecimento!</p>
-                </div>
-
-                <div class="quiz-progress">
-                    <div class="quiz-progress-bar" id="quizProgress"></div>
-                </div>
-
-                <div class="quiz-content" id="quizContent">
-                    <div class="quiz-question" id="quizQuestion"></div>
-                    <div class="quiz-options" id="quizOptions"></div>
-                    <div class="quiz-navigation">
-                        <button class="quiz-btn" id="prevBtn" disabled>Anterior</button>
-                        <button class="quiz-btn" id="nextBtn">Próxima</button>
-                    </div>
-                </div>
-
-                <div class="quiz-results" id="quizResults">
-                    <h3>Quiz Concluído!</h3>
-                    <div class="quiz-score" id="quizScore"></div>
-                    <div class="quiz-message" id="quizMessage"></div>
-                    <button class="quiz-btn restart-btn" id="restartBtn">Refazer Quiz</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEÇÃO JAVASCRIPT -->
-    <section id="javascript">
-        <div class="container">
-            <h2 class="section-title">JavaScript - Interatividade da Web</h2>
-
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-header">O que é JavaScript?</div>
-                    <div class="card-body">
-                        <h3>Linguagem de Programação para a Web</h3>
-                        <p>JavaScript permite adicionar interatividade, animações e comportamentos dinâmicos às páginas
-                            web.</p>
-
-                        <div class="example-container">
-                            <h4>Primeiro Código JavaScript:</h4>
-                            <div class="code-example">
-                                <span class="code-comment">// Exibe um alerta no navegador</span><br>
-                                <span class="code-tag">alert</span>(<span class="code-value">'Olá,
-                                    Mundo!'</span>);<br><br>
-
-                                <span class="code-comment">// Escreve no console (F12 para ver)</span><br>
-                                <span class="code-tag">console.log</span>(<span class="code-value">'Mensagem no
-                                    console'</span>);<br><br>
-
-                                <span class="code-comment">// Altera o conteúdo de um elemento HTML</span><br>
-                                <span class="code-tag">document.getElementById</span>(<span
-                                    class="code-value">'meuElemento'</span>).innerHTML = <span class="code-value">'Novo
-                                    conteúdo'</span>;
-                            </div>
-
-                            <button class="interactive-btn" onclick="alert('Olá, Mundo!')">Testar Alerta</button>
-                            <button class="interactive-btn"
-                                onclick="console.log('Mensagem no console - pressione F12 para ver')">Testar
-                                Console</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">Variáveis e Funções</div>
-                    <div class="card-body">
-                        <h3>Conceitos Fundamentais</h3>
-                        <p>Variáveis armazenam dados e funções executam ações específicas.</p>
-
-                        <div class="example-container">
-                            <h4>Declarando Variáveis e Funções:</h4>
-                            <div class="code-example">
-                                <span class="code-comment">// Declarando variáveis</span><br>
-                                <span class="code-tag">let</span> nome = <span class="code-value">'João'</span>; <span
-                                    class="code-comment">// Variável que pode ser reatribuída</span><br>
-                                <span class="code-tag">const</span> idade = <span class="code-value">25</span>; <span
-                                    class="code-comment">// Constante (não pode ser reatribuída)</span><br><br>
-
-                                <span class="code-comment">// Declarando uma função</span><br>
-                                <span class="code-tag">function</span> <span class="code-attr">cumprimentar</span>()
-                                {<br>
-                                &nbsp;&nbsp;<span class="code-tag">return</span> <span class="code-value">'Olá, '</span>
-                                + nome + <span class="code-value">'! Você tem '</span> + idade + <span
-                                    class="code-value">' anos.'</span>;<br>
-                                }<br><br>
-
-                                <span class="code-comment">// Chamando a função</span><br>
-                                <span class="code-tag">console.log</span>(cumprimentar());
-                            </div>
-
-                            <button class="interactive-btn" onclick="exemploVariaveis()">Testar Exemplo</button>
-                            <p id="resultadoVariaveis" style="margin-top: 10px;"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">Manipulação do DOM</div>
-                    <div class="card-body">
-                        <h3>Interagindo com a Página</h3>
-                        <p>O DOM (Document Object Model) permite que o JavaScript altere o conteúdo e estilo dos
-                            elementos HTML.</p>
-
-                        <div class="example-container">
-                            <h4>Alterando Elementos:</h4>
-                            <div class="code-example">
-                                <span class="code-comment">// Alterar texto de um elemento</span><br>
-                                <span class="code-tag">document.getElementById</span>(<span
-                                    class="code-value">'meuTexto'</span>).textContent = <span class="code-value">'Novo
-                                    texto'</span>;<br><br>
-
-                                <span class="code-comment">// Alterar estilo de um elemento</span><br>
-                                <span class="code-tag">document.getElementById</span>(<span
-                                    class="code-value">'meuElemento'</span>).style.color = <span
-                                    class="code-value">'red'</span>;<br><br>
-
-                                <span class="code-comment">// Adicionar/remover classes</span><br>
-                                <span class="code-tag">document.getElementById</span>(<span
-                                    class="code-value">'meuElemento'</span>).classList.add(<span
-                                    class="code-value">'destaque'</span>);<br>
-                                <span class="code-tag">document.getElementById</span>(<span
-                                    class="code-value">'meuElemento'</span>).classList.remove(<span
-                                    class="code-value">'destaque'</span>);
-                            </div>
-
-                            <button class="interactive-btn" onclick="alterarTexto()">Alterar Texto</button>
-                            <button class="interactive-btn" onclick="alterarCor()">Alterar Cor</button>
-                            <button class="interactive-btn" onclick="adicionarClasse()">Adicionar Classe</button>
-                            <button class="interactive-btn" onclick="removerClasse()">Remover Classe</button>
-
-                            <div id="elementoDemo" style="margin-top: 15px; padding: 10px; border: 1px solid #ccc;">
-                                Este é um elemento de demonstração.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEÇÃO DE PROJETOS -->
     <section id="projetos">
         <div class="container">
-            <h2 class="section-title">Projetos Práticos</h2>
+            <h2 class="section-title">Laboratórios Práticos</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Conserte os bugs para ganhar
+                XP extra.</p>
 
             <div class="card-grid">
                 <div class="card">
-                    <div class="card-header">Projeto 1: Calculadora</div>
+                    <div class="card-header">
+                        calc.js
+                        <span id="calcStatus" class="project-status status-bug" style="margin-left: auto;">BUG
+                            ENCONTRADO</span>
+                    </div>
                     <div class="card-body">
-                        <h3>Calculadora Simples</h3>
-                        <p>Uma calculadora básica que realiza operações matemáticas simples.</p>
+                        <h3>Calculadora V1.0</h3>
+                        <p>Atenção: O operador de soma (+) parece estar a subtrair! Use o modo Debug para corrigir.</p>
 
-                        <div class="demo-area">
-                            <div style="background: #f0f0f0; padding: 15px; border-radius: 5px;">
-                                <input type="text" id="display" readonly
-                                    style="width: 100%; padding: 10px; margin-bottom: 10px; font-size: 1.2rem;">
-                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
-                                    <button class="interactive-btn" onclick="adicionarNumero('7')">7</button>
-                                    <button class="interactive-btn" onclick="adicionarNumero('8')">8</button>
-                                    <button class="interactive-btn" onclick="adicionarNumero('9')">9</button>
-                                    <button class="interactive-btn" onclick="adicionarOperador('/')">/</button>
-                                    <button class="interactive-btn" onclick="adicionarNumero('4')">4</button>
-                                    <button class="interactive-btn" onclick="adicionarNumero('5')">5</button>
-                                    <button class="interactive-btn" onclick="adicionarNumero('6')">6</button>
-                                    <button class="interactive-btn" onclick="adicionarOperador('*')">*</button>
-                                    <button class="interactive-btn" onclick="adicionarNumero('1')">1</button>
-                                    <button class="interactive-btn" onclick="adicionarNumero('2')">2</button>
-                                    <button class="interactive-btn" onclick="adicionarNumero('3')">3</button>
-                                    <button class="interactive-btn" onclick="adicionarOperador('-')">-</button>
-                                    <button class="interactive-btn" onclick="adicionarNumero('0')">0</button>
-                                    <button class="interactive-btn" onclick="limparDisplay()">C</button>
-                                    <button class="interactive-btn" onclick="calcular()">=</button>
-                                    <button class="interactive-btn" onclick="adicionarOperador('+')">+</button>
-                                </div>
+                        <div style="background: #1e293b; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <input type="text" id="display" readonly
+                                style="width: 100%; padding: 10px; margin-bottom: 10px; background: #0f172a; border: none; color: white; text-align: right; font-family: 'Fira Code'; font-size: 1.2rem;">
+
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
+                                <button class="interactive-btn" onclick="adicionarNumero('7')">7</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('8')">8</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('9')">9</button>
+                                <button class="interactive-btn" onclick="adicionarOperador('/')">/</button>
+
+                                <button class="interactive-btn" onclick="adicionarNumero('4')">4</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('5')">5</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('6')">6</button>
+                                <button class="interactive-btn" onclick="adicionarOperador('*')">*</button>
+
+                                <button class="interactive-btn" onclick="adicionarNumero('1')">1</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('2')">2</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('3')">3</button>
+                                <button class="interactive-btn" onclick="adicionarOperador('-')">-</button>
+
+                                <button class="interactive-btn" onclick="limparDisplay()">C</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('0')">0</button>
+                                <button class="interactive-btn" onclick="calcular()">=</button>
+                                <button class="interactive-btn" onclick="adicionarOperador('+')">+</button>
                             </div>
                         </div>
+
+                        <button id="btnDebugCalc" class="btn"
+                            style="width: 100%; margin-top: 15px; border-color: var(--secondary-neon); color: var(--secondary-neon);"
+                            onclick="debugCalculadora()">
+                            <span class="icon">🐞</span> RODAR DEBUG (+50 XP)
+                        </button>
                     </div>
                 </div>
 
                 <div class="card">
-                    <div class="card-header">Projeto 2: Lista de Tarefas</div>
+                    <div class="card-header">todo.js</div>
                     <div class="card-body">
-                        <h3>Gerenciador de Tarefas</h3>
-                        <p>Um aplicativo para adicionar, marcar como concluído e remover tarefas.</p>
+                        <h3>Task Manager</h3>
+                        <p>Organize o seu fluxo de trabalho. Adicionar tarefas gera XP.</p>
 
-                        <div class="demo-area">
-                            <div style="margin-bottom: 15px;">
-                                <input type="text" id="novaTarefa" placeholder="Digite uma nova tarefa"
-                                    style="width: 70%; padding: 8px;">
-                                <button class="interactive-btn" onclick="adicionarTarefa()">Adicionar</button>
+                        <div style="margin-top: 15px;">
+                            <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                                <input type="text" id="novaTarefa" placeholder="Nova tarefa..."
+                                    style="flex: 1; padding: 8px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 4px;">
+                                <button class="interactive-btn" onclick="adicionarTarefa()">Add</button>
                             </div>
-                            <ul id="listaTarefas" style="list-style-type: none; padding: 0;">
-                                <!-- As tarefas serão adicionadas aqui via JavaScript -->
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">Projeto 3: Contador</div>
-                    <div class="card-body">
-                        <h3>Contador Interativo</h3>
-                        <p>Um contador simples com botões para incrementar, decrementar e resetar.</p>
-
-                        <div class="demo-area" style="text-align: center;">
-                            <h2 id="valorContador" style="font-size: 3rem; margin: 1rem 0;">0</h2>
-                            <button class="interactive-btn" onclick="incrementar()">+</button>
-                            <button class="interactive-btn" onclick="decrementar()">-</button>
-                            <button class="interactive-btn" onclick="resetar()">Resetar</button>
+                            <ul id="listaTarefas" style="list-style: none;"></ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- NOVA SEÇÃO: BANCO DE COMANDOS -->
-    <section id="comandos" class="commands-section">
-        <div class="commands-container">
-            <h2 class="section-title" style="color: white;">Banco de Comandos & Referências</h2>
 
-            <div class="commands-stats">
-                <p>Explore nossa biblioteca completa de comandos, tags e funcionalidades</p>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <span class="stat-number" id="htmlCount">0</span>
-                        <span class="stat-label">Tags HTML</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="cssCount">0</span>
-                        <span class="stat-label">Propriedades CSS</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="jsCount">0</span>
-                        <span class="stat-label">Comandos JS</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="totalCount">0</span>
-                        <span class="stat-label">Total</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="search-box">
-                <input type="text" class="search-input" id="commandSearch"
-                    placeholder="Pesquisar comandos, tags ou funcionalidades...">
-            </div>
-
-            <div class="commands-tabs">
-                <button class="command-tab active" data-tab="html">HTML</button>
-                <button class="command-tab" data-tab="css">CSS</button>
-                <button class="command-tab" data-tab="javascript">JavaScript</button>
-                <button class="command-tab" data-tab="apis">APIs Web</button>
-                <button class="command-tab" data-tab="frameworks">Frameworks</button>
-                <button class="command-tab" data-tab="responsivo">Design Responsivo</button>
-            </div>
-
-            <!-- CONTEÚDO HTML -->
-            <div class="commands-content active" id="html-content">
-                <div class="command-category">
-                    <h3 class="category-title">Estrutura Básica</h3>
-                    <div class="command-grid">
-                        <div class="command-card">
-                            <div class="command-name">&lt;!DOCTYPE html&gt;</div>
-                            <div class="command-description">Declara o tipo de documento e versão do HTML.</div>
-                            <div class="command-syntax">&lt;!DOCTYPE html&gt;</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> Primeira linha de qualquer documento HTML5.
-                            </div>
-                            <button class="copy-btn" data-code="&lt;!DOCTYPE html&gt;">Copiar</button>
-                            <div class="command-tags">
-                                <span class="command-tag">Declaração</span>
-                                <span class="command-tag">Obrigatório</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">&lt;html&gt;</div>
-                            <div class="command-description">Elemento raiz que contém todo o conteúdo HTML.</div>
-                            <div class="command-syntax">&lt;html lang="pt-br"&gt;...&lt;/html&gt;</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> Envolve todo o conteúdo da página.
-                            </div>
-                            <button class="copy-btn"
-                                data-code="&lt;html lang=&quot;pt-br&quot;&gt;&#10;  ...&#10;&lt;/html&gt;">Copiar</button>
-                            <div class="command-tags">
-                                <span class="command-tag">Raiz</span>
-                                <span class="command-tag">Estrutura</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">&lt;head&gt;</div>
-                            <div class="command-description">Contém metadados, links para CSS, título da página, etc.
-                            </div>
-                            <div class="command-syntax">&lt;head&gt;...&lt;/head&gt;</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> Inclui título, charset, viewport e links.
-                            </div>
-                            <button class="copy-btn"
-                                data-code="&lt;head&gt;&#10;  &lt;meta charset=&quot;UTF-8&quot;&gt;&#10;  &lt;title&gt;Título da Página&lt;/title&gt;&#10;&lt;/head&gt;">Copiar</button>
-                            <div class="command-tags">
-                                <span class="command-tag">Metadados</span>
-                                <span class="command-tag">Cabeçalho</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="command-category">
-                    <h3 class="category-title">Elementos de Texto</h3>
-                    <div class="command-grid">
-                        <div class="command-card">
-                            <div class="command-name">&lt;h1&gt; a &lt;h6&gt;</div>
-                            <div class="command-description">Cabeçalhos ou títulos, onde h1 é o mais importante.</div>
-                            <div class="command-syntax">&lt;h1&gt;Título&lt;/h1&gt;</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> &lt;h1&gt;Título Principal&lt;/h1&gt;
-                            </div>
-                            <button class="copy-btn" data-code="&lt;h1&gt;Título Principal&lt;/h1&gt;">Copiar</button>
-                            <div class="command-tags">
-                                <span class="command-tag">Título</span>
-                                <span class="command-tag">Hierarquia</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">&lt;p&gt;</div>
-                            <div class="command-description">Define um parágrafo de texto.</div>
-                            <div class="command-syntax">&lt;p&gt;Texto do parágrafo&lt;/p&gt;</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> &lt;p&gt;Este é um parágrafo de exemplo.&lt;/p&gt;
-                            </div>
-                            <button class="copy-btn"
-                                data-code="&lt;p&gt;Este é um parágrafo de exemplo.&lt;/p&gt;">Copiar</button>
-                            <div class="command-tags">
-                                <span class="command-tag">Texto</span>
-                                <span class="command-tag">Parágrafo</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">&lt;span&gt;</div>
-                            <div class="command-description">Container inline para estilizar parte de um texto.</div>
-                            <div class="command-syntax">&lt;span class="destaque"&gt;texto&lt;/span&gt;</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> &lt;p&gt;Texto com &lt;span
-                                style="color:red;"&gt;destaque&lt;/span&gt;.&lt;/p&gt;
-                            </div>
-                            <button class="copy-btn"
-                                data-code="&lt;span style=&quot;color:red;&quot;&gt;destaque&lt;/span&gt;">Copiar</button>
-                            <div class="command-tags">
-                                <span class="command-tag">Inline</span>
-                                <span class="command-tag">Estilo</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="command-category">
-                    <h3 class="category-title">Formulários</h3>
-                    <div class="command-grid">
-                        <div class="command-card">
-                            <div class="command-name">&lt;form&gt;</div>
-                            <div class="command-description">Container para elementos de entrada de dados.</div>
-                            <div class="command-syntax">&lt;form action="/enviar" method="post"&gt;...&lt;/form&gt;
-                            </div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> Formulário de login com campos de entrada.
-                            </div>
-                            <button class="copy-btn"
-                                data-code="&lt;form action=&quot;/enviar&quot; method=&quot;post&quot;&gt;&#10;  &lt;input type=&quot;text&quot; name=&quot;usuario&quot;&gt;&#10;  &lt;input type=&quot;submit&quot; value=&quot;Enviar&quot;&gt;&#10;&lt;/form&gt;">Copiar</button>
-                            <div class="command-tags">
-                                <span class="command-tag">Formulário</span>
-                                <span class="command-tag">Dados</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">&lt;input&gt;</div>
-                            <div class="command-description">Campo de entrada de dados com vários tipos.</div>
-                            <div class="command-syntax">&lt;input type="text" name="campo" placeholder="Texto"&gt;</div>
-                            <div class="command-example">
-                                <strong>Tipos:</strong> text, email, password, number, date, checkbox, radio, etc.
-                            </div>
-                            <button class="copy-btn"
-                                data-code="&lt;input type=&quot;text&quot; name=&quot;nome&quot; placeholder=&quot;Seu nome&quot;&gt;">Copiar</button>
-                            <div class="command-tags">
-                                <span class="command-tag">Entrada</span>
-                                <span class="command-tag">Formulário</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">&lt;textarea&gt;</div>
-                            <div class="command-description">Campo de texto multilinha.</div>
-                            <div class="command-syntax">&lt;textarea rows="4" cols="50"&gt;Texto padrão&lt;/textarea&gt;
-                            </div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> Campo para comentários ou descrições longas.
-                            </div>
-                            <button class="copy-btn"
-                                data-code="&lt;textarea rows=&quot;4&quot; cols=&quot;50&quot; placeholder=&quot;Digite seu texto aqui&quot;&gt;&lt;/textarea&gt;">Copiar</button>
-                            <div class="command-tags">
-                                <span class="command-tag">Texto</span>
-                                <span class="command-tag">Multilinha</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CONTEÚDO CSS -->
-            <div class="commands-content" id="css-content">
-                <div class="command-category">
-                    <h3 class="category-title">Layout e Posicionamento</h3>
-                    <div class="command-grid">
-                        <div class="command-card">
-                            <div class="command-name">display</div>
-                            <div class="command-description">Define como um elemento é exibido na página.</div>
-                            <div class="command-syntax">display: block | inline | inline-block | flex | grid | none;
-                            </div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> .container { display: flex; }
-                            </div>
-                            <button class="copy-btn" data-code="display: flex;">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Controla o comportamento de layout do elemento.
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">Layout</span>
-                                <span class="command-tag">Fundamental</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">position</div>
-                            <div class="command-description">Define o método de posicionamento de um elemento.</div>
-                            <div class="command-syntax">position: static | relative | absolute | fixed | sticky;</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> .menu { position: fixed; top: 0; }
-                            </div>
-                            <button class="copy-btn"
-                                data-code="position: fixed;&#10;top: 0;&#10;left: 0;">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Para elementos que precisam de posicionamento específico.
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">Posicionamento</span>
-                                <span class="command-tag">Layout</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">flexbox</div>
-                            <div class="command-description">Sistema de layout unidimensional para organizar itens.
-                            </div>
-                            <div class="command-syntax">display: flex; flex-direction: row; justify-content: center;
-                            </div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> .container { display: flex; justify-content: space-between; }
-                            </div>
-                            <button class="copy-btn"
-                                data-code="display: flex;&#10;justify-content: space-between;&#10;align-items: center;">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Para layouts responsivos e alinhamento fácil de elementos.
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">Layout</span>
-                                <span class="command-tag">Responsivo</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="command-category">
-                    <h3 class="category-title">Estilização Visual</h3>
-                    <div class="command-grid">
-                        <div class="command-card">
-                            <div class="command-name">box-shadow</div>
-                            <div class="command-description">Adiciona sombra a um elemento.</div>
-                            <div class="command-syntax">box-shadow: offset-x offset-y blur-radius color;</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-                            </div>
-                            <button class="copy-btn" data-code="box-shadow: 0 4px 8px rgba(0,0,0,0.1);">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Para criar profundidade e destaque visual.
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">Efeito</span>
-                                <span class="command-tag">Visual</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">border-radius</div>
-                            <div class="command-description">Arredonda os cantos de um elemento.</div>
-                            <div class="command-syntax">border-radius: 10px;</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> border-radius: 50%; /* Cria um círculo */
-                            </div>
-                            <button class="copy-btn" data-code="border-radius: 10px;">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Para suavizar a aparência de elementos.
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">Visual</span>
-                                <span class="command-tag">Forma</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">gradient</div>
-                            <div class="command-description">Cria transições suaves entre cores.</div>
-                            <div class="command-syntax">background: linear-gradient(direction, color1, color2);</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> background: linear-gradient(135deg, #667eea, #764ba2);
-                            </div>
-                            <button class="copy-btn"
-                                data-code="background: linear-gradient(135deg, #667eea, #764ba2);">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Para fundos modernos e visualmente atraentes.
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">Cor</span>
-                                <span class="command-tag">Fundo</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CONTEÚDO JAVASCRIPT -->
-            <div class="commands-content" id="javascript-content">
-                <div class="command-category">
-                    <h3 class="category-title">Manipulação do DOM</h3>
-                    <div class="command-grid">
-                        <div class="command-card">
-                            <div class="command-name">document.querySelector()</div>
-                            <div class="command-description">Seleciona o primeiro elemento que corresponde ao seletor
-                                CSS.</div>
-                            <div class="command-syntax">document.querySelector('.classe ou #id ou tag');</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> const elemento = document.querySelector('#meuId');
-                            </div>
-                            <button class="copy-btn"
-                                data-code="const elemento = document.querySelector('#meuId');">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Para selecionar e manipular elementos específicos da página.
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">DOM</span>
-                                <span class="command-tag">Seleção</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">addEventListener()</div>
-                            <div class="command-description">Anexa um manipulador de evento a um elemento.</div>
-                            <div class="command-syntax">elemento.addEventListener('evento', função);</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> botao.addEventListener('click', function() {
-                                alert('Clicado!'); });
-                            </div>
-                            <button class="copy-btn"
-                                data-code="botao.addEventListener('click', function() { &#10;  alert('Clicado!'); &#10;});">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Para responder a interações do usuário (cliques, teclas, etc).
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">Eventos</span>
-                                <span class="command-tag">Interação</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">classList</div>
-                            <div class="command-description">Manipula as classes CSS de um elemento.</div>
-                            <div class="command-syntax">elemento.classList.add() / .remove() / .toggle()</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> elemento.classList.add('ativo');
-                                elemento.classList.remove('inativo');
-                            </div>
-                            <button class="copy-btn" data-code="elemento.classList.add('ativo');">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Para alterar estilos dinamicamente através de classes CSS.
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">Classes</span>
-                                <span class="command-tag">Estilo</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="command-category">
-                    <h3 class="category-title">Arrays e Objetos</h3>
-                    <div class="command-grid">
-                        <div class="command-card">
-                            <div class="command-name">map()</div>
-                            <div class="command-description">Cria um novo array com os resultados de uma função aplicada
-                                a cada elemento.</div>
-                            <div class="command-syntax">array.map(função);</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> const dobros = numeros.map(num => num * 2);
-                            </div>
-                            <button class="copy-btn"
-                                data-code="const dobros = numeros.map(num => num * 2);">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Para transformar dados de um array de forma eficiente.
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">Array</span>
-                                <span class="command-tag">Transformação</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">filter()</div>
-                            <div class="command-description">Cria um novo array com elementos que passam em um teste.
-                            </div>
-                            <div class="command-syntax">array.filter(função);</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> const maiores = numeros.filter(num => num > 10);
-                            </div>
-                            <button class="copy-btn"
-                                data-code="const maiores = numeros.filter(num => num > 10);">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Para filtrar dados baseado em condições específicas.
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">Array</span>
-                                <span class="command-tag">Filtro</span>
-                            </div>
-                        </div>
-
-                        <div class="command-card">
-                            <div class="command-name">reduce()</div>
-                            <div class="command-description">Executa uma função redutora em cada elemento, resultando em
-                                um único valor.</div>
-                            <div class="command-syntax">array.reduce(função, valorInicial);</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> const soma = numeros.reduce((acc, num) => acc + num, 0);
-                            </div>
-                            <button class="copy-btn"
-                                data-code="const soma = numeros.reduce((acc, num) => acc + num, 0);">Copiar</button>
-                            <div class="command-use-case">
-                                <strong>Uso:</strong> Para agregar dados (soma, média, etc) ou transformar arrays em
-                                objetos.
-                            </div>
-                            <div class="command-tags">
-                                <span class="command-tag">Array</span>
-                                <span class="command-tag">Agregação</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- OUTRAS ABAS (APIs, Frameworks, Responsivo) -->
-            <div class="commands-content" id="apis-content">
-                <div class="command-category">
-                    <h3 class="category-title">APIs Web Nativas</h3>
-                    <div class="command-grid">
-                        <!-- Conteúdo para APIs -->
-                        <div class="command-card">
-                            <div class="command-name">LocalStorage</div>
-                            <div class="command-description">Armazena dados localmente no navegador do usuário.</div>
-                            <div class="command-syntax">localStorage.setItem('chave', 'valor');</div>
-                            <div class="command-example">
-                                <strong>Exemplo:</strong> localStorage.setItem('usuario', 'João');
-                            </div>
-                            <button class="copy-btn" data-code="localStorage.setItem('chave', 'valor');">Copiar</button>
-                            <div class="command-tags">
-                                <span class="command-tag">Armazenamento</span>
-                                <span class="command-tag">Dados</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Adicione mais conteúdo para as outras abas conforme necessário -->
-        </div>
-    </section>
-    <!-- Seção do exemplo de prompt -->
-    <section class="prompt-section">
-        <div class="container">
-            <h2>Exemplo de Prompt</h2>
-            <div class="prompt-demo">
-                <button id="btnPrompt" class="prompt-btn">Abrir Prompt</button>
-                <div class="result-container">
-                    <h3>Conteúdo digitado:</h3>
-                    <div id="resultado" class="result-display">
-                        Nada foi digitado ainda...
-                    </div>
-                </div>
-                <div class="code-example">
-                    <h4>Como funciona:</h4>
-                    <div class="code-block">
-                        <pre><code>// 1. Capturamos o clique no botão
-document.getElementById('btnPrompt').addEventListener('click', function() {
-    
-    // 2. Exibimos o prompt e armazenamos o valor
-    const texto = window.prompt('Digite algo:');
-    
-    // 3. Verificamos se o usuário digitou algo
-    if (texto !== null && texto !== '') {
-        // 4. Exibimos o resultado na tela
-        document.getElementById('resultado').textContent = texto;
-    } else {
-        // 5. Mensagem se cancelou ou não digitou nada
-        document.getElementById('resultado').textContent = 'Você cancelou ou não digitou nada!';
-    }
-});</code></pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- RODAPÉ -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>DevStudy</h3>
-                    <p>Seu guia completo para aprender desenvolvimento web. Domine HTML, CSS e JavaScript com exemplos
-                        práticos e projetos reais.</p>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Links Rápidos</h3>
-                    <ul>
-                        <li><a href="#html">HTML</a></li>
-                        <li><a href="#css">CSS</a></li>
-                        <li><a href="#javascript">JavaScript</a></li>
-                        <li><a href="#projetos">Projetos</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Recursos Úteis</h3>
-                    <ul>
-                        <li><a href="#">Documentação MDN</a></li>
-                        <li><a href="#">W3Schools</a></li>
-                        <li><a href="#">CodePen</a></li>
-                        <li><a href="#">GitHub</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="copyright">
-                <p>&copy; 2023 DevStudy. Todos os direitos reservados.</p>
-            </div>
-        </div>
+    <footer style="text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+        <p>DevStudy System v3.0 // Conectado à Nuvem ☁️</p>
     </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script src="game-data.js"></script>
 
     <script src="script.js"></script>
 </body>

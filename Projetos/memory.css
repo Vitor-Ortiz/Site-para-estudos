@@ -1,0 +1,120 @@
+/* Estilo Cyberpunk para o Jogo */
+body {
+    background-color: #0f172a;
+    min-height: 100vh;
+}
+
+.game-wrapper {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.game-header h1 {
+    font-family: 'Fira Code', monospace;
+    color: var(--secondary-neon); /* Rosa */
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px var(--secondary-neon);
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.stat-box {
+    background: rgba(0,0,0,0.5);
+    padding: 10px 20px;
+    border: 1px solid var(--primary-neon);
+    border-radius: 4px;
+    color: #a5f3fc;
+    font-family: 'Fira Code', monospace;
+    font-size: 1.2rem;
+}
+
+/* GRID DE CARTAS */
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 2rem;
+    perspective: 1000px;
+}
+
+.card {
+    height: 120px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    cursor: pointer;
+}
+
+.card:active {
+    transform: scale(0.97);
+    transition: transform 0.2s;
+}
+
+.card.flip {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 8px;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    border: 2px solid transparent;
+}
+
+/* Frente (Oculta) */
+.front-face {
+    background: #1e293b;
+    transform: rotateY(180deg);
+    border-color: var(--success);
+    color: var(--success);
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
+}
+
+/* Verso (Visível) */
+.back-face {
+    background: linear-gradient(135deg, #1e1e1e, #000);
+    border-color: var(--secondary-neon);
+    color: rgba(255,255,255,0.1);
+}
+
+.back-face i {
+    font-size: 2rem;
+}
+
+.btn-restart {
+    background: transparent;
+    border: 1px solid var(--primary-neon);
+    color: var(--primary-neon);
+    padding: 15px 30px;
+    font-family: 'Fira Code', monospace;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-restart:hover {
+    background: var(--primary-neon);
+    color: #000;
+    box-shadow: 0 0 20px var(--primary-neon);
+}
+
+@media (max-width: 600px) {
+    .memory-grid {
+        grid-template-columns: repeat(3, 1fr); /* Reduz colunas no mobile */
+        gap: 10px;
+    }
+    .card { height: 80px; }
+}

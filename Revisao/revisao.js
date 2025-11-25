@@ -1,170 +1,201 @@
-// ===== FUNÇÕES DA PÁGINA DE REVISÃO =====
+/* Revisao/revisao.js - Lógica Expandida V2 */
 
-// Mostrar/ocultar exercícios por categoria
-function mostrarExercicio(categoria) {
-    console.log('Mostrando exercícios de:', categoria); // Para debug
-    
-    // Oculta todas as categorias
-    document.querySelectorAll('.exercicio-categoria').forEach(el => {
-        el.style.display = 'none';
+// ===== NAVEGAÇÃO DE ABAS =====
+function carregarAba(abaId) {
+    document.querySelectorAll('.module-item').forEach(item => item.classList.remove('active'));
+    document.querySelectorAll('.module-content').forEach(content => {
+        content.classList.remove('active');
     });
     
-    // Mostra a categoria selecionada
-    const elementoCategoria = document.getElementById('exercicio-' + categoria);
-    if (elementoCategoria) {
-        elementoCategoria.style.display = 'block';
-        
-        // Rolagem suave para a seção
-        elementoCategoria.scrollIntoView({ 
-            behavior: 'smooth' 
-        });
+    const target = document.getElementById(`aba-${abaId}`);
+    if (target) {
+        target.classList.add('active');
+        playSound('click');
+        if(abaId === 'trophies') verificarConquistas();
     }
 }
 
-// Verificar respostas das perguntas
-function verificarResposta(elemento, tipo) {
-    // Remove classes de todos os irmãos
-    const opcoes = elemento.parentElement.querySelectorAll('.opcao');
-    opcoes.forEach(opcao => {
-        opcao.classList.remove('correta', 'incorreta');
-    });
+// ===== SISTEMA DE QUIZ =====
+function checkQuiz(btn, isCorrect, xpAmount = 0) {
+    if (btn.disabled || btn.classList.contains('correct') || btn.classList.contains('incorrect')) return;
     
-    // Adiciona classe ao elemento clicado
-    elemento.classList.add(tipo);
-    
-    // Mostra resultado
-    const resultadoId = elemento.parentElement.nextElementSibling.id;
-    const resultado = document.getElementById(resultadoId);
-    
-    if (tipo === 'correta') {
-        resultado.textContent = '✓ Correto! Parabéns!';
-        resultado.className = 'resultado correto';
+    const parent = btn.parentElement;
+    parent.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+
+    if (isCorrect) {
+        btn.classList.add('correct');
+        btn.innerHTML += ' <i class="fas fa-check"></i>';
+        playSound('success');
+        ganharXP(xpAmount);
     } else {
-        resultado.textContent = '✗ Incorreto. Tente novamente!';
-        resultado.className = 'resultado incorreto';
-        
-        // Mostra a resposta correta
-        const correta = elemento.parentElement.querySelector('.opcao.correta');
-        if (correta) {
-            correta.classList.add('correta');
+        btn.classList.add('incorrect');
+        btn.innerHTML += ' <i class="fas fa-times"></i>';
+        playSound('error');
+    }
+}
+
+// ===== VALIDAÇÕES DE CÓDIGO (HTML) =====
+
+// 1. Lista Ordenada
+function validarHTML() {
+    const code = document.getElementById('html-editor').innerText.toLowerCase();
+    const feedback = document.getElementById('feedback-html');
+    
+    if (code.includes('<ol>') && code.includes('<li>')) {
+        const count = (code.match(/<li>/g) || []).length;
+        if(count >= 3) {
+            mostrarSucesso(feedback, "Lista Criada com Sucesso! (+50 XP)", 50);
+        } else {
+            mostrarErro(feedback, ["Precisa de pelo menos 3 itens <li>."]);
         }
-    }
-}
-
-// Verificar código HTML
-function verificarCodigoHTML() {
-    const codigo = document.getElementById('editor-html').textContent;
-    const resultado = document.getElementById('resultado-desafio-html');
-    
-    if (codigo.includes('<ol>') && codigo.includes('<li>') && codigo.includes('</ol>')) {
-        resultado.textContent = '✓ Parabéns! Sua lista ordenada está correta!';
-        resultado.className = 'resultado correto';
     } else {
-        resultado.textContent = '✗ Verifique se você usou as tags <ol> e <li> corretamente.';
-        resultado.className = 'resultado incorreto';
+        mostrarErro(feedback, ["Use as tags <ol> e <li>."]);
     }
 }
 
-// Verificar código CSS
-function verificarCodigoCSS() {
-    const codigo = document.getElementById('editor-css').textContent;
-    const resultado = document.getElementById('resultado-desafio-css');
+// 2. [NOVO] Formulário
+function validarHTMLForm() {
+    const code = document.getElementById('html-form-editor').innerText.toLowerCase();
+    const feedback = document.getElementById('feedback-html-form');
     
-    if (codigo.includes('.btn') && codigo.includes(':hover') && codigo.includes('background-color')) {
-        resultado.textContent = '✓ Excelente! Seu botão está bem estilizado!';
-        resultado.className = 'resultado correto';
+    // Aceita <button> ou <input type="submit">
+    const hasButton = code.includes('<button') && code.includes('type="submit"');
+    const hasInput = code.includes('<input') && code.includes('type="submit"');
+    
+    if (hasButton || hasInput) {
+        mostrarSucesso(feedback, "Botão de Envio Criado! (+60 XP)", 60);
     } else {
-        resultado.textContent = '✗ Verifique se você usou a classe .btn e o pseudo-seletor :hover.';
-        resultado.className = 'resultado incorreto';
+        mostrarErro(feedback, ["Use <button type='submit'> ou <input type='submit'>."]);
     }
 }
 
-// Verificar código JavaScript
-function verificarCodigoJS() {
-    const codigo = document.getElementById('editor-js').textContent;
-    const resultado = document.getElementById('resultado-desafio-js');
-    
-    if (codigo.includes('function') && codigo.includes('return') && codigo.includes('+')) {
-        resultado.textContent = '✓ Ótimo trabalho! Sua função está funcionando perfeitamente!';
-        resultado.className = 'resultado correto';
+// ===== VALIDAÇÕES DE CÓDIGO (CSS) =====
+
+// 1. Flexbox
+function validarFlexbox() {
+    const code = document.getElementById('css-flex-editor').innerText.toLowerCase();
+    const feedback = document.getElementById('feedback-css-flex');
+    let errors = [];
+
+    if (!code.includes('justify-content')) errors.push("Faltou 'justify-content'.");
+    if (!code.includes('align-items')) errors.push("Faltou 'align-items'.");
+    if (!code.includes('center')) errors.push("Use 'center' para centralizar.");
+
+    if (errors.length === 0) {
+        mostrarSucesso(feedback, "Layout Flexbox Perfeito! (+60 XP)", 60);
     } else {
-        resultado.textContent = '✗ Verifique se você criou uma função com return e concatenação de strings.';
-        resultado.className = 'resultado incorreto';
+        mostrarErro(feedback, errors);
     }
 }
 
-// ===== EXEMPLO DO PROMPT =====
-function exemploPrompt() {
-    // 1. Abre o prompt para o usuário digitar
-    const texto = window.prompt('Digite algo para exibir na tela:', 'Exemplo: Estou aprendendo JavaScript!');
+// 2. [NOVO] Grid
+function validarGrid() {
+    const code = document.getElementById('css-grid-editor').innerText.toLowerCase();
+    const feedback = document.getElementById('feedback-css-grid');
     
-    // 2. Obtém o elemento onde vamos mostrar o resultado
-    const resultado = document.getElementById('resultado-prompt');
-    
-    // 3. Verifica se o usuário digitou algo
-    if (texto !== null && texto.trim() !== '') {
-        resultado.innerHTML = `
-            <strong>Você digitou:</strong> "${texto}"
-            <br><br>
-            <small>Como isso funciona:</small>
-            <div class="code-editor" style="font-size: 0.8rem;">
-                // 1. Abre o prompt<br>
-                const texto = window.prompt('Digite algo:');<br><br>
-                
-                // 2. Verifica se não é vazio<br>
-                if (texto !== null && texto.trim() !== '') {<br>
-                &nbsp;&nbsp;// 3. Exibe na tela<br>
-                &nbsp;&nbsp;document.getElementById('resultado').innerHTML = texto;<br>
-                }
-            </div>
-        `;
-        resultado.style.display = 'block';
-    } else if (texto !== null) {
-        resultado.innerHTML = 'Você não digitou nada!';
-        resultado.style.display = 'block';
-    } else {
-        resultado.innerHTML = 'Você cancelou o prompt!';
-        resultado.style.display = 'block';
-    }
-}
-
-// ===== INICIALIZAÇÃO QUANDO A PÁGINA CARREGA =====
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Página de revisão carregada!'); // Para debug
-    
-    // Adiciona event listeners aos botões de categoria
-    document.querySelectorAll('.revisao-btn[data-categoria]').forEach(botao => {
-        botao.addEventListener('click', function() {
-            const categoria = this.getAttribute('data-categoria');
-            mostrarExercicio(categoria);
-        });
-    });
-    
-    // Adiciona event listeners aos botões de verificação de código
-    const botoesVerificacao = [
-        { id: 'verificar-html', funcao: verificarCodigoHTML },
-        { id: 'verificar-css', funcao: verificarCodigoCSS },
-        { id: 'verificar-js', funcao: verificarCodigoJS }
-    ];
-    
-    botoesVerificacao.forEach(botao => {
-        const elemento = document.getElementById(botao.id);
-        if (elemento) {
-            elemento.addEventListener('click', botao.funcao);
+    if (code.includes('grid-template-columns')) {
+        // Verifica se usou duas colunas (ex: 1fr 1fr)
+        if (code.includes('1fr 1fr') || code.includes('repeat(2')) {
+            mostrarSucesso(feedback, "Grid de 2 Colunas Ativado! (+70 XP)", 70);
+        } else {
+            mostrarErro(feedback, ["Defina 2 colunas (ex: 1fr 1fr)."]);
         }
-    });
-    
-    // Adiciona event listener ao botão de prompt
-    const botaoPrompt = document.getElementById('botao-prompt');
-    if (botaoPrompt) {
-        botaoPrompt.addEventListener('click', exemploPrompt);
+    } else {
+        mostrarErro(feedback, ["Use a propriedade 'grid-template-columns'."]);
     }
+}
+
+// ===== VALIDAÇÕES DE CÓDIGO (JS) =====
+
+// 1. Condicional If/Else
+function validarJSIf() {
+    const code = document.getElementById('js-if-editor').innerText.toLowerCase();
+    const feedback = document.getElementById('feedback-js-if');
+    let errors = [];
+
+    if (!code.includes('if') || !code.includes('else')) errors.push("Estrutura if/else incompleta.");
+    if (!code.includes('return')) errors.push("Faltou retornar o valor.");
+    if (!code.includes('>=')) errors.push("Verifique a condição >= 18.");
+
+    if (errors.length === 0) {
+        mostrarSucesso(feedback, "Lógica Aprovada! (+70 XP)", 70);
+    } else {
+        mostrarErro(feedback, errors);
+    }
+}
+
+// 2. [NOVO] Loop For
+function validarJSLoop() {
+    const code = document.getElementById('js-loop-editor').innerText.toLowerCase();
+    const feedback = document.getElementById('feedback-js-loop');
     
-    // Adiciona event listeners às opções de resposta
-    document.querySelectorAll('.opcao').forEach(opcao => {
-        opcao.addEventListener('click', function() {
-            const tipo = this.classList.contains('correta') ? 'correta' : 'incorreta';
-            verificarResposta(this, tipo);
-        });
-    });
-});
+    if (code.includes('for') && code.includes('let')) {
+        if (code.includes('++') || code.includes('i = i + 1')) {
+            mostrarSucesso(feedback, "Loop Configurado Corretamente! (+80 XP)", 80);
+        } else {
+            mostrarErro(feedback, ["Faltou o incremento (i++)."]);
+        }
+    } else {
+        mostrarErro(feedback, ["Use a estrutura: for (let i=0; i<N; i++)"]);
+    }
+}
+
+// ===== SISTEMA DE FEEDBACK =====
+function mostrarSucesso(el, msg, xp) {
+    el.innerHTML = `<div class="msg-success"><i class="fas fa-check-circle"></i> ${msg}</div>`;
+    el.style.display = 'block';
+    playSound('success');
+    
+    if(!el.dataset.completed) {
+        ganharXP(xp);
+        el.dataset.completed = "true";
+    }
+}
+
+function mostrarErro(el, erros) {
+    el.innerHTML = `<div class="msg-error"><i class="fas fa-times-circle"></i> ${erros.join(" ")}</div>`;
+    el.style.display = 'block';
+    playSound('error');
+}
+
+// ===== CONQUISTAS =====
+function verificarConquistas() {
+    const currentLevel = window.globalLevel || parseInt(localStorage.getItem('devstudy_level')) || 1;
+    desbloquearTrofeu('trophy-lvl1', currentLevel >= 1);
+    desbloquearTrofeu('trophy-lvl5', currentLevel >= 5);
+    desbloquearTrofeu('trophy-lvl10', currentLevel >= 10);
+    if(currentLevel >= 3) desbloquearTrofeu('trophy-debug', true);
+}
+
+function desbloquearTrofeu(id, condition) {
+    const el = document.getElementById(id);
+    if(condition) {
+        el.classList.remove('locked');
+        el.classList.add('unlocked');
+    }
+}
+
+// ===== UTILITÁRIOS =====
+function resetEditor(id) {
+    // Restaura o placeholder original baseado no ID (simulado aqui resetando para vazio ou texto padrão)
+    const defaults = {
+        'html-editor': '\n<ol>\n  \n  \n</ol>',
+        'html-form-editor': '<form>\n  \n  \n</form>',
+        'css-flex-editor': '.box {\n  display: flex;\n  /* Dica: Use justify-content e align-items */\n  \n  \n}',
+        'css-grid-editor': '.container {\n  display: grid;\n  /* Defina grid-template-columns abaixo */\n  \n}',
+        'js-if-editor': 'function verificar(idade) {\n  // Dica: if (idade >= 18) { ... }\n  \n}',
+        'js-loop-editor': 'function contar() {\n  for (let i = 0; i < 5; i++) {\n    // console.log(i);\n  }\n}'
+    };
+    
+    document.getElementById(id).innerText = defaults[id] || "";
+    document.getElementById(id).focus();
+    playSound('click');
+}
+
+function ganharXP(qtd) {
+    if (typeof adicionarXP === "function") adicionarXP(qtd);
+}
+
+function playSound(type) {
+    if (window.playSoundGlobal) window.playSoundGlobal(type);
+}

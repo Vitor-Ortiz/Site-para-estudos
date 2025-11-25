@@ -3,59 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy - Teoria de Alinhamento CSS</title>
-    <link rel="stylesheet" href="/style.css">
+    <title>DevStudy | Labs - Flexbox</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../Revisao/revisao.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .teoria-section {
-            padding: 2rem 0;
-            background: #f8f9fa;
-        }
-        
-        .conceito {
-            background: white;
-            margin: 2rem 0;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .conceito h3 {
-            color: #3498db;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .demonstracao {
-            background: #2d2d2d;
-            color: white;
+        /* Estilos Locais para o Laboratório */
+        .lab-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: rgba(0,0,0,0.3);
             padding: 1.5rem;
-            border-radius: 5px;
-            margin: 1rem 0;
-            font-family: 'Courier New', monospace;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
-        .visual-example {
-            border: 2px dashed #3498db;
+        .control-group label {
+            display: block;
+            color: var(--secondary-neon);
+            font-family: 'Fira Code', monospace;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .control-group select {
+            width: 100%;
+            padding: 10px;
+            background: #1e1e1e;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .flex-preview {
+            background: #0f172a;
+            border: 2px dashed #333;
+            height: 300px; /* Altura fixa para ver alinhamento vertical */
+            border-radius: 8px;
+            padding: 10px;
+            display: flex; /* Começa como flex */
+            transition: all 0.3s ease;
+        }
+
+        .flex-item {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-neon);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-family: 'Fira Code', monospace;
+            border-radius: 4px;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+            font-size: 1.5rem;
+        }
+        
+        .flex-item:nth-child(2) { background: var(--secondary-neon); }
+        .flex-item:nth-child(3) { background: #facc15; }
+
+        .generated-code {
+            background: #1e1e1e;
             padding: 1rem;
-            margin: 1rem 0;
-            background: #e8f4fc;
-        }
-        
-        .propriedade {
-            background: #e74c3c;
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            font-weight: bold;
-        }
-        
-        .valor {
-            background: #2ecc71;
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            font-weight: bold;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            color: #a5f3fc;
+            margin-top: 1rem;
+            border-left: 3px solid var(--success);
         }
     </style>
 </head>
@@ -63,219 +80,107 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <a href="index.html" class="logo">Dev<span>Study</span></a>
+                <a href="../index.html" class="logo">&lt;Dev<span>Study</span>/&gt;</a>
+                <div class="xp-container">
+                    <span class="xp-label">LVL <span id="userLevel">1</span></span>
+                    <span class="xp-value"><span id="userXP">0</span> XP</span>
+                </div>
                 <nav>
                     <ul>
-                        <li><a href="index.html#html">HTML</a></li>
-                        <li><a href="index.html#css">CSS</a></li>
-                        <li><a href="index.html#javascript">JavaScript</a></li>
-                        <li><a href="revisao.html">Revisão</a></li>
-                        <li><a href="alinhamento.html" class="active">Alinhamento</a></li>
+                        <li><a href="../index.html#html">HTML</a></li>
+                        <li><a href="../index.html#css">CSS</a></li>
+                        <li><a href="../index.html#javascript">JS</a></li>
+                        <li><a href="alinhamento.html" class="active-link">Labs</a></li>
+                        <li><a href="../Revisao/revisao.html">Matrix</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
     </header>
 
-    <section class="teoria-section">
-        <div class="container">
-            <h1 class="section-title">Teoria de Alinhamento CSS</h1>
-            <p>Entenda os conceitos fundamentais para posicionar e alinhar elementos na web.</p>
-
-            <!-- CONCEITO 1: DISPLAY -->
-            <div class="conceito">
-                <h2>1. Propriedade <span class="propriedade">display</span></h2>
-                <p><strong>O que é:</strong> Define como um elemento se comporta no fluxo do documento.</p>
-                
-                <h3>Valores Principais:</h3>
-                <div class="demonstracao">
-                    <span class="propriedade">display: block;</span> - Ocupa toda a largura, quebra linha<br>
-                    <span class="propriedade">display: inline;</span> - Ocupa só o necessário, não quebra linha<br>
-                    <span class="propriedade">display: inline-block;</span> - Mescla características de ambos<br>
-                    <span class="propriedade">display: flex;</span> - Container flexível (moderno)<br>
-                    <span class="propriedade">display: grid;</span> - Layout em grade (moderno)<br>
-                    <span class="propriedade">display: none;</span> - Esconde o elemento
-                </div>
-
-                <div class="visual-example">
-                    <div style="display: block; background: #3498db; color: white; padding: 10px; margin: 5px;">Block</div>
-                    <span style="display: inline; background: #e74c3c; color: white; padding: 10px; margin: 5px;">Inline 1</span>
-                    <span style="display: inline; background: #e74c3c; color: white; padding: 10px; margin: 5px;">Inline 2</span>
-                    <div style="display: inline-block; background: #2ecc71; color: white; padding: 10px; margin: 5px; width: 100px;">Inline-Block</div>
-                </div>
+    <div class="dashboard-container">
+        <aside class="skill-sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-flask"></i> LABORATÓRIO</h3>
             </div>
+            <ul class="module-list">
+                <li class="module-item active"><i class="fas fa-arrows-alt"></i> <span>Playground Flexbox</span></li>
+                <li class="module-item" style="opacity: 0.5; cursor: not-allowed;"><i class="fas fa-th"></i> <span>Grid (Em breve)</span></li>
+            </ul>
+        </aside>
 
-            <!-- CONCEITO 2: POSITION -->
-            <div class="conceito">
-                <h2>2. Propriedade <span class="propriedade">position</span></h2>
-                <p><strong>O que é:</strong> Define o método de posicionamento de um elemento.</p>
-                
-                <h3>Valores e Comportamentos:</h3>
-                <div class="demonstracao">
-                    <span class="propriedade">position: static;</span> - Padrão, segue o fluxo normal<br>
-                    <span class="propriedade">position: relative;</span> - Relativo à sua posição normal<br>
-                    <span class="propriedade">position: absolute;</span> - Relativo ao ancestral posicionado mais próximo<br>
-                    <span class="propriedade">position: fixed;</span> - Relativo à viewport (fica fixo)<br>
-                    <span class="propriedade">position: sticky;</span> - Alterna entre relative e fixed
+        <main class="workspace">
+            <section class="module-content active">
+                <div class="module-banner css-bg">
+                    <h2><i class="fas fa-layer-group"></i> Simulador Flexbox</h2>
+                    <p>Manipule as propriedades CSS e veja o resultado em tempo real.</p>
                 </div>
 
-                <div class="visual-example" style="position: relative; height: 200px; background: #ecf0f1;">
-                    <div style="position: static; background: #3498db; color: white; padding: 10px; margin: 5px;">Static</div>
-                    <div style="position: relative; top: 10px; left: 20px; background: #e74c3c; color: white; padding: 10px; margin: 5px;">Relative</div>
-                    <div style="position: absolute; top: 50px; right: 20px; background: #2ecc71; color: white; padding: 10px;">Absolute</div>
-                </div>
-            </div>
+                <div class="challenge-card">
+                    <div class="lab-controls">
+                        <div class="control-group">
+                            <label>flex-direction</label>
+                            <select id="ctrl-direction" onchange="updateFlex()">
+                                <option value="row">row (padrão)</option>
+                                <option value="row-reverse">row-reverse</option>
+                                <option value="column">column</option>
+                                <option value="column-reverse">column-reverse</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>justify-content (Eixo Principal)</label>
+                            <select id="ctrl-justify" onchange="updateFlex()">
+                                <option value="flex-start">flex-start</option>
+                                <option value="center">center</option>
+                                <option value="flex-end">flex-end</option>
+                                <option value="space-between">space-between</option>
+                                <option value="space-around">space-around</option>
+                                <option value="space-evenly">space-evenly</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>align-items (Eixo Cruzado)</label>
+                            <select id="ctrl-align" onchange="updateFlex()">
+                                <option value="stretch">stretch</option>
+                                <option value="flex-start">flex-start</option>
+                                <option value="center">center</option>
+                                <option value="flex-end">flex-end</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>gap (Espaçamento)</label>
+                            <select id="ctrl-gap" onchange="updateFlex()">
+                                <option value="0px">0px</option>
+                                <option value="10px" selected>10px</option>
+                                <option value="20px">20px</option>
+                                <option value="50px">50px</option>
+                            </select>
+                        </div>
+                    </div>
 
-            <!-- CONCEITO 3: FLEXBOX -->
-            <div class="conceito">
-                <h2>3. Flexbox - Alinhamento Moderno</h2>
-                <p><strong>O que é:</strong> Sistema unidimensional para layout de itens em linha ou coluna.</p>
-                
-                <h3>Container Flex (pai):</h3>
-                <div class="demonstracao">
-                    <span class="propriedade">display: flex;</span> - Ativa o flexbox<br>
-                    <span class="propriedade">flex-direction: row | column;</span> - Direção dos itens<br>
-                    <span class="propriedade">justify-content:</span> <span class="valor">center | flex-start | flex-end | space-between | space-around</span><br>
-                    <span class="propriedade">align-items:</span> <span class="valor">center | flex-start | flex-end | stretch</span><br>
-                    <span class="propriedade">flex-wrap: wrap;</span> - Permite quebra de linha
-                </div>
+                    <div class="flex-preview" id="preview-box">
+                        <div class="flex-item">1</div>
+                        <div class="flex-item">2</div>
+                        <div class="flex-item">3</div>
+                    </div>
 
-                <h3>Itens Flex (filhos):</h3>
-                <div class="demonstracao">
-                    <span class="propriedade">flex: 1;</span> - Cresce e encolhe proporcionalmente<br>
-                    <span class="propriedade">align-self:</span> <span class="valor">center | flex-start | flex-end</span><br>
-                    <span class="propriedade">order: 2;</span> - Ordem de exibição
-                </div>
-
-                <div class="visual-example">
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: #34495e; padding: 10px;">
-                        <div style="background: #3498db; color: white; padding: 20px;">1</div>
-                        <div style="background: #e74c3c; color: white; padding: 20px;">2</div>
-                        <div style="background: #2ecc71; color: white; padding: 20px;">3</div>
+                    <div class="generated-code" id="code-output">
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 10px;
+}
                     </div>
                 </div>
-            </div>
+            </section>
+        </main>
+    </div>
 
-            <!-- CONCEITO 4: CSS GRID -->
-            <div class="conceito">
-                <h2>4. CSS Grid - Layout Bidimensional</h2>
-                <p><strong>O que é:</strong> Sistema bidimensional para layouts complexos em linhas e colunas.</p>
-                
-                <h3>Container Grid (pai):</h3>
-                <div class="demonstracao">
-                    <span class="propriedade">display: grid;</span> - Ativa o grid<br>
-                    <span class="propriedade">grid-template-columns: 1fr 1fr 1fr;</span> - Define colunas<br>
-                    <span class="propriedade">grid-template-rows: 100px auto;</span> - Define linhas<br>
-                    <span class="propriedade">gap: 10px;</span> - Espaço entre células<br>
-                    <span class="propriedade">justify-items:</span> <span class="valor">center | start | end</span><br>
-                    <span class="propriedade">align-items:</span> <span class="valor">center | start | end</span>
-                </div>
-
-                <h3>Itens Grid (filhos):</h3>
-                <div class="demonstracao">
-                    <span class="propriedade">grid-column: 1 / 3;</span> - Ocupa da coluna 1 à 3<br>
-                    <span class="propriedade">grid-row: 1;</span> - Ocupa linha 1<br>
-                    <span class="propriedade">justify-self:</span> <span class="valor">center | start | end</span><br>
-                    <span class="propriedade">align-self:</span> <span class="valor">center | start | end</span>
-                </div>
-
-                <div class="visual-example">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; background: #34495e; padding: 10px;">
-                        <div style="background: #3498db; color: white; padding: 20px;">1</div>
-                        <div style="background: #e74c3c; color: white; padding: 20px;">2</div>
-                        <div style="background: #2ecc71; color: white; padding: 20px;">3</div>
-                        <div style="background: #f39c12; color: white; padding: 20px;">4</div>
-                        <div style="background: #9b59b6; color: white; padding: 20px; grid-column: 2 / 4;">5 (2 colunas)</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CONCEITO 5: ALINHAMENTO DE TEXTO -->
-            <div class="conceito">
-                <h2>5. Alinhamento de Texto</h2>
-                <p><strong>O que é:</strong> Propriedades específicas para alinhar conteúdo textual.</p>
-                
-                <div class="demonstracao">
-                    <span class="propriedade">text-align:</span> <span class="valor">left | center | right | justify</span><br>
-                    <span class="propriedade">vertical-align:</span> <span class="valor">top | middle | bottom | baseline</span><br>
-                    <span class="propriedade">line-height: 1.5;</span> - Altura da linha (espaçamento)<br>
-                    <span class="propriedade">text-indent: 20px;</span> - Recuo da primeira linha
-                </div>
-
-                <div class="visual-example">
-                    <p style="text-align: left; background: #3498db; color: white; padding: 10px;">Texto alinhado à esquerda</p>
-                    <p style="text-align: center; background: #e74c3c; color: white; padding: 10px;">Texto centralizado</p>
-                    <p style="text-align: right; background: #2ecc71; color: white; padding: 10px;">Texto alinhado à direita</p>
-                </div>
-            </div>
-
-            <!-- CONCEITO 6: MARGIN E PADDING -->
-            <div class="conceito">
-                <h2>6. Margin e Padding - Espaçamento</h2>
-                <p><strong>Diferença:</strong> Margin é espaço externo, Padding é espaço interno.</p>
-                
-                <div class="demonstracao">
-                    <span class="propriedade">margin: 10px;</span> - 10px em todos os lados<br>
-                    <span class="propriedade">margin: 10px 20px;</span> - 10px top/bottom, 20px left/right<br>
-                    <span class="propriedade">margin: 10px 20px 30px 40px;</span> - top, right, bottom, left<br>
-                    <span class="propriedade">margin: 0 auto;</span> - Centraliza horizontalmente<br>
-                    <span class="propriedade">padding: 15px;</span> - Espaço interno
-                </div>
-
-                <div class="visual-example">
-                    <div style="margin: 20px auto; padding: 20px; background: #3498db; color: white; width: 200px; text-align: center;">
-                        Margin: 20px auto (centralizado)<br>
-                        Padding: 20px (interno)
-                    </div>
-                </div>
-            </div>
-
-            <!-- GUIA RÁPIDO -->
-            <div class="conceito">
-                <h2>📋 Guia Rápido - Quando Usar Cada Método</h2>
-                
-                <h3>Para centralizar horizontalmente:</h3>
-                <div class="demonstracao">
-                    <strong>Elementos block:</strong> margin: 0 auto;<br>
-                    <strong>Elementos inline/inline-block:</strong> text-align: center; (no container)<br>
-                    <strong>Com Flexbox:</strong> justify-content: center;<br>
-                    <strong>Com Grid:</strong> justify-items: center;
-                </div>
-
-                <h3>Para centralizar verticalmente:</h3>
-                <div class="demonstracao">
-                    <strong>Com Flexbox:</strong> align-items: center;<br>
-                    <strong>Com Grid:</strong> align-items: center;<br>
-                    <strong>Com position:</strong> top: 50%; transform: translateY(-50%);<br>
-                    <strong>Texto simples:</strong> line-height: [altura-do-container];
-                </div>
-
-                <h3>Para centralizar nos dois eixos:</h3>
-                <div class="demonstracao">
-                    <strong>Flexbox:</strong> justify-content: center; align-items: center;<br>
-                    <strong>Grid:</strong> justify-items: center; align-items: center;<br>
-                    <strong>Position:</strong> top: 50%; left: 50%; transform: translate(-50%, -50%);
-                </div>
-            </div>
-
-            <!-- EXERCÍCIO PRÁTICO -->
-            <div class="conceito">
-                <h2>🎯 Exercício Prático</h2>
-                <p>Tente criar estes layouts usando os conceitos aprendidos:</p>
-                
-                <div class="demonstracao">
-                    <strong>1. Header com logo à esquerda e menu à direita</strong><br>
-                    <strong>2. Galeria de imagens responsiva (3 colunas no desktop, 1 no mobile)</strong><br>
-                    <strong>3. Card centralizado na tela vertical e horizontalmente</strong><br>
-                    <strong>4. Formulário com labels alinhados à direita e inputs à esquerda</strong>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="../Revisao/revisao.html" class="btn">Praticar na Página de Revisão</a>
-                <a href="../index.html" class="btn" style="background: #95a5a6;">Voltar para Principal</a>
-            </div>
-        </div>
-    </section>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="../game-data.js"></script>
+    <script src="alinhamento.js"></script>
 </body>
 </html>
