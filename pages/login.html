@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStudy | Login</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo-area">
+                <span class="logo">&lt;Dev<span>Study</span>/&gt;</span>
+                <p>Identity Verification Protocol</p>
+            </div>
+
+            <button class="btn-login-google" onclick="fazerLoginGoogle()">
+                <i class="fab fa-google"></i> Acessar com Google
+            </button>
+
+            <div class="divider">
+                <span>OU</span>
+            </div>
+
+            <button class="btn-guest" onclick="entrarComoConvidado()">
+                <i class="fas fa-user-secret"></i> Acessar sem Salvar
+            </button>
+            
+            <p id="status-msg" class="status-text">Aguardando credenciais...</p>
+            
+            <a href="../index.html" style="display: block; margin-top: 20px; color: #64748b; text-decoration: none; font-size: 0.8rem;">
+                ← Voltar ao Início
+            </a>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="../game-data.js"></script>
+    <script src="../assets/js/login.js"></script>
+</body>
+</html>

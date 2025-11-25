@@ -1,73 +1,12 @@
-/* ARQUIVO: script.js
-   RESPONSABILIDADE: Lógica específica da Home (Calculadora, Tarefas, Animações).
-*/
+/* assets/js/main.js - Lógica da Home (Sem Áudio, pois está no Global) */
 
-// ===== SISTEMA DE ÁUDIO (Sintetizador Web Audio API) =====
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-function playSound(type) {
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    
-    const oscillator = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-    
-    const now = audioCtx.currentTime;
-
-    if (type === 'hover') {
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(400, now);
-        oscillator.frequency.exponentialRampToValueAtTime(600, now + 0.05);
-        gainNode.gain.setValueAtTime(0.05, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-        oscillator.start(now);
-        oscillator.stop(now + 0.05);
-    } else if (type === 'click') {
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(200, now);
-        oscillator.frequency.exponentialRampToValueAtTime(800, now + 0.1);
-        gainNode.gain.setValueAtTime(0.1, now);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-        oscillator.start(now);
-        oscillator.stop(now + 0.1);
-    } else if (type === 'success') {
-        oscillator.type = 'triangle';
-        oscillator.frequency.setValueAtTime(400, now);
-        oscillator.frequency.linearRampToValueAtTime(800, now + 0.1);
-        oscillator.frequency.linearRampToValueAtTime(1200, now + 0.3);
-        gainNode.gain.setValueAtTime(0.1, now);
-        gainNode.gain.linearRampToValueAtTime(0, now + 0.5);
-        oscillator.start(now);
-        oscillator.stop(now + 0.5);
-    } else if (type === 'error') {
-        oscillator.type = 'sawtooth';
-        oscillator.frequency.setValueAtTime(100, now);
-        oscillator.frequency.linearRampToValueAtTime(80, now + 0.3);
-        gainNode.gain.setValueAtTime(0.1, now);
-        gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
-        oscillator.start(now);
-        oscillator.stop(now + 0.3);
-    }
-}
-
-// Inicialização de Eventos Globais
+// Inicialização de Eventos Específicos da Home
 document.addEventListener('DOMContentLoaded', () => {
-    // Adiciona sons aos elementos interativos
-    const interactives = document.querySelectorAll('button, a, .interactive-btn, .revisao-btn, .topic-card');
-    interactives.forEach(el => {
-        el.addEventListener('mouseenter', () => playSound('hover'));
-        el.addEventListener('click', () => playSound('click'));
-    });
-
     // Animação de digitação no título
     const heroTitle = document.querySelector('.hero h1');
     if (heroTitle && !heroTitle.classList.contains('typed')) {
         typeWriter(heroTitle, "Domine o Código.");
     }
-    
-    // O HUD de XP é atualizado automaticamente pelo game-data.js
 });
 
 // Animação Typewriter
@@ -97,13 +36,12 @@ styleSheet.innerText = `
 }`;
 document.head.appendChild(styleSheet);
 
-// Funções auxiliares de compatibilidade
+// Wrapper para ganhar XP (agora chama o global direto)
 function ganharXP(qtd) {
-    // Redireciona para a função do game-data.js
     if (typeof adicionarXP === "function") {
         adicionarXP(qtd);
     } else {
-        console.warn("game-data.js não carregado ainda");
+        console.warn("Sistema de XP offline");
     }
 }
 
@@ -123,6 +61,7 @@ function adicionarNumero(numero) {
         valor2 += numero;
         display.value = valor1 + operador + valor2;
     }
+    playSound('click'); // Usa o global
 }
 
 function adicionarOperador(op) {
@@ -131,6 +70,7 @@ function adicionarOperador(op) {
         operador = op;
         display.value = valor1 + operador;
     }
+    playSound('click');
 }
 
 function limparDisplay() {
@@ -139,6 +79,7 @@ function limparDisplay() {
     valor1 = '';
     valor2 = '';
     operador = '';
+    playSound('click');
 }
 
 function calcular() {
@@ -151,9 +92,9 @@ function calcular() {
         switch (operador) {
             case '+':
                 if (calculadoraBugada) {
-                    resultado = num1 - num2; // BUG PROPOSITAL
+                    resultado = num1 - num2;
                     playSound('error');
-                    alert('⚠️ ALERTA DE SISTEMA: Falha na operação de soma. Depuração necessária.');
+                    alert('⚠️ ERRO DE SOMA! A calculadora subtraiu em vez de somar.');
                 } else {
                     resultado = num1 + num2;
                 }
@@ -169,7 +110,6 @@ function calcular() {
         valor2 = '';
         operador = '';
         
-        // Se usar corretamente, ganha um pouco de XP
         if (!calculadoraBugada) ganharXP(5);
     }
 }
@@ -186,30 +126,26 @@ function debugCalculadora() {
             statusEl.textContent = "SISTEMA SEGURO";
             statusEl.className = "project-status status-fixed";
         }
-        
         if(btn) {
             btn.innerHTML = "✅ CÓDIGO CORRIGIDO";
             btn.disabled = true;
-            btn.style.borderColor = "var(--success)";
-            btn.style.color = "var(--success)";
+            btn.style.borderColor = "#4ade80";
+            btn.style.color = "#4ade80";
         }
-        
-        alert("🐛 PATCH APLICADO COM SUCESSO! Sistema operacional.");
+        alert("🐛 PATCH APLICADO! Calculadora reparada.");
     }
 }
 
-// ===== PROJETO: LISTA DE TAREFAS (TODO LIST) =====
+// ===== PROJETO: LISTA DE TAREFAS =====
 function adicionarTarefa() {
     const inputTarefa = document.getElementById('novaTarefa');
     if(!inputTarefa) return;
-    
     const texto = inputTarefa.value.trim();
 
     if (texto !== '') {
         const lista = document.getElementById('listaTarefas');
         const li = document.createElement('li');
         
-        // Estilos da tarefa
         li.style.padding = '10px';
         li.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
         li.style.display = 'flex';
@@ -229,30 +165,23 @@ function adicionarTarefa() {
         const btnConcluir = document.createElement('button');
         btnConcluir.textContent = '✓';
         btnConcluir.className = 'interactive-btn';
-        btnConcluir.style.color = 'var(--success)';
-        btnConcluir.style.borderColor = 'var(--success)';
+        btnConcluir.style.color = '#4ade80';
+        btnConcluir.style.borderColor = '#4ade80';
         
-        // --- LÓGICA CORRIGIDA (SEM XP INFINITO) ---
         btnConcluir.onclick = function () {
-            // Verifica se JÁ foi concluído
             if (span.style.textDecoration === 'line-through') return;
-
             span.style.textDecoration = 'line-through';
             span.style.color = 'var(--text-muted)';
-            
-            // Desativa visualmente o botão
             this.style.opacity = '0.3';
             this.style.cursor = 'not-allowed';
-            
-            playSound('success');
-            ganharXP(5); // Chama XP global
+            ganharXP(5);
         };
 
         const btnRemover = document.createElement('button');
         btnRemover.textContent = 'X';
         btnRemover.className = 'interactive-btn';
-        btnRemover.style.color = 'var(--danger)';
-        btnRemover.style.borderColor = 'var(--danger)';
+        btnRemover.style.color = '#ef4444';
+        btnRemover.style.borderColor = '#ef4444';
         btnRemover.onclick = function () {
             playSound('click');
             li.style.opacity = '0';
@@ -261,13 +190,11 @@ function adicionarTarefa() {
 
         divBotoes.appendChild(btnConcluir);
         divBotoes.appendChild(btnRemover);
-
         li.appendChild(span);
         li.appendChild(divBotoes);
-
         lista.appendChild(li);
-        inputTarefa.value = '';
         
-        ganharXP(2); // XP por criar tarefa
+        inputTarefa.value = '';
+        ganharXP(2);
     }
 }

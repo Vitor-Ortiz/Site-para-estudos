@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStudy | ADMIN PANEL</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-card {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+        .admin-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .admin-btn:hover { background: #dc2626; }
+        
+        /* Overlay de bloqueio */
+        #security-check {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #020617;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ef4444;
+            font-family: 'Fira Code', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div id="security-check">
+        <i class="fas fa-shield-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+        <h2>VERIFICANDO CREDENCIAIS...</h2>
+    </div>
+
+    <header></header>
+
+    <section class="hero" style="padding: 4rem 0;">
+        <div class="container">
+            <h1 style="color: #ef4444;">PAINEL DE CONTROLE</h1>
+            <p>Área restrita para gestão do sistema DevStudy.</p>
+
+            <div class="card-grid">
+                <div class="card admin-card">
+                    <h3><i class="fas fa-users"></i> Gestão de Utilizadores</h3>
+                    <p>Total de Jogadores Registados: <strong id="total-users">Carregando...</strong></p>
+                    <button class="admin-btn" onclick="listarUsuarios()">Listar no Console</button>
+                </div>
+
+                <div class="card admin-card">
+                    <h3><i class="fas fa-magic"></i> God Mode</h3>
+                    <p>Adicionar XP manual à minha conta.</p>
+                    <input type="number" id="xp-amount" placeholder="Quantidade" style="padding: 8px; border-radius: 4px; border: 1px solid #ef4444; background: #0f172a; color: white;">
+                    <button class="admin-btn" onclick="giveSelfXP()">Adicionar XP</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="../assets/js/header.js"></script>
+    <script src="../game-data.js"></script>
+
+    <script>
+        // Lógica de Proteção e Admin
+        
+        // 1. Ouve quando os dados carregam
+        window.addEventListener('gameDataLoaded', () => {
+            const shield = document.getElementById('security-check');
+            
+            if (window.isAdminUser) {
+                // É ADMIN: Libera acesso
+                shield.style.display = 'none';
+                carregarStats();
+            } else {
+                // NÃO É ADMIN: Expulsa
+                shield.innerHTML = '<h1><i class="fas fa-lock"></i> ACESSO NEGADO</h1><p>Redirecionando...</p>';
+                setTimeout(() => window.location.href = "../index.html", 2000);
+            }
+        });
+
+        // Timeout de segurança (caso demore muito)
+        setTimeout(() => {
+            const shield = document.getElementById('security-check');
+            if(shield.style.display !== 'none' && !window.isAdminUser) {
+                 window.location.href = "../index.html";
+            }
+        }, 5000);
+
+        // Funções do Painel
+        function giveSelfXP() {
+            const qtd = parseInt(document.getElementById('xp-amount').value);
+            if(qtd) adicionarXP(qtd); // Usa função global
+        }
+
+        async function carregarStats() {
+            // Conta documentos na coleção 'jogadores'
+            // Nota: Em produção, 'listUsers' requer Cloud Functions, 
+            // aqui vamos só ler a coleção se as regras permitirem.
+            try {
+                const snapshot = await db.collection('jogadores').get();
+                document.getElementById('total-users').innerText = snapshot.size;
+            } catch(e) {
+                console.log("Erro ao ler stats:", e);
+                document.getElementById('total-users').innerText = "Erro de Permissão";
+            }
+        }
+    </script>
+</body>
+</html>

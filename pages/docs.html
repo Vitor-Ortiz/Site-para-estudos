@@ -5,94 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevStudy | Docs</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/game.css">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Estilos Locais (Mantidos aqui por simplicidade) */
-        .lab-controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-            background: rgba(0,0,0,0.3);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .control-group label {
-            display: block;
-            color: var(--secondary-neon);
-            font-family: 'Fira Code', monospace;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-        .control-group select {
-            width: 100%;
-            padding: 10px;
-            background: #1e1e1e;
-            border: 1px solid #333;
-            color: white;
-            border-radius: 4px;
-            font-family: 'Fira Code', monospace;
-        }
-        .flex-preview {
-            background: #0f172a;
-            border: 2px dashed #333;
-            height: 300px;
-            border-radius: 8px;
-            padding: 10px;
-            display: flex;
-            transition: all 0.3s ease;
-        }
-        .flex-item {
-            width: 80px;
-            height: 80px;
-            background: var(--primary-neon);
-            color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-family: 'Fira Code', monospace;
-            border-radius: 4px;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
-            font-size: 1.5rem;
-        }
+        /* Estilos Locais do Laboratório */
+        .lab-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .control-group label { display: block; color: var(--secondary-neon); font-family: 'Fira Code', monospace; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .control-group select { width: 100%; padding: 10px; background: #1e1e1e; border: 1px solid #333; color: white; border-radius: 4px; font-family: 'Fira Code', monospace; }
+        .flex-preview { background: #0f172a; border: 2px dashed #333; height: 300px; border-radius: 8px; padding: 10px; display: flex; transition: all 0.3s ease; }
+        .flex-item { width: 80px; height: 80px; background: var(--primary-neon); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: 'Fira Code', monospace; border-radius: 4px; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); font-size: 1.5rem; }
         .flex-item:nth-child(2) { background: var(--secondary-neon); }
         .flex-item:nth-child(3) { background: #facc15; }
-        .generated-code {
-            background: #1e1e1e;
-            padding: 1rem;
-            border-radius: 6px;
-            font-family: 'Fira Code', monospace;
-            color: #a5f3fc;
-            margin-top: 1rem;
-            border-left: 3px solid #4ade80;
-        }
+        .generated-code { background: #1e1e1e; padding: 1rem; border-radius: 6px; font-family: 'Fira Code', monospace; color: #a5f3fc; margin-top: 1rem; border-left: 3px solid #4ade80; }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="../index.html" class="logo">&lt;Dev<span>Study</span>/&gt;</a>
-                <div class="xp-container">
-                    <span class="xp-label">LVL <span id="userLevel">1</span></span>
-                    <span class="xp-value"><span id="userXP">0</span> XP</span>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="../index.html#html">HTML</a></li>
-                        <li><a href="../index.html#css">CSS</a></li>
-                        <li><a href="../index.html#javascript">JS</a></li>
-                        <li><a href="docs.html" class="active-link">Docs</a></li>
-                        <li><a href="challenges.html">Matrix</a></li>
-                        <li><a href="game.html" style="color: #facc15"><i class="fas fa-gamepad"></i> Game</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
+    <header></header>
 
     <div class="dashboard-container">
         <aside class="skill-sidebar">
@@ -175,7 +104,10 @@
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="../assets/js/header.js"></script>
     <script src="../game-data.js"></script>
     <script src="../assets/js/lab.js"></script>
 </body>

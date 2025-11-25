@@ -9,22 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="../index.html" class="logo">&lt;Dev<span>Study</span>/&gt;</a>
-                <div class="xp-container">
-                    <span class="xp-label">LVL <span id="userLevel">1</span></span>
-                    <span class="xp-value"><span id="userXP">0</span> XP</span>
-                </div>
-            </div>
-        </div>
-    </header>
+    <header></header>
 
     <main class="game-wrapper">
         <div class="game-header">
             <h1><i class="fas fa-microchip"></i> SYSTEM BREACH</h1>
-            <p>Combine os pares para hackear o sistema. Recompensa: <strong>500 XP</strong></p>
+            <p>Combine os pares para hackear o sistema.</p>
             <div class="stats">
                 <div class="stat-box">Tempo: <span id="timer">00:00</span></div>
                 <div class="stat-box">Jogadas: <span id="moves">0</span></div>
@@ -38,7 +28,10 @@
     </main>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="../assets/js/header.js"></script>
     <script src="../game-data.js"></script>
     <script src="../assets/js/game.js"></script>
 </body>
