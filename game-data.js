@@ -1,8 +1,5 @@
-/* ARQUIVO: game-data.js - VERSÃO MESTRA COMPLETA (V23)
-   ---------------------------------------------------------
-   CORE DO SISTEMA DEVSTUDY
-   Integra: Auth, Database, Admin, Shop, LMS, Audio & UI
-   ---------------------------------------------------------
+/* ARQUIVO: game-data.js - VERSÃO FINAL V24
+   Responsável por: Auth, Banco de Dados, Admin, Áudio, XP, Stats, Loja e Cursos
 */
 
 // =================================================
@@ -17,7 +14,7 @@ const firebaseConfig = {
     appId: "1:894897799858:web:615292d62afc04af61ffab"
 };
 
-// Inicializa Firebase apenas uma vez
+// Inicializa apenas se ainda não existir
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -43,27 +40,33 @@ window.userInventory = [];
 window.userLoadout = { theme: 'theme_default', title: null };
 
 // =================================================
-// 3. SISTEMA DE ÁUDIO GLOBAL
+// 3. SISTEMA DE ÁUDIO GLOBAL (COM PROTEÇÃO)
 // =================================================
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let lastSoundTime = 0; // Previne som duplicado
 
 function playSound(type) {
+    // Debounce: Impede sons muito rápidos (menos de 100ms)
+    const now = Date.now();
+    if (now - lastSoundTime < 100) return;
+    lastSoundTime = now;
+
     if (audioCtx.state === 'suspended') audioCtx.resume();
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
     
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
-    const now = audioCtx.currentTime;
+    const t = audioCtx.currentTime;
 
     if (type === 'hover') {
-        oscillator.type = 'sine'; oscillator.frequency.setValueAtTime(400, now); oscillator.frequency.exponentialRampToValueAtTime(600, now + 0.05); gainNode.gain.setValueAtTime(0.03, now); gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.05); oscillator.start(now); oscillator.stop(now + 0.05);
+        oscillator.type = 'sine'; oscillator.frequency.setValueAtTime(400, t); oscillator.frequency.exponentialRampToValueAtTime(600, t + 0.05); gainNode.gain.setValueAtTime(0.03, t); gainNode.gain.exponentialRampToValueAtTime(0.001, t + 0.05); oscillator.start(t); oscillator.stop(t + 0.05);
     } else if (type === 'click') {
-        oscillator.type = 'square'; oscillator.frequency.setValueAtTime(200, now); oscillator.frequency.exponentialRampToValueAtTime(800, now + 0.1); gainNode.gain.setValueAtTime(0.05, now); gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.1); oscillator.start(now); oscillator.stop(now + 0.1);
+        oscillator.type = 'square'; oscillator.frequency.setValueAtTime(200, t); oscillator.frequency.exponentialRampToValueAtTime(800, t + 0.1); gainNode.gain.setValueAtTime(0.05, t); gainNode.gain.exponentialRampToValueAtTime(0.001, t + 0.1); oscillator.start(t); oscillator.stop(t + 0.1);
     } else if (type === 'success') {
-        oscillator.type = 'triangle'; oscillator.frequency.setValueAtTime(400, now); oscillator.frequency.linearRampToValueAtTime(800, now + 0.1); oscillator.frequency.linearRampToValueAtTime(1200, now + 0.3); gainNode.gain.setValueAtTime(0.1, now); gainNode.gain.linearRampToValueAtTime(0, now + 0.5); oscillator.start(now); oscillator.stop(now + 0.5);
+        oscillator.type = 'triangle'; oscillator.frequency.setValueAtTime(400, t); oscillator.frequency.linearRampToValueAtTime(800, t + 0.1); oscillator.frequency.linearRampToValueAtTime(1200, t + 0.3); gainNode.gain.setValueAtTime(0.1, t); gainNode.gain.linearRampToValueAtTime(0, t + 0.5); oscillator.start(t); oscillator.stop(t + 0.5);
     } else if (type === 'error') {
-        oscillator.type = 'sawtooth'; oscillator.frequency.setValueAtTime(100, now); oscillator.frequency.linearRampToValueAtTime(50, now + 0.3); gainNode.gain.setValueAtTime(0.1, now); gainNode.gain.linearRampToValueAtTime(0, now + 0.3); oscillator.start(now); oscillator.stop(now + 0.3);
+        oscillator.type = 'sawtooth'; oscillator.frequency.setValueAtTime(100, t); oscillator.frequency.linearRampToValueAtTime(50, t + 0.3); gainNode.gain.setValueAtTime(0.1, t); gainNode.gain.linearRampToValueAtTime(0, t + 0.3); oscillator.start(t); oscillator.stop(t + 0.3);
     }
 }
 window.playSoundGlobal = playSound;
@@ -111,20 +114,21 @@ window.getRole = function(level) {
 // =================================================
 auth.onAuthStateChanged((user) => {
     if (user) {
-        // --- LOGADO ---
+        // --- USUÁRIO LOGADO ---
         window.currentUser = user;
-        console.log("Conectado:", user.email);
+        console.log("Conectado como:", user.email);
         
+        // Define nome seguro
         const nome = user.displayName || (user.email ? user.email.split('@')[0] : "Dev");
         
-        // Carrega dados (false = não é convidado, não apaga nunca)
+        // Carrega dados (false = não é convidado)
         carregarDados(user.uid, nome, false);
     } else {
         // --- VISITANTE ---
         
-        // Segurança: Bloqueia acesso direto ao Admin
+        // Segurança: Bloqueia acesso direto ao Admin sem login
         if (window.location.pathname.includes("admin.html")) {
-            console.warn("Acesso anônimo ao Admin bloqueado.");
+            // O script do admin.js fará o redirect
             return; 
         }
 
@@ -137,7 +141,7 @@ auth.onAuthStateChanged((user) => {
             localStorage.setItem('devstudy_guest_id', guestId);
         }
         
-        // Carrega dados (true = é convidado, ativa timer 24h)
+        // true = É convidado (Ativa timer de 24h)
         carregarDados(guestId, "Visitante", true);
     }
 });
@@ -154,7 +158,7 @@ async function carregarDados(uid, nomeAtual, isGuest) {
         if (doc.exists) {
             data = doc.data();
             
-            // === AUTO-DESTRUIÇÃO DE CONVIDADO (24H) ===
+            // === LÓGICA DE AUTO-DESTRUIÇÃO (24 HORAS) ===
             if (isGuest && data.criadoEm) {
                 const agora = new Date();
                 const criadoEm = data.criadoEm.toDate();
@@ -164,7 +168,7 @@ async function carregarDados(uid, nomeAtual, isGuest) {
                     console.log("Sessão expirada. Resetando...");
                     await docRef.delete();
                     localStorage.removeItem('devstudy_guest_id');
-                    alert("Sessão de visitante expirada (24h). Reiniciando.");
+                    alert("Sua sessão temporária de 24h expirou. O progresso foi reiniciado.");
                     window.location.reload();
                     return;
                 }
@@ -177,10 +181,10 @@ async function carregarDados(uid, nomeAtual, isGuest) {
             
             // Garante estrutura de stats e inventário
             window.userStats = data.stats || { pomodoros: 0, tasks: 0, streak: 0, lessons: [] };
-            if(!window.userStats.lessons) window.userStats.lessons = []; // Retrocompatibilidade
+            if(!window.userStats.lessons) window.userStats.lessons = [];
             
             window.userInventory = data.inventory || [];
-            window.userLoadout = data.loadout || { theme: 'theme_default' };
+            window.userLoadout = data.loadout || { theme: 'theme_default', title: null };
 
             // === LÓGICA DE STREAK (DIAS CONSECUTIVOS) ===
             if (!isGuest) {
@@ -193,13 +197,9 @@ async function carregarDados(uid, nomeAtual, isGuest) {
                 } else if (diffDays > 1) {
                     if (window.userInventory.includes('item_shield')) {
                         window.userInventory.splice(window.userInventory.indexOf('item_shield'), 1);
-                        alert("🛡️ Escudo usado! Streak salvo.");
-                    } else {
-                        window.userStats.streak = 1;
-                    }
-                } else if (diffDays !== 0) {
-                    window.userStats.streak = 1; // Primeira vez
-                }
+                        showNotification("🛡️ Escudo usado! Streak salvo.", "info");
+                    } else window.userStats.streak = 1;
+                } else if (diffDays !== 0) window.userStats.streak = 1;
                 
                 window.userStats.lastLogin = firebase.firestore.FieldValue.serverTimestamp();
                 docRef.update({ stats: window.userStats, inventory: window.userInventory });
@@ -236,11 +236,13 @@ async function carregarDados(uid, nomeAtual, isGuest) {
         }
         window.isAdminUser = data.isAdmin || false;
         
-        // Aplica tema visual
+        // Aplica o tema visual salvo
         aplicarTema(window.userLoadout.theme);
 
-        // Inicialização Completa
+        // Avisa toda a aplicação que estamos prontos
         window.dispatchEvent(new CustomEvent('gameDataLoaded'));
+        
+        // Atualiza UI
         atualizarHUD();
         atualizarUIComNome(nomeAtual, !!window.currentUser);
 
@@ -248,11 +250,11 @@ async function carregarDados(uid, nomeAtual, isGuest) {
 }
 
 // =================================================
-// 8. LOJA E TEMAS
+// 8. SISTEMA DE LOJA E INVENTÁRIO
 // =================================================
 window.comprarItemGlobal = async function(itemId, price, name, icon) {
     if (window.globalXP < price) {
-        alert("XP Insuficiente! Complete missões.");
+        showNotification("XP Insuficiente!", "error");
         playSound('error');
         return;
     }
@@ -260,15 +262,16 @@ window.comprarItemGlobal = async function(itemId, price, name, icon) {
     if (confirm(`Comprar "${name}" por ${price} XP?`)) {
         window.globalXP -= price;
         
-        // Adiciona ao inventário (permite múltiplos escudos se quiseres, aqui limitamos a 1)
+        // Adiciona ao inventário
         if (itemId === 'item_shield' || !window.userInventory.includes(itemId)) {
             window.userInventory.push(itemId);
         }
 
         playSound('success');
         
+        // Animação
         if(typeof showPurchaseModal === "function") showPurchaseModal(name, icon);
-        else alert("Compra realizada!");
+        else showNotification("Item Adquirido!", "success");
         
         atualizarHUD();
         salvarProgresso();
@@ -280,29 +283,34 @@ window.equiparItemGlobal = async function(type, itemId) {
     
     window.userLoadout[type] = itemId;
     playSound('click');
-    
+
     if (type === 'theme') aplicarTema(itemId);
     
     const nome = window.currentUser ? window.currentUser.displayName.split(' ')[0] : "Visitante";
     atualizarUIComNome(nome, !!window.currentUser);
+
     salvarProgresso();
 };
 
 function aplicarTema(themeId) {
     const root = document.documentElement;
-    if (!themeId || themeId === 'theme_default') { 
-        root.style.setProperty('--primary-neon', '#38bdf8'); 
-        root.style.setProperty('--secondary-neon', '#f472b6'); 
-        root.style.setProperty('--bg-dark', '#0f172a'); return; 
+    
+    // Reset para Padrão
+    if (!themeId || themeId === 'theme_default') {
+        root.style.setProperty('--primary-neon', '#38bdf8');
+        root.style.setProperty('--secondary-neon', '#f472b6');
+        root.style.setProperty('--bg-dark', '#0f172a');
+        return;
     }
 
+    // Temas Especiais
     const themes = {
-        'theme_matrix':  { p: '#00ff00', s: '#008f11', b: '#050a05' },
-        'theme_dracula': { p: '#bd93f9', s: '#ff79c6', b: '#282a36' },
-        'theme_gold':    { p: '#ffd700', s: '#c0c0c0', b: '#1a1a00' },
-        'theme_fire':    { p: '#ff4500', s: '#ff8c00', b: '#1a0500' },
-        'theme_neon':    { p: '#b026ff', s: '#00d4ff', b: '#0b001a' },
-        'theme_retro':   { p: '#ffb000', s: '#ff5500', b: '#1a1000' }
+        'theme_matrix':  { p: '#00ff00', s: '#008f11', b:'#050a05' },
+        'theme_dracula': { p: '#bd93f9', s: '#ff79c6', b:'#282a36' },
+        'theme_gold':    { p: '#ffd700', s: '#c0c0c0', b:'#1a1a00' },
+        'theme_fire':    { p: '#ff4500', s: '#ff8c00', b:'#1a0500' },
+        'theme_neon':    { p: '#b026ff', s: '#00d4ff', b:'#0b001a' },
+        'theme_retro':   { p: '#ffb000', s: '#ff5500', b:'#1a1000' }
     };
 
     const theme = themes[themeId];
@@ -314,31 +322,30 @@ function aplicarTema(themeId) {
 }
 
 // =================================================
-// 9. PROGRESSO (XP, AULAS, TAREFAS)
+// 9. PROGRESSO E ESTATÍSTICAS
 // =================================================
-
 // Registar Aula (LMS)
 window.registrarAula = function(lessonId) {
     if(!window.userStats.lessons) window.userStats.lessons = [];
     if(window.userStats.lessons.includes(lessonId)) {
-        alert("Aula já completada!");
+        showNotification("Aula já completada!", "info");
         return;
     }
     window.userStats.lessons.push(lessonId);
-    alert("Aula Concluída! +50 XP");
+    showNotification("Aula Concluída! +50 XP", "success");
     playSound('success');
     adicionarXP(50);
 };
 
 window.registrarPomodoro = function() {
     window.userStats.pomodoros = (window.userStats.pomodoros || 0) + 1;
-    if(window.userStats.pomodoros === 1) alert("🏆 CONQUISTA: Senhor do Tempo!");
+    if(window.userStats.pomodoros === 1) showNotification("🏆 CONQUISTA: Senhor do Tempo!", "success");
     adicionarXP(100);
 };
 
 window.registrarTarefa = function() {
     window.userStats.tasks = (window.userStats.tasks || 0) + 1;
-    if(window.userStats.tasks === 3) alert("🏆 CONQUISTA: Task Master!");
+    if(window.userStats.tasks === 3) showNotification("🏆 CONQUISTA: Task Master!", "success");
     adicionarXP(15);
 };
 
@@ -354,19 +361,17 @@ async function adicionarXP(qtd) {
         if(typeof showLevelUpModal === "function") {
              showLevelUpModal(window.globalLevel, displayRole);
         } else {
-             alert(`LEVEL UP! ${window.globalLevel}`);
+             showNotification(`LEVEL UP! NÍVEL ${window.globalLevel}`, "success");
         }
         playSound('success');
-    } else {
-        playSound('success');
     }
-
+    
     atualizarHUD();
     if(typeof mostrarFloatXP === "function") mostrarFloatXP(qtd);
     salvarProgresso();
 }
 
-// Admin: Definir Nível
+// Admin Tool: Definir Nível
 window.definirNivel = async function(targetUid, novoNivel) {
     const uid = targetUid || (window.currentUser ? window.currentUser.uid : localStorage.getItem('devstudy_guest_id'));
     if(!uid) return;
@@ -375,6 +380,7 @@ window.definirNivel = async function(targetUid, novoNivel) {
         const novoXP = (novoNivel - 1) * 100; 
         await db.collection('jogadores').doc(uid).update({ level: parseInt(novoNivel), xp: novoXP });
         
+        // Se for o próprio usuário, atualiza a tela
         if(uid === (window.currentUser?.uid || localStorage.getItem('devstudy_guest_id'))) {
             window.globalLevel = parseInt(novoNivel);
             window.globalXP = novoXP;
@@ -382,11 +388,12 @@ window.definirNivel = async function(targetUid, novoNivel) {
             const nome = window.currentUser ? (window.currentUser.displayName || "Dev") : "Visitante";
             atualizarUIComNome(nome, !!window.currentUser);
             playSound('success');
-            alert(`Nível definido!`);
+            showNotification(`Nível definido para ${novoNivel}!`, "success");
         }
     } catch(e) { alert("Erro: " + e.message); }
 };
 
+// Função Global de Salvamento
 function salvarProgresso() {
     const uid = window.currentUser ? window.currentUser.uid : localStorage.getItem('devstudy_guest_id');
     if(uid) {
@@ -413,12 +420,15 @@ function atualizarHUD() {
 function atualizarUIComNome(nome, isLogado) {
     const container = document.getElementById('user-info-display');
     
+    // Retry system: Se o header.js ainda não criou o HTML, espera e tenta de novo
     if (!container) {
         setTimeout(() => atualizarUIComNome(nome, isLogado), 200);
         return;
     }
 
-    const role = window.userCustomTitle ? `★ ${window.userCustomTitle}` : window.getRole(window.globalLevel);
+    // Lógica de Título: Custom > Loja > Nível
+    let role = window.userCustomTitle ? `★ ${window.userCustomTitle}` : window.getRole(window.globalLevel);
+
     const isPages = window.location.pathname.includes("/pages/");
     const profileLink = isPages ? "profile.html" : "pages/profile.html";
     const loginLink = isPages ? "login.html" : "pages/login.html";
@@ -460,6 +470,27 @@ function atualizarUIComNome(nome, isLogado) {
     atualizarHUD();
 }
 
+// SISTEMA DE NOTIFICAÇÃO (TOAST) - Substitui Alertas
+function showNotification(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification'; // Usa a classe do CSS
+    
+    let icon = 'fa-check-circle';
+    let color = '#4ade80';
+
+    if (type === 'info') { icon = 'fa-info-circle'; color = '#38bdf8'; }
+    if (type === 'error') { icon = 'fa-exclamation-circle'; color = '#ef4444'; }
+
+    toast.style.borderColor = color;
+    toast.innerHTML = `
+        <i class="fas ${icon} toast-icon" style="color:${color}"></i>
+        <span class="toast-text">${message}</span>
+    `;
+    
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+}
+
 function mostrarFloatXP(qtd) {
     const floatXP = document.createElement('div');
     floatXP.textContent = `+${qtd} XP`;
@@ -468,7 +499,6 @@ function mostrarFloatXP(qtd) {
     setTimeout(() => floatXP.remove(), 1500);
 }
 
-// Modal de Level Up
 function showLevelUpModal(level, role) {
     const modal = document.createElement('div');
     modal.className = 'level-up-overlay';
@@ -519,7 +549,7 @@ function fazerLogout() {
     });
 }
 
-// Inicializador de Sons
+// Sons no Hover
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const interactives = document.querySelectorAll('button, a, .interactive-btn, .card');

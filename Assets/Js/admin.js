@@ -1,8 +1,7 @@
-/* assets/js/admin.js - Painel de Controle V5 (Sem Modo Espião) */
+/* assets/js/admin.js - Painel de Controle V6 (Final) */
 
 document.addEventListener('DOMContentLoaded', () => {
     // Aguarda a verificação de admin do game-data.js
-    // Dá um tempo para o Firebase conectar e verificar o email
     setTimeout(() => {
         if (!window.isAdminUser) {
             document.body.innerHTML = `
@@ -23,10 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function carregarUsuarios() {
     const tbody = document.getElementById('users-table-body');
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#94a3b8;"><i class="fas fa-circle-notch fa-spin"></i> Acedendo à base de dados neural...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#94a3b8;"><i class="fas fa-circle-notch fa-spin"></i> A carregar dados...</td></tr>';
 
     try {
-        // Busca todos os jogadores ordenados por XP (do maior para o menor)
+        // Busca todos os jogadores ordenados por XP
         const snapshot = await window.db.collection('jogadores').orderBy('xp', 'desc').get();
         
         let html = '';
@@ -41,20 +40,19 @@ async function carregarUsuarios() {
             const user = doc.data();
             totalXP += (user.xp || 0);
             
-            // Badge de Cargo
+            // Badges
             const roleBadge = user.isAdmin 
                 ? '<span class="badge-admin"><i class="fas fa-shield-alt"></i> ADMIN</span>' 
                 : '<span class="badge-user">USER</span>';
                 
-            // Badge de Título Personalizado ou Cargo Automático
             const titleDisplay = user.customTitle 
                 ? `<span class="custom-title-tag">${user.customTitle}</span>` 
                 : `<span style="color:#64748b; font-size:0.8rem;">${window.getRole ? window.getRole(user.level || 1) : '-'}</span>`;
 
-            // Verifica se é o próprio admin (para lógica de reset self)
+            // Verifica se é o próprio admin (para bloquear reset acidental fácil)
             const isMe = window.currentUser && window.currentUser.uid === doc.id;
 
-            // Destaque visual para High Level (> 5000 XP)
+            // Destaque visual para High Level
             const rowStyle = user.xp > 5000 ? 'background: rgba(250, 204, 21, 0.05);' : '';
 
             html += `
@@ -111,9 +109,9 @@ async function carregarUsuarios() {
 
 // --- AÇÕES INDIVIDUAIS ---
 
-// 1. Dar XP (Soma ao atual)
+// 1. Dar XP
 async function darXP(uid, nome) {
-    const qtd = prompt(`Quanto XP deseja ADICIONAR para ${nome}?\n(Use valor negativo para remover, ex: -500)`, "1000");
+    const qtd = prompt(`Quanto XP deseja ADICIONAR para ${nome}?\n(Use valor negativo para remover)`, "1000");
     if(!qtd) return;
     
     try {
@@ -122,35 +120,34 @@ async function darXP(uid, nome) {
         
         if (doc.exists) {
             const currentXP = doc.data().xp || 0;
-            const newXP = Math.max(0, currentXP + parseInt(qtd)); // Não deixa ficar negativo
-            
-            // Recalcula nível simples (100 XP = 1 Nível) para manter consistência
+            const newXP = Math.max(0, currentXP + parseInt(qtd));
+            // Recalcula nível simples
             const newLevel = Math.floor(newXP / 100) + 1;
             
             await docRef.update({ xp: newXP, level: newLevel });
             alert(`✅ Sucesso! ${nome} agora tem ${newXP} XP (Nível ${newLevel}).`);
-            carregarUsuarios(); // Atualiza tabela
+            carregarUsuarios();
         }
     } catch(e) { alert("Erro: " + e.message); }
 }
 
-// 2. Definir Nível (Usa a função global do game-data.js)
+// 2. Definir Nível
 async function setarNivel(uid, nome) {
     const nivel = prompt(`Definir nível EXATO para ${nome}:`, "50");
     if(!nivel) return;
     
     if (window.definirNivel) {
         await window.definirNivel(uid, nivel);
-        carregarUsuarios(); // Recarrega a tabela
+        carregarUsuarios(); // Recarrega a tabela após a alteração
     } else {
-        alert("Erro: Função 'definirNivel' não encontrada no sistema global (game-data.js).");
+        alert("Erro: Função 'definirNivel' não encontrada no sistema global.");
     }
 }
 
-// 3. Mudar Título (Custom Title)
+// 3. Mudar Título
 async function mudarTitulo(uid, nome) {
     const titulo = prompt(`Novo Título para ${nome} (Deixe vazio para remover):`, "Mestre Jedi");
-    if(titulo === null) return; // Cancelou
+    if(titulo === null) return;
     
     try {
         await window.db.collection('jogadores').doc(uid).update({ customTitle: titulo });
@@ -159,9 +156,9 @@ async function mudarTitulo(uid, nome) {
     } catch(e) { alert("Erro: " + e.message); }
 }
 
-// 4. Resetar Usuário (Zera tudo)
+// 4. Resetar Usuário
 async function resetarUsuario(uid, nome) {
-    if (confirm(`🔴 PERIGO: Isso vai ZERAR todo o progresso de ${nome}.\nXP, Nível, Inventário e Títulos serão perdidos.\n\nTem a certeza?`)) {
+    if (confirm(`🔴 PERIGO: Isso vai ZERAR todo o progresso de ${nome}.\nXP, Nível e Títulos serão perdidos.\n\nTem a certeza?`)) {
         try {
             await window.db.collection('jogadores').doc(uid).update({
                 xp: 0,
@@ -180,9 +177,9 @@ async function resetarUsuario(uid, nome) {
 
 // --- AÇÕES GLOBAIS / SIDEBAR ---
 
-// Limpeza em Massa (Visitantes e Convidados)
+// Limpeza em Massa
 async function apagarVisitantes() {
-    if (!confirm("☢️ EXECUTAR LIMPEZA DE SISTEMA?\n\nIsto vai APAGAR PERMANENTEMENTE do banco de dados todos os utilizadores com o nome 'Visitante' ou 'Convidado'.\n\nEsta ação é irreversível e serve para poupar espaço.\n\nContinuar?")) return;
+    if (!confirm("☢️ LIMPEZA DE SISTEMA\n\nDeseja APAGAR PERMANENTEMENTE do banco de dados todos os utilizadores com nome 'Visitante' ou 'Convidado'?\n\nEsta ação é irreversível.\n\nContinuar?")) return;
     
     const btn = document.querySelector('button[onclick="apagarVisitantes()"]');
     const originalText = btn ? btn.innerHTML : '';
@@ -218,7 +215,6 @@ async function apagarVisitantes() {
 function giveSelfXP() {
     if(window.adicionarXP) {
         window.adicionarXP(1000);
-        // Pequeno delay para o Firebase processar antes de recarregar a tabela
         setTimeout(carregarUsuarios, 1000);
     }
 }
@@ -226,7 +222,6 @@ function giveSelfXP() {
 // Atalho para resetar a si mesmo
 function resetSelf() {
     if(window.currentUser && confirm("Tem a certeza que quer resetar o seu PRÓPRIO perfil?")) {
-        // Chama a função de reset passando o próprio ID
         resetarUsuario(window.currentUser.uid, "VOCÊ (ADMIN)");
     }
 }
