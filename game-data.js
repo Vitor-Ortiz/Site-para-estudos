@@ -1,5 +1,11 @@
-/* ARQUIVO: game-data.js - VERSÃO FINAL V24
-   Responsável por: Auth, Banco de Dados, Admin, Áudio, XP, Stats, Loja e Cursos
+/* ARQUIVO: game-data.js - VERSÃO FINAL V25 (REVISADA)
+   Funcionalidades:
+   1. Autenticação & Segurança
+   2. Sistema de Admin & Roles
+   3. Áudio Global & Confetes
+   4. Limpeza Automática de Convidados (24h)
+   5. Estatísticas (Pomodoro/Tarefas)
+   6. Loja e Inventário (Comprar/Equipar/Consumir)
 */
 
 // =================================================
@@ -14,7 +20,7 @@ const firebaseConfig = {
     appId: "1:894897799858:web:615292d62afc04af61ffab"
 };
 
-// Inicializa apenas se ainda não existir
+// Inicializa Firebase apenas uma vez
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -128,8 +134,8 @@ auth.onAuthStateChanged((user) => {
         
         // Segurança: Bloqueia acesso direto ao Admin sem login
         if (window.location.pathname.includes("admin.html")) {
-            // O script do admin.js fará o redirect
-            return; 
+            console.warn("Admin protegido. Login necessário.");
+            return; // O script do admin.js fará o redirect
         }
 
         window.currentUser = null;
@@ -180,7 +186,7 @@ async function carregarDados(uid, nomeAtual, isGuest) {
             window.userCustomTitle = data.customTitle || "";
             
             // Garante estrutura de stats e inventário
-            window.userStats = data.stats || { pomodoros: 0, tasks: 0, streak: 0, lessons: [] };
+            window.userStats = data.stats || { pomodoros: 0, tasks: 0, streak: 0, lessons: [], lastLogin: null };
             if(!window.userStats.lessons) window.userStats.lessons = [];
             
             window.userInventory = data.inventory || [];
@@ -193,13 +199,20 @@ async function carregarDados(uid, nomeAtual, isGuest) {
                 const diffDays = (today - last) / 86400000;
 
                 if (diffDays === 1) {
+                    // Dia seguinte: Aumenta Streak
                     window.userStats.streak = (window.userStats.streak || 0) + 1;
                 } else if (diffDays > 1) {
+                    // Perdeu dias: Verifica Escudo
                     if (window.userInventory.includes('item_shield')) {
-                        window.userInventory.splice(window.userInventory.indexOf('item_shield'), 1);
+                        const idx = window.userInventory.indexOf('item_shield');
+                        if (idx > -1) window.userInventory.splice(idx, 1); // Consome
                         showNotification("🛡️ Escudo usado! Streak salvo.", "info");
-                    } else window.userStats.streak = 1;
-                } else if (diffDays !== 0) window.userStats.streak = 1;
+                    } else {
+                        window.userStats.streak = 1; // Reseta
+                    }
+                } else if (diffDays !== 0) {
+                    window.userStats.streak = 1; // Primeira vez
+                }
                 
                 window.userStats.lastLogin = firebase.firestore.FieldValue.serverTimestamp();
                 docRef.update({ stats: window.userStats, inventory: window.userInventory });
@@ -241,8 +254,6 @@ async function carregarDados(uid, nomeAtual, isGuest) {
 
         // Avisa toda a aplicação que estamos prontos
         window.dispatchEvent(new CustomEvent('gameDataLoaded'));
-        
-        // Atualiza UI
         atualizarHUD();
         atualizarUIComNome(nomeAtual, !!window.currentUser);
 
@@ -263,6 +274,8 @@ window.comprarItemGlobal = async function(itemId, price, name, icon) {
         window.globalXP -= price;
         
         // Adiciona ao inventário
+        // Se for item consumível (Escudo), permite adicionar múltiplos
+        // Se for tema/título, apenas 1
         if (itemId === 'item_shield' || !window.userInventory.includes(itemId)) {
             window.userInventory.push(itemId);
         }
@@ -281,11 +294,14 @@ window.comprarItemGlobal = async function(itemId, price, name, icon) {
 window.equiparItemGlobal = async function(type, itemId) {
     if (!window.userLoadout) window.userLoadout = {};
     
+    // Atualiza loadout
     window.userLoadout[type] = itemId;
     playSound('click');
 
+    // Aplica efeito imediato (se for tema)
     if (type === 'theme') aplicarTema(itemId);
     
+    // Atualiza UI (se for título, o nome muda no header)
     const nome = window.currentUser ? window.currentUser.displayName.split(' ')[0] : "Visitante";
     atualizarUIComNome(nome, !!window.currentUser);
 
@@ -470,27 +486,6 @@ function atualizarUIComNome(nome, isLogado) {
     atualizarHUD();
 }
 
-// SISTEMA DE NOTIFICAÇÃO (TOAST) - Substitui Alertas
-function showNotification(message, type = 'success') {
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification'; // Usa a classe do CSS
-    
-    let icon = 'fa-check-circle';
-    let color = '#4ade80';
-
-    if (type === 'info') { icon = 'fa-info-circle'; color = '#38bdf8'; }
-    if (type === 'error') { icon = 'fa-exclamation-circle'; color = '#ef4444'; }
-
-    toast.style.borderColor = color;
-    toast.innerHTML = `
-        <i class="fas ${icon} toast-icon" style="color:${color}"></i>
-        <span class="toast-text">${message}</span>
-    `;
-    
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3500);
-}
-
 function mostrarFloatXP(qtd) {
     const floatXP = document.createElement('div');
     floatXP.textContent = `+${qtd} XP`;
@@ -543,13 +538,34 @@ window.closeLevelModal = function(btn) {
     playSound('click');
 }
 
+// SISTEMA DE NOTIFICAÇÃO (TOAST)
+function showNotification(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification'; // Usa a classe do CSS
+    
+    let icon = 'fa-check-circle';
+    let color = '#4ade80';
+
+    if (type === 'info') { icon = 'fa-info-circle'; color = '#38bdf8'; }
+    if (type === 'error') { icon = 'fa-exclamation-circle'; color = '#ef4444'; }
+
+    toast.style.borderColor = color;
+    toast.innerHTML = `
+        <i class="fas ${icon} toast-icon" style="color:${color}"></i>
+        <span class="toast-text">${message}</span>
+    `;
+    
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+}
+
 function fazerLogout() {
     auth.signOut().then(() => {
         window.location.href = window.location.pathname.includes("/pages/") ? "../index.html" : "index.html";
     });
 }
 
-// Sons no Hover
+// Inicializador de Sons
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const interactives = document.querySelectorAll('button, a, .interactive-btn, .card');

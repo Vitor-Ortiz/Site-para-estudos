@@ -1,4 +1,4 @@
-/* assets/js/header.js - V4 (Shop Link Added) */
+/* assets/js/header.js - V5 (Love Icon Added) */
 
 document.addEventListener("DOMContentLoaded", () => {
     const header = document.querySelector("header");
@@ -25,6 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         <li id="admin-nav-item" style="display:none;">
                             <a href="${path}pages/admin.html" class="admin-link">ADMIN</a>
                         </li>
+
+                        <li id="love-nav-item" style="display:none;">
+                            <a href="${path}pages/love.html" style="color:#ff1493;"><i class="fas fa-heart"></i></a>
+                        </li>
                     </ul>
                 </nav>
 
@@ -40,15 +44,21 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     
     highlightActiveLink();
-    checkAdminVisibility();
+    checkVisibility();
 });
 
-window.addEventListener('gameDataLoaded', checkAdminVisibility);
+// Ouve quando os dados carregam para verificar permissões
+window.addEventListener('gameDataLoaded', checkVisibility);
 
-function checkAdminVisibility() {
+function checkVisibility() {
+    // Admin
     const adminItem = document.getElementById('admin-nav-item');
-    if (window.isAdminUser && adminItem) {
-        adminItem.style.display = 'block';
+    if (window.isAdminUser && adminItem) adminItem.style.display = 'block';
+
+    // Love Page (Se for Admin OU LoveUser)
+    const loveItem = document.getElementById('love-nav-item');
+    if ((window.isAdminUser || window.isLoveUser) && loveItem) {
+        loveItem.style.display = 'block';
     }
 }
 
