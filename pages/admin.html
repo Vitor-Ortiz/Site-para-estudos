@@ -15,34 +15,43 @@
 
     <div class="container">
         <div class="hero" style="padding: 2rem 0; text-align: left; min-height: auto;">
-            <h1 style="font-size: 2.5rem; color: #38bdf8; text-shadow: 0 0 20px rgba(68, 228, 239, 0.4);">COMMAND CENTER_</h1>
-            <p style="margin: 0; color: #94a3b8;">Painel de Gestão de Operadores e Sistema.</p>
+            <h1 style="font-size: 2.5rem; color: var(--primary-neon); text-shadow: 0 0 20px var(--primary-neon);">
+                COMMAND CENTER_
+            </h1>
+            <p style="margin: 0; color: var(--text-muted);">Painel de Gestão de Operadores e Sistema.</p>
         </div>
 
         <div class="admin-grid">
+            
             <aside class="stats-panel">
                 <h3 style="color: #fff; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
                     <i class="fas fa-chart-pie"></i> Métricas
                 </h3>
                 
                 <div style="margin-bottom: 1.5rem;">
-                    <small style="color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">Total Jogadores</small>
+                    <small style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Total Jogadores</small>
                     <div style="font-size: 2.5rem; color: #fff; font-weight: bold; font-family: 'Fira Code';" id="stat-total">--</div>
                 </div>
                 
                 <div style="margin-bottom: 1.5rem;">
-                    <small style="color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">XP Distribuído</small>
-                    <div style="font-size: 2rem; color: #facc15; font-weight: bold; font-family: 'Fira Code';" id="stat-xp">--</div>
+                    <small style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">XP Distribuído</small>
+                    <div style="font-size: 2rem; color: var(--accent); font-weight: bold; font-family: 'Fira Code';" id="stat-xp">--</div>
                 </div>
                 
                 <hr style="border-color: rgba(255,255,255,0.1); margin: 2rem 0;">
                 
-                <h4 style="color: #94a3b8; margin-bottom: 1rem;">God Mode (Self)</h4>
-                <button class="btn btn-outline" style="width: 100%; border-color: #ef4444; color: #ef4444; margin-bottom: 10px;" onclick="giveSelfXP()">
+                <h4 style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">GOD MODE (SELF)</h4>
+                
+                <button class="btn btn-outline" style="width: 100%; border-color: var(--success); color: var(--success); margin-bottom: 10px;" onclick="giveSelfXP()">
                     <i class="fas fa-plus"></i> Add 1000 XP
                 </button>
-                <button class="btn btn-outline" style="width: 100%; border-color: #facc15; color: #facc15;" onclick="resetSelf()">
+                
+                <button class="btn btn-outline" style="width: 100%; border-color: var(--accent); color: var(--accent); margin-bottom: 10px;" onclick="resetSelf()">
                     <i class="fas fa-undo"></i> Resetar Meu Perfil
+                </button>
+
+                <button class="btn btn-outline" style="width: 100%; border-color: var(--danger); color: var(--danger); margin-top: 20px;" onclick="apagarVisitantes()">
+                    <i class="fas fa-trash-alt"></i> LIMPEZA DE VISITANTES
                 </button>
             </aside>
 
@@ -54,20 +63,26 @@
                     </button>
                 </div>
                 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Utilizador</th>
-                            <th>Nível</th>
-                            <th>Cargo / Título</th>
-                            <th>Status</th>
-                            <th>Comandos</th>
-                        </tr>
-                    </thead>
-                    <tbody id="users-table-body">
-                        <tr><td colspan="5" style="text-align:center; padding: 2rem; color: #64748b;">Acedendo à rede neural...</td></tr>
-                    </tbody>
-                </table>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Utilizador</th>
+                                <th>Nível</th>
+                                <th>Cargo / Título</th>
+                                <th>Status</th>
+                                <th>Comandos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <tr>
+                                <td colspan="5" style="text-align:center; padding: 2rem; color: var(--text-muted);">
+                                    <i class="fas fa-circle-notch fa-spin"></i> Acedendo à rede neural...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </main>
         </div>
     </div>

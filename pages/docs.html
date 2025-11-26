@@ -1,40 +1,234 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy | Documentação</title>
-    
+    <title>DevStudy | Biblioteca</title>
+
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/header.css">
     <link rel="stylesheet" href="../assets/css/components.css">
-    <link rel="stylesheet" href="../assets/css/dashboard.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        .lab-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
-        .control-group label { display: block; color: var(--primary-neon); font-family: 'Fira Code', monospace; margin-bottom: 0.5rem; font-size: 0.9rem; }
-        .control-group select { width: 100%; padding: 10px; background: #1e1e1e; border: 1px solid #334155; color: white; border-radius: 4px; font-family: 'Fira Code', monospace; }
-        
-        .flex-preview { background: #0f172a; border: 2px dashed #334155; height: 300px; border-radius: 8px; padding: 10px; display: flex; transition: all 0.3s ease; overflow: hidden; }
-        .flex-item { width: 80px; height: 80px; background: var(--primary-neon); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: 'Fira Code'; border-radius: 4px; font-size: 1.5rem; transition: all 0.3s; }
-        .flex-item:nth-child(2) { background: var(--secondary-neon); }
-        .flex-item:nth-child(3) { background: var(--accent); }
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
 
-        /* Atlas Styles */
-        .atlas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .lang-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 2rem; text-align: center; transition: all 0.3s; cursor: pointer; position: relative; overflow: hidden; }
-        .lang-card:hover { transform: translateY(-5px); border-color: var(--primary-neon); background: rgba(255,255,255,0.05); }
-        .lang-icon { font-size: 3.5rem; margin-bottom: 1rem; color: var(--text-muted); transition: color 0.3s; }
-        .lang-card:hover .lang-icon { color: var(--primary-neon); filter: drop-shadow(0 0 10px var(--primary-neon)); }
-        .lang-title { font-size: 1.2rem; color: white; margin-bottom: 0.5rem; font-family: 'Fira Code'; }
-        .lang-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
-        
-        /* Cores específicas */
-        .js-card:hover { border-color: #f7df1e; } .js-card:hover .lang-icon { color: #f7df1e; filter: drop-shadow(0 0 10px #f7df1e); }
-        .py-card:hover { border-color: #306998; } .py-card:hover .lang-icon { color: #306998; filter: drop-shadow(0 0 10px #306998); }
-        .css-card:hover { border-color: #264de4; } .css-card:hover .lang-icon { color: #264de4; filter: drop-shadow(0 0 10px #264de4); }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* Controles do Laboratório */
+        .lab-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .control-group label {
+            display: block;
+            color: var(--primary-neon);
+            font-family: 'Fira Code', monospace;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .control-group select {
+            width: 100%;
+            padding: 10px;
+            background: #1e1e1e;
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Preview do Flexbox */
+        .flex-preview {
+            background: #0f172a;
+            border: 2px dashed #334155;
+            height: 300px;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .flex-item {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-neon);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-family: 'Fira Code';
+            border-radius: 4px;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .flex-item:nth-child(2) {
+            background: var(--secondary-neon);
+        }
+
+        .flex-item:nth-child(3) {
+            background: var(--accent);
+        }
+
+        /* Estilos do Neural Archive (Pesquisa) */
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-neon);
+        }
+
+        .search-container input {
+            padding-left: 45px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            padding: 6px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Fira Code';
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-neon);
+            color: #000;
+            border-color: var(--primary-neon);
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .cmd-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cmd-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Cores das bordas por linguagem */
+        .cmd-card.html {
+            border-left: 3px solid #e34c26;
+        }
+
+        .cmd-card.css {
+            border-left: 3px solid #264de4;
+        }
+
+        .cmd-card.js {
+            border-left: 3px solid #f7df1e;
+        }
+
+        .cmd-card.git {
+            border-left: 3px solid #f05032;
+        }
+
+        /* Cor do Git */
+
+        .cmd-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .cmd-name {
+            font-family: 'Fira Code';
+            font-weight: bold;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .cmd-type {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* Badges de tipo */
+        .cmd-type.html {
+            background: rgba(227, 76, 38, 0.2);
+            color: #e34c26;
+        }
+
+        .cmd-type.css {
+            background: rgba(38, 77, 228, 0.2);
+            color: #66a1ff;
+        }
+
+        .cmd-type.js {
+            background: rgba(247, 223, 30, 0.2);
+            color: #f7df1e;
+        }
+
+        .cmd-type.git {
+            background: rgba(240, 80, 50, 0.2);
+            color: #f05032;
+        }
+
+        .cmd-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .cmd-code {
+            background: #000;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'Fira Code';
+            font-size: 0.8rem;
+            color: #a5f3fc;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
     </style>
 </head>
+
 <body>
     <header></header>
 
@@ -43,12 +237,17 @@
             <div class="sidebar-header">
                 <h3><i class="fas fa-book"></i> BIBLIOTECA</h3>
             </div>
-            
+
             <ul class="module-list">
-                <li class="module-item active" onclick="carregarAba('atlas')">
+                <li class="module-item active" onclick="carregarAba('archive')">
+                    <i class="fas fa-search"></i> <span>Neural Archive</span>
+                </li>
+                <li class="module-item" onclick="carregarAba('atlas')">
                     <i class="fas fa-globe"></i> <span>Atlas de Linguagens</span>
                 </li>
+
                 <div class="sidebar-divider"></div>
+
                 <li class="module-item" onclick="carregarAba('flexbox')">
                     <i class="fas fa-layer-group"></i> <span>Lab: Flexbox</span>
                 </li>
@@ -59,10 +258,36 @@
         </aside>
 
         <main class="workspace">
-            
-            <section id="aba-atlas" class="module-content active">
-                <div class="module-banner" style="border-color: #a855f7; background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), transparent);">
-                    <h2><i class="fas fa-map-marked-alt"></i> Atlas do Conhecimento</h2>
+
+            <section id="aba-archive" class="module-content active">
+                <div class="module-banner"
+                    style="border-color: #4ade80; background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), transparent);">
+                    <h2><i class="fas fa-database"></i> Neural Archive</h2>
+                    <p>Base de conhecimento central. Pesquise comandos e sintaxe.</p>
+                </div>
+
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="cmd-search" class="cyber-input"
+                        placeholder="Pesquisar (ex: flex, div, function, git)..." onkeyup="filtrarComandos()">
+                </div>
+
+                <div class="filter-tags">
+                    <button class="filter-btn active" onclick="filtrarTipo('all')">Tudo</button>
+                    <button class="filter-btn" onclick="filtrarTipo('html')">HTML</button>
+                    <button class="filter-btn" onclick="filtrarTipo('css')">CSS</button>
+                    <button class="filter-btn" onclick="filtrarTipo('js')">JS</button>
+                    <button class="filter-btn" onclick="filtrarTipo('git')">Git</button>
+                </div>
+
+                <div class="commands-grid" id="commands-list">
+                </div>
+            </section>
+
+            <section id="aba-atlas" class="module-content">
+                <div class="module-banner"
+                    style="border-color: #a855f7; background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), transparent);">
+                    <h2><i class="fas fa-map-marked-alt"></i> Atlas de Linguagens</h2>
                     <p>O mapa das tecnologias que constroem o futuro.</p>
                 </div>
 
@@ -70,31 +295,31 @@
                     <div class="lang-card js-card">
                         <i class="fab fa-js lang-icon"></i>
                         <h3 class="lang-title">JavaScript</h3>
-                        <p class="lang-desc">A linguagem da Web. Torna as páginas interativas e roda tanto no navegador quanto no servidor.</p>
+                        <p class="lang-desc">A linguagem da Web. Torna as páginas interativas.</p>
                     </div>
 
-                    <div class="lang-card py-card">
-                        <i class="fab fa-python lang-icon"></i>
-                        <h3 class="lang-title">Python</h3>
-                        <p class="lang-desc">Simples e poderosa. Favorita para Ciência de Dados, IA e Automação.</p>
+                    <div class="lang-card html-card" onclick="window.location.href='atlas/html.html'">
+                        <i class="fab fa-html5 lang-icon"></i>
+                        <h3 class="lang-title">HTML5</h3>
+                        <p class="lang-desc">O esqueleto. Clique para acessar o Curso Completo.</p>
                     </div>
 
                     <div class="lang-card css-card">
                         <i class="fab fa-css3-alt lang-icon"></i>
                         <h3 class="lang-title">CSS3</h3>
-                        <p class="lang-desc">A arte do estilo. Controla o layout, cores e animações de tudo o que vês na web.</p>
+                        <p class="lang-desc">A arte do estilo e layout.</p>
                     </div>
 
-                    <div class="lang-card" style="border-color: rgba(227, 76, 38, 0.3);">
-                        <i class="fab fa-html5 lang-icon" style="color: #e34c26;"></i>
-                        <h3 class="lang-title">HTML5</h3>
-                        <p class="lang-desc">O esqueleto. Define a estrutura e o significado do conteúdo.</p>
+                    <div class="lang-card py-card">
+                        <i class="fab fa-python lang-icon"></i>
+                        <h3 class="lang-title">Python</h3>
+                        <p class="lang-desc">Poderoso para Dados e IA.</p>
                     </div>
-                    
-                    <div class="lang-card" style="border-color: rgba(97, 218, 251, 0.3);">
-                        <i class="fab fa-react lang-icon" style="color: #61dbfb;"></i>
+
+                    <div class="lang-card react-card">
+                        <i class="fab fa-react lang-icon"></i>
                         <h3 class="lang-title">React</h3>
-                        <p class="lang-desc">Biblioteca JS para criar interfaces de utilizador dinâmicas e modernas.</p>
+                        <p class="lang-desc">Biblioteca para interfaces modernas.</p>
                     </div>
                 </div>
             </section>
@@ -102,7 +327,7 @@
             <section id="aba-flexbox" class="module-content">
                 <div class="module-banner css-bg">
                     <h2><i class="fas fa-flask"></i> Simulador Flexbox</h2>
-                    <p>Manipule o layout em tempo real.</p>
+                    <p>Manipule as propriedades CSS em tempo real.</p>
                 </div>
 
                 <div class="challenge-card">
@@ -154,22 +379,24 @@
 
                     <div class="code-example" style="margin-top: 1.5rem;">
                         <div class="code-editor" id="code-output" style="color: #a5f3fc;">
-.container {
-  display: flex;
-}
+                            .container { display: flex; }
                         </div>
                     </div>
                 </div>
             </section>
+
         </main>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    
+
     <script src="../game-data.js"></script>
     <script src="../assets/js/header.js"></script>
+
+    <script src="../assets/js/database.js"></script>
     <script src="../assets/js/lab.js"></script>
 </body>
+
 </html>

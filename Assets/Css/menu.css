@@ -1,0 +1,169 @@
+/* assets/css/menu.css - ESTILOS DA MAINFRAME */
+
+/* Área de Boas Vindas */
+.welcome-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 3rem;
+}
+
+.user-greeting h1 {
+    font-size: 2.5rem;
+    color: white;
+    margin: 0;
+    font-family: 'Fira Code', monospace;
+}
+
+.user-greeting p {
+    color: var(--text-muted);
+    margin: 5px 0 0;
+    font-size: 1rem;
+}
+
+.quick-stats {
+    display: flex;
+    gap: 15px;
+}
+
+.stat-pill {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: white;
+    font-family: 'Fira Code';
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-pill.xp {
+    border-color: var(--primary-neon);
+    color: var(--primary-neon);
+    background: rgba(56, 189, 248, 0.1);
+}
+
+/* GRID DO MENU */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding-bottom: 4rem;
+}
+
+.menu-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 240px;
+    backdrop-filter: blur(10px);
+}
+
+.menu-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    background: rgba(15, 23, 42, 0.8);
+}
+
+/* Ícone de Fundo Gigante */
+.card-bg-icon {
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    font-size: 8rem;
+    opacity: 0.05;
+    color: white;
+    transition: transform 0.3s;
+}
+
+.menu-card:hover .card-bg-icon {
+    transform: rotate(10deg) scale(1.1);
+    opacity: 0.1;
+}
+
+/* Conteúdo */
+.card-content {
+    position: relative;
+    z-index: 2;
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.menu-card h3 {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem;
+    font-family: 'Fira Code';
+}
+
+.menu-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.card-action {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: gap 0.2s;
+    z-index: 2;
+}
+
+.menu-card:hover .card-action {
+    gap: 12px;
+}
+
+/* ESTILOS ESPECÍFICOS POR CARTÃO */
+
+/* Matrix (Verde/Azul) */
+.matrix-card:hover { border-color: var(--success); }
+.matrix-card .card-icon, .matrix-card .card-action { color: var(--success); }
+
+/* Game (Amarelo) */
+.game-card:hover { border-color: #facc15; }
+.game-card .card-icon, .game-card .card-action { color: #facc15; }
+
+/* Docs (Azul Neon) */
+.docs-card:hover { border-color: var(--primary-neon); }
+.docs-card .card-icon, .docs-card .card-action { color: var(--primary-neon); }
+
+/* Profile (Rosa) */
+.profile-card:hover { border-color: var(--secondary-neon); }
+.profile-card .card-icon, .profile-card .card-action { color: var(--secondary-neon); }
+
+/* Shop (Roxo) */
+.shop-card:hover { border-color: #a855f7; }
+.shop-card .card-icon, .shop-card .card-action { color: #a855f7; }
+
+/* Admin (Vermelho) */
+.admin-card-menu:hover { border-color: var(--danger); }
+.admin-card-menu .card-icon, .admin-card-menu .card-action { color: var(--danger); }
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .welcome-section { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .menu-grid { grid-template-columns: 1fr; }
+}

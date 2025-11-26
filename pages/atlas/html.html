@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStudy | Curso HTML</title>
+    
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/header.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <link rel="stylesheet" href="../../assets/css/atlas/atlas.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header></header>
+
+    <div class="atlas-container">
+        <aside class="course-sidebar">
+            <div class="course-header">
+                <a href="../docs.html" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
+                <h3>HTML5 Mastery</h3>
+                <div class="progress-track"><div class="progress-fill" id="course-progress" style="width: 0%"></div></div>
+            </div>
+            <ul class="lesson-list" id="lesson-list"></ul>
+        </aside>
+
+        <main class="course-content">
+            <div class="video-wrapper">
+                <div id="video-placeholder" class="video-container">
+                    <iframe id="video-frame" src="" frameborder="0" allowfullscreen></iframe>
+                    <div id="video-overlay" class="video-overlay">
+                        <i class="fab fa-youtube"></i>
+                        <p>Selecione uma aula</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-details">
+                <h1 id="lesson-title">Bem-vindo ao Curso</h1>
+                <p class="lesson-desc" id="lesson-desc">Escolha um tópico à esquerda.</p>
+                
+                <div class="action-area">
+                    <button class="btn btn-primary" id="btn-complete" onclick="concluirAulaAtual()" disabled>
+                        <i class="fas fa-check-circle"></i> MARCAR VISTO (+50 XP)
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="../../game-data.js"></script>
+    <script src="../../assets/js/header.js"></script>
+    <script src="../../assets/js/atlas/html.js"></script>
+</body>
+</html>

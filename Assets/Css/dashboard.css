@@ -1,12 +1,13 @@
-/* assets/css/dashboard.css */
+/* assets/css/dashboard.css - ESTILOS DA SIDEBAR, MATRIX E ATLAS */
 
+/* --- LAYOUT GERAL --- */
 .dashboard-container {
     display: grid;
-    grid-template-columns: 260px 1fr;
-    min-height: calc(100vh - 80px); /* Ajustado para o header novo */
+    grid-template-columns: 260px 1fr; /* Sidebar fixa | Conteúdo fluido */
+    min-height: calc(100vh - 80px); /* Altura total menos header */
 }
 
-/* Sidebar */
+/* --- SIDEBAR (LATERAL) --- */
 .skill-sidebar {
     background: rgba(15, 23, 42, 0.6);
     backdrop-filter: blur(10px);
@@ -29,15 +30,29 @@
     letter-spacing: 1px;
 }
 
-.module-list { list-style: none; padding: 0 1rem; }
-
-.module-item {
-    display: flex; align-items: center; gap: 12px; padding: 12px 15px;
-    margin-bottom: 5px; border-radius: 8px; color: var(--text-muted);
-    cursor: pointer; font-family: var(--font-body); font-weight: 500; transition: all 0.2s;
+.module-list {
+    list-style: none;
+    padding: 0 1rem;
 }
 
-.module-item:hover { background: rgba(255, 255, 255, 0.05); color: white; }
+.module-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.module-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
 
 .module-item.active {
     background: rgba(56, 189, 248, 0.1);
@@ -45,88 +60,507 @@
     border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
-.sidebar-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 10px 15px; }
+.sidebar-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+    margin: 10px 15px;
+}
 
-.sidebar-footer { margin-top: auto; padding: 1.5rem; }
-.progress-widget span { font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 5px; }
-.progress-bar { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
-.progress-bar .fill { height: 100%; background: var(--primary-neon); box-shadow: 0 0 10px var(--primary-neon); }
+.sidebar-footer {
+    margin-top: auto;
+    padding: 1.5rem;
+}
 
-/* Workspace */
-.workspace { padding: 2rem 3rem; overflow-y: auto; }
-.module-content { display: none; animation: fadeIn 0.4s ease; }
-.module-content.active { display: block; }
+.progress-widget span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 5px;
+}
 
+.progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-bar .fill {
+    height: 100%;
+    background: var(--primary-neon);
+    box-shadow: 0 0 10px var(--primary-neon);
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+/* --- ÁREA DE TRABALHO (WORKSPACE) --- */
+.workspace {
+    padding: 2rem 3rem;
+    overflow-y: auto;
+}
+
+.module-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.module-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Banners de Título */
 .module-banner {
     background: linear-gradient(135deg, rgba(56,189,248,0.1), rgba(15,23,42,0));
-    padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border-left: 4px solid var(--primary-neon);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--primary-neon);
 }
+
 .module-banner.html-bg { border-color: #e34c26; }
 .module-banner.css-bg { border-color: #264de4; }
 .module-banner.js-bg { border-color: #f7df1e; }
 
-.module-banner h2 { font-family: var(--font-code); font-size: 2rem; color: white; margin-bottom: 0.5rem; }
+.module-banner h2 {
+    font-family: var(--font-code);
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 0.5rem;
+}
 
-/* Cards e Quizzes */
+/* --- ATLAS DE LINGUAGENS (DOCS) --- */
+.atlas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.lang-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.lang-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255,255,255,0.05);
+}
+
+.lang-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+    transition: color 0.3s, filter 0.3s;
+}
+
+.lang-title {
+    font-size: 1.2rem;
+    color: white;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-code);
+}
+
+.lang-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Cores Específicas (Só ativam no Hover) */
+.js-card:hover { border-color: #f7df1e; }
+.js-card:hover .lang-icon { color: #f7df1e; filter: drop-shadow(0 0 10px rgba(247, 223, 30, 0.5)); }
+
+.py-card:hover { border-color: #306998; }
+.py-card:hover .lang-icon { color: #306998; filter: drop-shadow(0 0 10px rgba(48, 105, 152, 0.5)); }
+
+.css-card:hover { border-color: #264de4; }
+.css-card:hover .lang-icon { color: #264de4; filter: drop-shadow(0 0 10px rgba(38, 77, 228, 0.5)); }
+
+.html-card:hover { border-color: #e34c26; }
+.html-card:hover .lang-icon { color: #e34c26; filter: drop-shadow(0 0 10px rgba(227, 76, 38, 0.5)); }
+
+.react-card:hover { border-color: #61dbfb; }
+.react-card:hover .lang-icon { color: #61dbfb; filter: drop-shadow(0 0 10px rgba(97, 219, 251, 0.5)); }
+
+
+/* --- CARTÕES DE DESAFIO E QUIZ --- */
 .challenge-card {
-    background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; position: relative;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
 }
 
-.card-top { display: flex; justify-content: space-between; margin-bottom: 1rem; }
-.badge { background: rgba(255, 255, 255, 0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; color: var(--text-muted); }
-.code-badge { background: rgba(56, 189, 248, 0.2); color: var(--primary-neon); }
-.xp-reward { color: var(--accent); font-weight: bold; font-family: var(--font-code); }
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
 
-.quiz-options { display: grid; gap: 10px; margin-top: 1.5rem; }
+.badge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: var(--text-muted);
+}
+
+.code-badge {
+    background: rgba(56, 189, 248, 0.2);
+    color: var(--primary-neon);
+}
+
+.xp-reward {
+    color: var(--accent);
+    font-weight: bold;
+    font-family: var(--font-code);
+}
+
+/* Quiz */
+.quiz-options {
+    display: grid;
+    gap: 10px;
+    margin-top: 1.5rem;
+}
+
 .quiz-opt {
-    background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-main); padding: 12px; text-align: left; border-radius: 6px;
-    cursor: pointer; font-family: var(--font-code); transition: all 0.2s;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+    padding: 12px;
+    text-align: left;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--font-code);
+    transition: all 0.2s;
 }
-.quiz-opt:hover { background: rgba(255, 255, 255, 0.05); border-color: var(--text-muted); }
-.quiz-opt.correct { border-color: var(--success); background: rgba(74, 222, 128, 0.1); color: var(--success); }
-.quiz-opt.incorrect { border-color: var(--danger); background: rgba(239, 68, 68, 0.1); color: var(--danger); }
 
-/* Editor */
+.quiz-opt:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--text-muted);
+}
+
+.quiz-opt.correct {
+    border-color: var(--success);
+    background: rgba(74, 222, 128, 0.1);
+    color: var(--success);
+}
+
+.quiz-opt.incorrect {
+    border-color: var(--danger);
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+/* --- EDITOR DE CÓDIGO (Matrix) --- */
 .code-environment {
-    background: #1e1e1e; border-radius: 8px; border: 1px solid #333;
-    margin: 1.5rem 0; overflow: hidden;
+    background: #1e1e1e;
+    border-radius: 8px;
+    border: 1px solid #333;
+    margin: 1.5rem 0;
+    overflow: hidden;
 }
+
 .editor-toolbar {
-    background: #252526; display: flex; justify-content: space-between; align-items: center;
-    padding: 5px 15px; border-bottom: 1px solid #333;
+    background: #252526;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+    border-bottom: 1px solid #333;
 }
-.editor-toolbar span { color: #9cdcfe; font-size: 0.8rem; font-family: 'Fira Code'; }
-.icon-btn { background: transparent; border: none; color: #ccc; cursor: pointer; font-size: 0.9rem; }
+
+.editor-toolbar span {
+    color: #9cdcfe;
+    font-size: 0.8rem;
+    font-family: 'Fira Code';
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
 .icon-btn:hover { color: white; }
 
-.code-wrapper { display: flex; padding: 10px 0; }
-.line-numbers { padding: 0 10px; color: #858585; font-family: 'Fira Code'; font-size: 0.9rem; line-height: 1.5; text-align: right; border-right: 1px solid #333; user-select: none; }
-.code-editor { flex: 1; background: transparent; border: none; color: #d4d4d4; font-family: 'Fira Code'; font-size: 0.9rem; line-height: 1.5; padding: 0 15px; outline: none; white-space: pre; }
+.code-wrapper {
+    display: flex;
+    padding: 10px 0;
+}
 
-.feedback-area { margin-top: 15px; display: none; animation: fadeIn 0.3s; }
-.msg-success { background: rgba(74, 222, 128, 0.1); color: #4ade80; padding: 10px; border-radius: 6px; border: 1px solid #4ade80; font-family: var(--font-code); }
-.msg-error { background: rgba(239, 68, 68, 0.1); color: #f87171; padding: 10px; border-radius: 6px; border: 1px solid #f87171; font-family: var(--font-code); }
+.line-numbers {
+    padding: 0 10px;
+    color: #858585;
+    font-family: 'Fira Code';
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: right;
+    border-right: 1px solid #333;
+    user-select: none;
+}
 
-.deploy-btn { width: 100%; padding: 12px; background: var(--primary-neon); color: #0f172a; border: none; border-radius: 6px; font-weight: bold; font-family: var(--font-code); cursor: pointer; transition: all 0.2s; }
-.deploy-btn:hover { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); transform: translateY(-1px); }
+.code-editor {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #d4d4d4;
+    font-family: 'Fira Code';
+    font-size: 0.9rem;
+    line-height: 1.5;
+    padding: 0 15px;
+    outline: none;
+    white-space: pre;
+}
 
-/* Troféus */
-.trophy-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
-.trophy-card { background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 2rem; text-align: center; border: 1px solid transparent; transition: all 0.3s; position: relative; overflow: hidden; }
-.trophy-icon { font-size: 3rem; margin-bottom: 1rem; transition: transform 0.3s; }
-.trophy-card.locked { opacity: 0.5; filter: grayscale(100%); }
-.trophy-card.locked::after { content: '\f023'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; top: 10px; right: 15px; font-size: 1.2rem; color: #666; }
-.trophy-card.unlocked { background: linear-gradient(135deg, rgba(250, 204, 21, 0.1), rgba(0,0,0,0.2)); border-color: #facc15; box-shadow: 0 0 15px rgba(250, 204, 21, 0.1); }
-.trophy-card.unlocked .trophy-icon { color: #facc15; transform: scale(1.1); animation: bounce 2s infinite; }
-.trophy-card h4 { color: white; margin-bottom: 5px; }
-.trophy-card p { color: #999; font-size: 0.8rem; }
+/* Feedback */
+.feedback-area {
+    margin-top: 15px;
+    display: none;
+    animation: fadeIn 0.3s;
+}
 
-@keyframes bounce { 0%, 100% { transform: translateY(0) scale(1.1); } 50% { transform: translateY(-5px) scale(1.1); } }
-@keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.msg-success {
+    background: rgba(74, 222, 128, 0.1);
+    color: var(--success);
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--success);
+    font-family: var(--font-code);
+}
 
+.msg-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--danger);
+    font-family: var(--font-code);
+}
+
+.deploy-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-neon);
+    color: #0f172a;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-family: var(--font-code);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.deploy-btn:hover {
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    transform: translateY(-1px);
+}
+
+/* --- CONQUISTAS (TROPHIES) --- */
+.trophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.trophy-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.trophy-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    transition: transform 0.3s;
+}
+
+.trophy-card.locked {
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+.trophy-card.locked::after {
+    content: '\f023';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.trophy-card.unlocked {
+    background: linear-gradient(135deg, rgba(250, 204, 21, 0.1), rgba(0,0,0,0.2));
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(250, 204, 21, 0.1);
+}
+
+.trophy-card.unlocked .trophy-icon {
+    color: var(--accent);
+    transform: scale(1.1);
+    animation: bounce 2s infinite;
+}
+
+.trophy-card h4 {
+    color: white;
+    margin-bottom: 5px;
+}
+
+.trophy-card p {
+    color: #999;
+    font-size: 0.8rem;
+}
+
+/* ADICIONAR AO FINAL DE dashboard.css */
+
+/* --- NEURAL ARCHIVE (BANCO DE COMANDOS) --- */
+
+.search-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-neon);
+}
+
+.search-container input {
+    padding-left: 45px; /* Espaço para o ícone */
+    font-size: 1.1rem;
+    border-radius: 50px; /* Arredondado */
+}
+
+.filter-tags {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+.filter-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-muted);
+    padding: 6px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Fira Code';
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: var(--primary-neon);
+    color: #000;
+    border-color: var(--primary-neon);
+}
+
+.commands-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.cmd-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.cmd-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Borda lateral colorida por tipo */
+.cmd-card.html { border-left: 3px solid #e34c26; }
+.cmd-card.css { border-left: 3px solid #264de4; }
+.cmd-card.js { border-left: 3px solid #f7df1e; }
+
+.cmd-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cmd-name {
+    font-family: 'Fira Code';
+    font-weight: bold;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.cmd-type {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.cmd-type.html { background: rgba(227, 76, 38, 0.2); color: #e34c26; }
+.cmd-type.css { background: rgba(38, 77, 228, 0.2); color: #66a1ff; }
+.cmd-type.js { background: rgba(247, 223, 30, 0.2); color: #f7df1e; }
+
+.cmd-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.cmd-code {
+    background: #000;
+    padding: 10px;
+    border-radius: 6px;
+    font-family: 'Fira Code';
+    font-size: 0.8rem;
+    color: #a5f3fc;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0) scale(1.1); }
+    50% { transform: translateY(-5px) scale(1.1); }
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
     .dashboard-container { grid-template-columns: 1fr; }
     .skill-sidebar { display: none; }

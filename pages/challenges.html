@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevStudy | Matrix</title>
-    
+
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/header.css">
     <link rel="stylesheet" href="../assets/css/components.css">
-    <link rel="stylesheet" href="../assets/css/dashboard.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
     <header></header>
 
@@ -18,7 +21,7 @@
             <div class="sidebar-header">
                 <h3><i class="fas fa-terminal"></i> SISTEMA</h3>
             </div>
-            
+
             <ul class="module-list">
                 <li class="module-item active" onclick="carregarAba('html')">
                     <i class="fab fa-html5"></i> <span>Módulo HTML</span>
@@ -29,9 +32,9 @@
                 <li class="module-item" onclick="carregarAba('js')">
                     <i class="fab fa-js"></i> <span>Módulo JS</span>
                 </li>
-                
+
                 <div class="sidebar-divider"></div>
-                
+
                 <li class="module-item" onclick="carregarAba('trophies')">
                     <i class="fas fa-trophy" style="color: #facc15;"></i> <span>Conquistas</span>
                 </li>
@@ -40,19 +43,21 @@
             <div class="sidebar-footer">
                 <div class="progress-widget">
                     <span>Sincronização Neural</span>
-                    <div class="progress-bar"><div class="fill" style="width: 100%; animation: pulse 2s infinite"></div></div>
+                    <div class="progress-bar">
+                        <div class="fill" style="width: 100%; animation: pulse 2s infinite"></div>
+                    </div>
                 </div>
             </div>
         </aside>
 
         <main class="workspace">
-            
+
             <section id="aba-html" class="module-content active">
                 <div class="module-banner html-bg">
                     <h2><i class="fab fa-html5"></i> HTML Core</h2>
                     <p>Estrutura e Semântica Web.</p>
                 </div>
-                
+
                 <div class="challenge-card">
                     <div class="card-top"><span class="badge">QUIZ</span><span class="xp-reward">+10 XP</span></div>
                     <h3>01. Hiperligações</h3>
@@ -64,43 +69,49 @@
                 </div>
 
                 <div class="challenge-card">
-                    <div class="card-top"><span class="badge code-badge">DESAFIO</span><span class="xp-reward">+50 XP</span></div>
+                    <div class="card-top"><span class="badge code-badge">DESAFIO</span><span class="xp-reward">+50
+                            XP</span></div>
                     <h3>02. Lista Ordenada</h3>
                     <p>Crie uma lista ordenada (`ol`) com pelo menos 3 itens (`li`).</p>
                     <div class="code-environment">
                         <div class="editor-toolbar">
                             <span>editor.html</span>
-                            <button class="icon-btn" onclick="resetEditor('html-editor')" title="Resetar"><i class="fas fa-undo"></i></button>
+                            <button class="icon-btn" onclick="resetEditor('html-editor')" title="Resetar"><i
+                                    class="fas fa-undo"></i></button>
                         </div>
                         <div class="code-wrapper">
                             <div class="line-numbers">1<br>2<br>3<br>4</div>
                             <div class="code-editor" contenteditable="true" id="html-editor" spellcheck="false">
-&lt;!-- Crie sua lista aqui --&gt;
-&lt;ol&gt;
-  
-&lt;/ol&gt;</div>
+                                &lt;!-- Crie sua lista aqui --&gt;
+                                &lt;ol&gt;
+
+                                &lt;/ol&gt;</div>
                         </div>
                     </div>
-                    <button class="deploy-btn" onclick="validarHTML()"><i class="fas fa-play"></i> COMPILAR CÓDIGO</button>
+                    <button class="deploy-btn" onclick="validarHTML()"><i class="fas fa-play"></i> COMPILAR
+                        CÓDIGO</button>
                     <div id="feedback-html" class="feedback-area"></div>
                 </div>
 
                 <div class="challenge-card">
-                    <div class="card-top"><span class="badge code-badge">NOVO</span><span class="xp-reward">+60 XP</span></div>
+                    <div class="card-top"><span class="badge code-badge">NOVO</span><span class="xp-reward">+60
+                            XP</span></div>
                     <h3>03. Botão de Envio</h3>
                     <p>Adicione um botão do tipo `submit` dentro do formulário.</p>
                     <div class="code-environment">
-                        <div class="editor-toolbar"><span>form.html</span> <button class="icon-btn" onclick="resetEditor('html-form-editor')"><i class="fas fa-undo"></i></button></div>
+                        <div class="editor-toolbar"><span>form.html</span> <button class="icon-btn"
+                                onclick="resetEditor('html-form-editor')"><i class="fas fa-undo"></i></button></div>
                         <div class="code-wrapper">
                             <div class="line-numbers">1<br>2<br>3</div>
                             <div class="code-editor" contenteditable="true" id="html-form-editor" spellcheck="false">
-&lt;form&gt;
-  &lt;!-- Adicione o botão aqui --&gt;
-  
-&lt;/form&gt;</div>
+                                &lt;form&gt;
+                                &lt;!-- Adicione o botão aqui --&gt;
+
+                                &lt;/form&gt;</div>
                         </div>
                     </div>
-                    <button class="deploy-btn" onclick="validarHTMLForm()"><i class="fas fa-play"></i> COMPILAR CÓDIGO</button>
+                    <button class="deploy-btn" onclick="validarHTMLForm()"><i class="fas fa-play"></i> COMPILAR
+                        CÓDIGO</button>
                     <div id="feedback-html-form" class="feedback-area"></div>
                 </div>
             </section>
@@ -122,43 +133,49 @@
                 </div>
 
                 <div class="challenge-card">
-                    <div class="card-top"><span class="badge code-badge">FLEXBOX</span><span class="xp-reward">+60 XP</span></div>
+                    <div class="card-top"><span class="badge code-badge">FLEXBOX</span><span class="xp-reward">+60
+                            XP</span></div>
                     <h3>02. Centralização Total</h3>
                     <p>Use Flexbox para centralizar itens nos dois eixos (X e Y).</p>
                     <div class="code-environment">
-                        <div class="editor-toolbar"><span>style.css</span> <button class="icon-btn" onclick="resetEditor('css-flex-editor')"><i class="fas fa-undo"></i></button></div>
+                        <div class="editor-toolbar"><span>style.css</span> <button class="icon-btn"
+                                onclick="resetEditor('css-flex-editor')"><i class="fas fa-undo"></i></button></div>
                         <div class="code-wrapper">
                             <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
                             <div class="code-editor" contenteditable="true" id="css-flex-editor" spellcheck="false">
-.box {
-  display: flex;
-  /* Use justify-content e align-items */
-  
-  
-}</div>
+                                .box {
+                                display: flex;
+                                /* Use justify-content e align-items */
+
+
+                                }</div>
                         </div>
                     </div>
-                    <button class="deploy-btn" onclick="validarFlexbox()"><i class="fas fa-play"></i> COMPILAR CÓDIGO</button>
+                    <button class="deploy-btn" onclick="validarFlexbox()"><i class="fas fa-play"></i> COMPILAR
+                        CÓDIGO</button>
                     <div id="feedback-css-flex" class="feedback-area"></div>
                 </div>
 
                 <div class="challenge-card">
-                    <div class="card-top"><span class="badge code-badge">GRID</span><span class="xp-reward">+70 XP</span></div>
+                    <div class="card-top"><span class="badge code-badge">GRID</span><span class="xp-reward">+70
+                            XP</span></div>
                     <h3>03. Layout em Grade</h3>
                     <p>Crie um Grid com 2 colunas de larguras iguais (`1fr`).</p>
                     <div class="code-environment">
-                        <div class="editor-toolbar"><span>grid.css</span> <button class="icon-btn" onclick="resetEditor('css-grid-editor')"><i class="fas fa-undo"></i></button></div>
+                        <div class="editor-toolbar"><span>grid.css</span> <button class="icon-btn"
+                                onclick="resetEditor('css-grid-editor')"><i class="fas fa-undo"></i></button></div>
                         <div class="code-wrapper">
                             <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
                             <div class="code-editor" contenteditable="true" id="css-grid-editor" spellcheck="false">
-.container {
-  display: grid;
-  /* Defina grid-template-columns */
-  
-}</div>
+                                .container {
+                                display: grid;
+                                /* Defina grid-template-columns */
+
+                                }</div>
                         </div>
                     </div>
-                    <button class="deploy-btn" onclick="validarGrid()"><i class="fas fa-play"></i> COMPILAR CÓDIGO</button>
+                    <button class="deploy-btn" onclick="validarGrid()"><i class="fas fa-play"></i> COMPILAR
+                        CÓDIGO</button>
                     <div id="feedback-css-grid" class="feedback-area"></div>
                 </div>
             </section>
@@ -170,55 +187,78 @@
                 </div>
 
                 <div class="challenge-card">
-                    <div class="card-top"><span class="badge code-badge">LÓGICA</span><span class="xp-reward">+70 XP</span></div>
+                    <div class="card-top"><span class="badge code-badge">LÓGICA</span><span class="xp-reward">+70
+                            XP</span></div>
                     <h3>01. Verificador de Idade</h3>
                     <p>Complete a função: Se idade >= 18 retorne "Maior", senão "Menor".</p>
                     <div class="code-environment">
-                        <div class="editor-toolbar"><span>script.js</span> <button class="icon-btn" onclick="resetEditor('js-if-editor')"><i class="fas fa-undo"></i></button></div>
+                        <div class="editor-toolbar"><span>script.js</span> <button class="icon-btn"
+                                onclick="resetEditor('js-if-editor')"><i class="fas fa-undo"></i></button></div>
                         <div class="code-wrapper">
                             <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
                             <div class="code-editor" contenteditable="true" id="js-if-editor" spellcheck="false">
-function verificar(idade) {
-  // Dica: if (idade >= 18) { ... }
-  
-}</div>
+                                function verificar(idade) {
+                                // Dica: if (idade >= 18) { ... }
+
+                                }</div>
                         </div>
                     </div>
-                    <button class="deploy-btn" onclick="validarJSIf()"><i class="fas fa-play"></i> COMPILAR CÓDIGO</button>
+                    <button class="deploy-btn" onclick="validarJSIf()"><i class="fas fa-play"></i> COMPILAR
+                        CÓDIGO</button>
                     <div id="feedback-js-if" class="feedback-area"></div>
                 </div>
 
                 <div class="challenge-card">
-                    <div class="card-top"><span class="badge code-badge">LOOPS</span><span class="xp-reward">+80 XP</span></div>
+                    <div class="card-top"><span class="badge code-badge">LOOPS</span><span class="xp-reward">+80
+                            XP</span></div>
                     <h3>02. Contador Automático</h3>
                     <p>Crie um loop `for` que conte de 0 até 4.</p>
                     <div class="code-environment">
-                        <div class="editor-toolbar"><span>loop.js</span> <button class="icon-btn" onclick="resetEditor('js-loop-editor')"><i class="fas fa-undo"></i></button></div>
+                        <div class="editor-toolbar"><span>loop.js</span> <button class="icon-btn"
+                                onclick="resetEditor('js-loop-editor')"><i class="fas fa-undo"></i></button></div>
                         <div class="code-wrapper">
                             <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
                             <div class="code-editor" contenteditable="true" id="js-loop-editor" spellcheck="false">
-function contar() {
-  for (let i = 0; i < 5; i++) {
-    // console.log(i);
-  }
-}</div>
+                                function contar() {
+                                for (let i = 0; i < 5; i++) { // console.log(i); } }</div>
+                            </div>
                         </div>
+                        <button class="deploy-btn" onclick="validarJSLoop()"><i class="fas fa-play"></i> COMPILAR
+                            CÓDIGO</button>
+                        <div id="feedback-js-loop" class="feedback-area"></div>
                     </div>
-                    <button class="deploy-btn" onclick="validarJSLoop()"><i class="fas fa-play"></i> COMPILAR CÓDIGO</button>
-                    <div id="feedback-js-loop" class="feedback-area"></div>
-                </div>
             </section>
 
             <section id="aba-trophies" class="module-content">
-                <div class="module-banner" style="border-color: #facc15; background: linear-gradient(135deg, rgba(250,204,21,0.1), transparent);">
+                <div class="module-banner"
+                    style="border-color: #facc15; background: linear-gradient(135deg, rgba(250,204,21,0.1), transparent);">
                     <h2><i class="fas fa-trophy"></i> Sala de Troféus</h2>
                     <p>Recompensas desbloqueadas pelo seu progresso.</p>
                 </div>
+
                 <div class="trophy-grid">
-                    <div class="trophy-card locked" id="trophy-lvl1"><div class="trophy-icon"><i class="fas fa-seedling"></i></div><h4>Iniciado</h4><p>Alcance o Nível 1</p></div>
-                    <div class="trophy-card locked" id="trophy-lvl5"><div class="trophy-icon"><i class="fas fa-code"></i></div><h4>Coder</h4><p>Alcance o Nível 5</p></div>
-                    <div class="trophy-card locked" id="trophy-lvl10"><div class="trophy-icon"><i class="fas fa-rocket"></i></div><h4>Hacker</h4><p>Alcance o Nível 10</p></div>
-                    <div class="trophy-card locked" id="trophy-debug"><div class="trophy-icon"><i class="fas fa-bug"></i></div><h4>Bug Hunter</h4><p>Conserte a Calculadora</p></div>
+                    <div class="trophy-card locked" id="trophy-lvl1">
+                        <div class="trophy-icon"><i class="fas fa-seedling"></i></div>
+                        <h4>Iniciado</h4>
+                        <p>Alcance o Nível 1</p>
+                    </div>
+                    <div class="trophy-card locked" id="trophy-lvl5">
+                        <div class="trophy-icon"><i class="fas fa-code"></i></div>
+                        <h4>Coder</h4>
+                        <p>Alcance o Nível 5</p>
+                    </div>
+
+                    <div class="trophy-card locked" id="trophy-pomodoro">
+                        <div class="trophy-icon"><i class="fas fa-hourglass-end"></i></div>
+                        <h4>Senhor do Tempo</h4>
+                        <p>Complete 1 Pomodoro</p>
+                    </div>
+
+                    <div class="trophy-card locked" id="trophy-taskmaster">
+                        <div class="trophy-icon"><i class="fas fa-check-double"></i></div>
+                        <h4>Task Master</h4>
+                        <p>Complete 3 Tarefas</p>
+                    </div>
                 </div>
             </section>
         </main>
@@ -227,9 +267,10 @@ function contar() {
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    
+
     <script src="../assets/js/header.js"></script>
     <script src="../game-data.js"></script>
     <script src="../assets/js/dashboard.js"></script>
 </body>
+
 </html>

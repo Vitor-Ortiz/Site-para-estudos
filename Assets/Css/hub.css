@@ -1,0 +1,221 @@
+/* assets/css/hub.css - ESTILOS DO NEURAL HUB */
+
+.hub-welcome {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 2rem 0 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 1.5rem;
+}
+
+.welcome-text .subtitle {
+    color: var(--primary-neon);
+    font-family: 'Fira Code';
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.welcome-text h1 {
+    font-size: 2.5rem;
+    color: white;
+    margin: 0;
+}
+
+.daily-streak {
+    background: rgba(250, 204, 21, 0.1);
+    border: 1px solid var(--accent);
+    padding: 8px 15px;
+    border-radius: 50px;
+    color: var(--accent);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* GRID LAYOUT */
+.hub-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.hub-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    margin-bottom: 2rem;
+}
+
+/* STATUS CARD (NÍVEL) */
+.status-card {
+    text-align: center;
+}
+
+/* Gráfico Circular SVG */
+.circular-chart {
+    display: block;
+    margin: 10px auto;
+    max-width: 80%;
+    max-height: 150px;
+}
+.circle-bg {
+    fill: none;
+    stroke: rgba(255,255,255,0.05);
+    stroke-width: 3.8;
+}
+.circle {
+    fill: none;
+    stroke: var(--primary-neon);
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+}
+.percentage {
+    fill: #fff;
+    font-family: 'Fira Code', sans-serif;
+    font-weight: bold;
+    font-size: 0.8em;
+    text-anchor: middle;
+}
+.level-circle .label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: -10px;
+}
+
+@keyframes progress {
+    0% { stroke-dasharray: 0 100; }
+}
+
+.xp-details { margin-top: 1.5rem; }
+.xp-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+.xp-row strong { color: white; font-family: 'Fira Code'; }
+.xp-progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+.xp-fill {
+    height: 100%;
+    background: var(--success);
+    box-shadow: 0 0 10px var(--success);
+    transition: width 1s ease;
+}
+
+/* MISSÃO CARD */
+.card-header-simple {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 0.8rem;
+}
+.card-header-simple h3 { margin: 0; color: white; font-size: 1.2rem; }
+
+.timer-badge {
+    font-size: 0.7rem;
+    color: #f87171;
+    background: rgba(239, 68, 68, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.mission-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.mission-icon {
+    width: 50px; height: 50px;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--primary-neon);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+}
+.mission-info h4 { margin: 0 0 5px 0; color: white; }
+.mission-info p { margin: 0 0 5px 0; font-size: 0.85rem; color: var(--text-muted); }
+.reward-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-weight: bold;
+    font-family: 'Fira Code';
+}
+
+/* LEADERBOARD */
+.leaderboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rank-item {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.02);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: transform 0.2s;
+}
+.rank-item:hover {
+    background: rgba(255,255,255,0.05);
+    transform: translateX(5px);
+    border-color: rgba(255,255,255,0.1);
+}
+
+.rank-pos {
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 40px;
+    color: var(--text-muted);
+}
+
+/* Top 3 Cores */
+.rank-1 .rank-pos { color: #facc15; text-shadow: 0 0 10px rgba(250, 204, 21, 0.5); }
+.rank-2 .rank-pos { color: #94a3b8; } /* Prata */
+.rank-3 .rank-pos { color: #b45309; } /* Bronze */
+
+.rank-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 2px solid rgba(255,255,255,0.1);
+}
+.rank-1 .rank-avatar { border-color: #facc15; }
+
+.rank-info { flex-grow: 1; }
+.rank-name { display: block; color: white; font-weight: bold; font-size: 0.9rem; }
+.rank-role { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+
+.rank-xp {
+    font-family: 'Fira Code';
+    font-weight: bold;
+    color: var(--primary-neon);
+}
+
+.loading-spinner { color: var(--text-muted); text-align: center; padding: 2rem; }
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .hub-grid { grid-template-columns: 1fr; }
+    .hub-welcome { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}

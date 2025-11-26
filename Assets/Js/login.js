@@ -67,9 +67,12 @@ function entrarComoConvidado() {
 }
 
 // --- UI ---
-function loginSucesso(tipo) {
-    atualizarStatus(`Sucesso (${tipo})! Redirecionando...`, "sucesso");
-    setTimeout(() => window.location.href = "../index.html", 1500);
+function loginSucesso(metodo) {
+    atualizarStatus(`Acesso Autorizado (${metodo})! Carregando Mainframe...`, "sucesso");
+    setTimeout(() => {
+        // AGORA REDIRECIONA PARA A NOVA HOME
+        window.location.href = "../pages/home.html"; 
+    }, 1500);
 }
 
 function tratarErro(error) {

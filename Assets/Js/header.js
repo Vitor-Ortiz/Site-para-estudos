@@ -1,4 +1,4 @@
-/* assets/js/header.js - V3 Final */
+/* assets/js/header.js - V4 (Shop Link Added) */
 
 document.addEventListener("DOMContentLoaded", () => {
     const header = document.querySelector("header");
@@ -19,10 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <li><a href="${path}index.html#javascript">JS</a></li>
                         <li><a href="${path}pages/docs.html">Docs</a></li>
                         <li><a href="${path}pages/challenges.html">Matrix</a></li>
+                        <li><a href="${path}pages/shop.html" style="color:#a855f7"><i class="fas fa-shopping-bag"></i> Loja</a></li>
                         <li><a href="${path}pages/game.html" class="highlight-link"><i class="fas fa-gamepad"></i> Game</a></li>
                         
                         <li id="admin-nav-item" style="display:none;">
-                            <a href="${path}pages/admin.html" class="admin-link"><i class="fas fa-shield-alt"></i> ADMIN</a>
+                            <a href="${path}pages/admin.html" class="admin-link">ADMIN</a>
                         </li>
                     </ul>
                 </nav>
@@ -39,17 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     
     highlightActiveLink();
-    
-    // Verifica se já somos admin (caso os dados tenham chegado antes do header)
     checkAdminVisibility();
 });
 
-// Ouve o evento que vem do game-data.js quando o login termina
 window.addEventListener('gameDataLoaded', checkAdminVisibility);
 
 function checkAdminVisibility() {
     const adminItem = document.getElementById('admin-nav-item');
-    // Verifica a variável global window.isAdminUser que definimos no game-data.js
     if (window.isAdminUser && adminItem) {
         adminItem.style.display = 'block';
     }

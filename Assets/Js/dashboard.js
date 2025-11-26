@@ -1,21 +1,28 @@
-/* assets/js/dashboard.js - Lógica da Matrix */
+/* assets/js/dashboard.js - Lógica da Matrix (Desafios e Conquistas) */
 
 // ===== NAVEGAÇÃO DE ABAS =====
 function carregarAba(abaId) {
+    // Atualiza Sidebar
     document.querySelectorAll('.module-item').forEach(item => item.classList.remove('active'));
-    document.querySelectorAll('.module-content').forEach(content => content.classList.remove('active'));
+    
+    // Atualiza Conteúdo
+    document.querySelectorAll('.module-content').forEach(content => {
+        content.classList.remove('active');
+    });
     
     const target = document.getElementById(`aba-${abaId}`);
     if (target) {
         target.classList.add('active');
         if(window.playSoundGlobal) window.playSoundGlobal('click');
+        
+        // Se abrir a aba de troféus, verifica se há novos desbloqueios
         if(abaId === 'trophies') verificarConquistas();
     }
 }
 
-// ===== QUIZ =====
+// ===== SISTEMA DE QUIZ =====
 function checkQuiz(btn, isCorrect, xpAmount = 0) {
-    if (btn.disabled) return;
+    if (btn.disabled || btn.classList.contains('correct') || btn.classList.contains('incorrect')) return;
     
     const parent = btn.parentElement;
     parent.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
@@ -23,7 +30,7 @@ function checkQuiz(btn, isCorrect, xpAmount = 0) {
     if (isCorrect) {
         btn.classList.add('correct');
         btn.innerHTML += ' <i class="fas fa-check"></i>';
-        ganharXP(xpAmount); // Som já toca aqui
+        ganharXP(xpAmount); // Som de sucesso toca aqui
     } else {
         btn.classList.add('incorrect');
         btn.innerHTML += ' <i class="fas fa-times"></i>';
@@ -31,7 +38,8 @@ function checkQuiz(btn, isCorrect, xpAmount = 0) {
     }
 }
 
-// ===== VALIDAÇÕES (HTML) =====
+// ===== VALIDAÇÕES DE CÓDIGO (HTML) =====
+
 function validarHTML() {
     const code = document.getElementById('html-editor').innerText.toLowerCase();
     const feedback = document.getElementById('feedback-html');
@@ -54,11 +62,13 @@ function validarHTMLForm() {
     else mostrarErro(feedback, ["Use <button type='submit'> ou <input type='submit'>."]);
 }
 
-// ===== VALIDAÇÕES (CSS) =====
+// ===== VALIDAÇÕES DE CÓDIGO (CSS) =====
+
 function validarFlexbox() {
     const code = document.getElementById('css-flex-editor').innerText.toLowerCase();
     const feedback = document.getElementById('feedback-css-flex');
     let errors = [];
+
     if (!code.includes('justify-content')) errors.push("Faltou 'justify-content'.");
     if (!code.includes('align-items')) errors.push("Faltou 'align-items'.");
     if (!code.includes('center')) errors.push("Use 'center'.");
@@ -70,17 +80,20 @@ function validarFlexbox() {
 function validarGrid() {
     const code = document.getElementById('css-grid-editor').innerText.toLowerCase();
     const feedback = document.getElementById('feedback-css-grid');
+    
     if (code.includes('grid-template-columns')) {
         if (code.includes('1fr 1fr') || code.includes('repeat(2')) mostrarSucesso(feedback, "Grid Ativo! (+70 XP)", 70);
         else mostrarErro(feedback, ["Defina 2 colunas (ex: 1fr 1fr)."]);
     } else mostrarErro(feedback, ["Use 'grid-template-columns'."]);
 }
 
-// ===== VALIDAÇÕES (JS) =====
+// ===== VALIDAÇÕES DE CÓDIGO (JS) =====
+
 function validarJSIf() {
     const code = document.getElementById('js-if-editor').innerText.toLowerCase();
     const feedback = document.getElementById('feedback-js-if');
     let errors = [];
+
     if (!code.includes('if') || !code.includes('else')) errors.push("Use if/else.");
     if (!code.includes('return')) errors.push("Faltou return.");
     if (!code.includes('>=')) errors.push("Verifique >= 18.");
@@ -92,16 +105,45 @@ function validarJSIf() {
 function validarJSLoop() {
     const code = document.getElementById('js-loop-editor').innerText.toLowerCase();
     const feedback = document.getElementById('feedback-js-loop');
+    
     if (code.includes('for') && code.includes('let')) {
         if (code.includes('++') || code.includes('i = i + 1')) mostrarSucesso(feedback, "Loop Correto! (+80 XP)", 80);
-        else mostrarErro(feedback, ["Faltou incremento."]);
+        else mostrarErro(feedback, ["Faltou o incremento (i++)."]);
     } else mostrarErro(feedback, ["Use: for (let i=0; i<N; i++)"]);
 }
 
+// ===== SISTEMA DE CONQUISTAS (ATUALIZADO) =====
+function verificarConquistas() {
+    // Pega o nível global e estatísticas
+    const currentLevel = window.globalLevel || 1;
+    const stats = window.userStats || { pomodoros: 0, tasks: 0 };
+
+    // Lista de IDs e condições para desbloquear
+    const trophies = [
+        { id: 'trophy-lvl1', condition: currentLevel >= 1 },
+        { id: 'trophy-lvl5', condition: currentLevel >= 5 },
+        { id: 'trophy-lvl10', condition: currentLevel >= 10 },
+        // Novas Conquistas (Pomodoro e Tasks)
+        { id: 'trophy-pomodoro', condition: stats.pomodoros >= 1 },
+        { id: 'trophy-taskmaster', condition: stats.tasks >= 3 }
+    ];
+    
+    trophies.forEach(t => {
+        const el = document.getElementById(t.id);
+        // Só tenta alterar se o elemento existir na página
+        if (el && t.condition) {
+            el.classList.remove('locked');
+            el.classList.add('unlocked');
+        }
+    });
+}
+
 // ===== UI & HELPERS =====
+
 function mostrarSucesso(el, msg, xp) {
     el.innerHTML = `<div class="msg-success"><i class="fas fa-check-circle"></i> ${msg}</div>`;
     el.style.display = 'block';
+    
     if(!el.dataset.completed) {
         ganharXP(xp);
         el.dataset.completed = "true";
@@ -116,8 +158,8 @@ function mostrarErro(el, erros) {
     if(window.playSoundGlobal) window.playSoundGlobal('error');
 }
 
-// Restaura o código de exemplo original
 function resetEditor(id) {
+    // Textos padrão para resetar
     const defaults = {
         'html-editor': '\n<ol>\n  \n</ol>',
         'html-form-editor': '<form>\n  \n</form>',
@@ -127,27 +169,25 @@ function resetEditor(id) {
         'js-loop-editor': 'function contar() {\n  for (let i = 0; i < 5; i++) {\n    // console.log(i);\n  }\n}'
     };
     
-    document.getElementById(id).innerText = defaults[id] || "";
-    document.getElementById(id).focus();
-    if(window.playSoundGlobal) window.playSoundGlobal('click');
+    const editor = document.getElementById(id);
+    if(editor) {
+        editor.innerText = defaults[id] || "";
+        editor.focus();
+        if(window.playSoundGlobal) window.playSoundGlobal('click');
+    }
 }
 
-function verificarConquistas() {
-    const currentLevel = window.globalLevel || 1;
-    const trophies = [
-        {id: 'trophy-lvl1', lvl: 1},
-        {id: 'trophy-lvl5', lvl: 5},
-        {id: 'trophy-lvl10', lvl: 10},
-    ];
-    trophies.forEach(t => {
-        const el = document.getElementById(t.id);
-        if(currentLevel >= t.lvl) {
-            el.classList.remove('locked');
-            el.classList.add('unlocked');
-        }
-    });
-}
-
+// Wrapper para garantir que chamamos a função global do game-data.js
 function ganharXP(qtd) {
-    if (typeof adicionarXP === "function") adicionarXP(qtd);
+    if (typeof adicionarXP === "function") {
+        adicionarXP(qtd);
+    } else {
+        console.warn("game-data.js não carregado ou função adicionarXP não encontrada");
+    }
 }
+
+// Verifica conquistas ao carregar a página, caso já estejam desbloqueadas
+document.addEventListener('DOMContentLoaded', () => {
+    // Espera um pouco pelos dados do Firebase
+    setTimeout(verificarConquistas, 2000);
+});

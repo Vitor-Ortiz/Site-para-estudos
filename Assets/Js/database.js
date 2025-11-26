@@ -1,0 +1,66 @@
+/* assets/js/database.js - Base de Conhecimento V2 (Expandida) */
+
+window.COMMANDS_DB = [
+    // --- HTML ---
+    { type: 'html', name: '<!DOCTYPE>', desc: 'Define o tipo de documento (HTML5).', code: '<!DOCTYPE html>' },
+    { type: 'html', name: '<html>', desc: 'Elemento raiz da página.', code: '<html lang="pt-br">...</html>' },
+    { type: 'html', name: '<head>', desc: 'Metadados e links (não visível).', code: '<head>...</head>' },
+    { type: 'html', name: '<body>', desc: 'Conteúdo visível da página.', code: '<body>...</body>' },
+    { type: 'html', name: '<meta>', desc: 'Metadados (charset, viewport).', code: '<meta charset="UTF-8">' },
+    { type: 'html', name: '<link>', desc: 'Liga arquivos externos (CSS).', code: '<link rel="stylesheet" href="style.css">' },
+    { type: 'html', name: '<script>', desc: 'Incorpora ou liga scripts JS.', code: '<script src="app.js"></script>' },
+    { type: 'html', name: '<div>', desc: 'Container de bloco genérico.', code: '<div>...</div>' },
+    { type: 'html', name: '<span>', desc: 'Container de linha genérico.', code: '<span>Texto</span>' },
+    { type: 'html', name: '<h1>-<h6>', desc: 'Títulos de secção.', code: '<h1>Título Principal</h1>' },
+    { type: 'html', name: '<p>', desc: 'Parágrafo de texto.', code: '<p>Lorem ipsum...</p>' },
+    { type: 'html', name: '<a>', desc: 'Hiperligação (Link).', code: '<a href="url" target="_blank">Link</a>' },
+    { type: 'html', name: '<img>', desc: 'Imagem.', code: '<img src="foto.jpg" alt="Desc">' },
+    { type: 'html', name: '<ul>/<li>', desc: 'Lista não ordenada.', code: '<ul><li>Item</li></ul>' },
+    { type: 'html', name: '<ol>/<li>', desc: 'Lista ordenada.', code: '<ol><li>Item 1</li></ol>' },
+    { type: 'html', name: '<form>', desc: 'Container de formulário.', code: '<form action="...">...</form>' },
+    { type: 'html', name: '<input>', desc: 'Entrada de dados.', code: '<input type="text" placeholder="Nome">' },
+    { type: 'html', name: '<button>', desc: 'Botão clicável.', code: '<button type="submit">Enviar</button>' },
+    { type: 'html', name: '<table>', desc: 'Tabela de dados.', code: '<table><tr><td>Dado</td></tr></table>' },
+
+    // --- CSS ---
+    { type: 'css', name: 'display', desc: 'Comportamento (block, flex, grid).', code: 'display: flex;' },
+    { type: 'css', name: 'margin', desc: 'Espaço externo.', code: 'margin: 10px auto;' },
+    { type: 'css', name: 'padding', desc: 'Espaço interno.', code: 'padding: 1rem 2rem;' },
+    { type: 'css', name: 'color', desc: 'Cor do texto.', code: 'color: #333;' },
+    { type: 'css', name: 'background', desc: 'Fundo.', code: 'background: #000;' },
+    { type: 'css', name: 'border', desc: 'Borda.', code: 'border: 1px solid red;' },
+    { type: 'css', name: 'flex-direction', desc: 'Direção do Flexbox.', code: 'flex-direction: column;' },
+    { type: 'css', name: 'justify-content', desc: 'Alinhamento eixo principal.', code: 'justify-content: center;' },
+    { type: 'css', name: 'align-items', desc: 'Alinhamento eixo cruzado.', code: 'align-items: center;' },
+    { type: 'css', name: 'grid-template-columns', desc: 'Colunas do Grid.', code: 'grid-template-columns: 1fr 1fr;' },
+    { type: 'css', name: 'gap', desc: 'Espaço entre itens.', code: 'gap: 20px;' },
+    { type: 'css', name: 'position', desc: 'Posicionamento.', code: 'position: absolute; top: 0;' },
+    { type: 'css', name: 'z-index', desc: 'Ordem de empilhamento.', code: 'z-index: 10;' },
+    { type: 'css', name: '@media', desc: 'Responsividade.', code: '@media (max-width: 768px) { ... }' },
+    { type: 'css', name: ':hover', desc: 'Estado ao passar o mouse.', code: 'button:hover { color: red; }' },
+
+    // --- JAVASCRIPT ---
+    { type: 'js', name: 'const', desc: 'Variável imutável.', code: 'const PI = 3.14;' },
+    { type: 'js', name: 'let', desc: 'Variável reatribuível.', code: 'let count = 0;' },
+    { type: 'js', name: 'function', desc: 'Função clássica.', code: 'function ola() { return "Oi"; }' },
+    { type: 'js', name: 'Arrow Function', desc: 'Função moderna.', code: 'const soma = (a,b) => a+b;' },
+    { type: 'js', name: 'if/else', desc: 'Condicional.', code: 'if (x > 10) { ... } else { ... }' },
+    { type: 'js', name: 'for loop', desc: 'Loop clássico.', code: 'for(let i=0; i<10; i++) { ... }' },
+    { type: 'js', name: 'forEach', desc: 'Loop em array.', code: 'arr.forEach(item => ...);' },
+    { type: 'js', name: 'map', desc: 'Transforma array.', code: 'const dobro = arr.map(x => x*2);' },
+    { type: 'js', name: 'filter', desc: 'Filtra array.', code: 'const pares = arr.filter(x => x%2==0);' },
+    { type: 'js', name: 'querySelector', desc: 'Seleciona elemento.', code: 'document.querySelector(".classe");' },
+    { type: 'js', name: 'addEventListener', desc: 'Escuta eventos.', code: 'btn.addEventListener("click", acao);' },
+    { type: 'js', name: 'innerHTML', desc: 'HTML interno.', code: 'el.innerHTML = "<h1>Oi</h1>";' },
+    { type: 'js', name: 'fetch', desc: 'Requisição API.', code: 'fetch(url).then(res => res.json());' },
+
+    // --- GIT ---
+    { type: 'git', name: 'git init', desc: 'Inicia repositório.', code: 'git init' },
+    { type: 'git', name: 'git status', desc: 'Verifica mudanças.', code: 'git status' },
+    { type: 'git', name: 'git add', desc: 'Prepara arquivos.', code: 'git add .' },
+    { type: 'git', name: 'git commit', desc: 'Salva versão.', code: 'git commit -m "Msg"' },
+    { type: 'git', name: 'git push', desc: 'Envia para remoto.', code: 'git push origin main' },
+    { type: 'git', name: 'git pull', desc: 'Baixa atualizações.', code: 'git pull' },
+    { type: 'git', name: 'git branch', desc: 'Lista branches.', code: 'git branch' },
+    { type: 'git', name: 'git checkout', desc: 'Troca de branch.', code: 'git checkout main' }
+];

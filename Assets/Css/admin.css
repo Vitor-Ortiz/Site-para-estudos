@@ -105,3 +105,9 @@ tr:hover { background: rgba(255,255,255,0.02); }
     .admin-grid { grid-template-columns: 1fr; }
     .data-table-container { overflow-x: auto; }
 }
+
+.btn-spy:hover {
+    border-color: #38bdf8;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
+}

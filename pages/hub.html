@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStudy | Neural Hub</title>
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/hub.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header></header>
+
+    <div class="container">
+        <section class="hub-welcome">
+            <div class="welcome-text">
+                <p class="subtitle">Base de Operações</p>
+                <h1 id="hub-username">Bem-vindo, Operador.</h1>
+            </div>
+            <div class="daily-streak">
+                <i class="fas fa-fire"></i>
+                <span>Dia 1</span>
+            </div>
+        </section>
+
+        <div class="hub-grid">
+            <div class="hub-left">
+                <div class="hub-card status-card">
+                    <div class="level-circle">
+                        <svg viewBox="0 0 36 36" class="circular-chart">
+                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <text x="18" y="20.35" class="percentage" id="hub-level">1</text>
+                        </svg>
+                        <span class="label">NÍVEL ATUAL</span>
+                    </div>
+                    <div class="xp-details">
+                        <div class="xp-row">
+                            <span>XP Atual</span>
+                            <strong id="hub-current-xp">0</strong>
+                        </div>
+                        <div class="xp-row">
+                            <span>Próximo Nível</span>
+                            <strong id="hub-next-xp">100</strong>
+                        </div>
+                        <div class="xp-progress-bar">
+                            <div class="xp-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hub-card mission-card">
+                    <div class="card-header-simple">
+                        <h3><i class="fas fa-crosshairs"></i> Missão Diária</h3>
+                        <span class="timer-badge">Expira em 12h</span>
+                    </div>
+                    <div class="mission-content">
+                        <div class="mission-icon"><i class="fas fa-stopwatch"></i></div>
+                        <div class="mission-info">
+                            <h4>Foco Absoluto</h4>
+                            <p>Complete 1 sessão de Pomodoro.</p>
+                            <div class="reward-tag">+150 XP</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-glow" style="width:100%; margin-top:15px;" onclick="window.location.href='../index.html#projetos'">
+                        IR PARA A MISSÃO
+                    </button>
+                </div>
+            </div>
+
+            <div class="hub-right">
+                <div class="hub-card leaderboard-card">
+                    <div class="card-header-simple">
+                        <h3><i class="fas fa-trophy"></i> Top Hackers</h3>
+                        <small style="color:var(--text-muted)">Ranking Global</small>
+                    </div>
+                    
+                    <div class="leaderboard-list" id="ranking-list">
+                        <div class="loading-spinner">
+                            <i class="fas fa-circle-notch fa-spin"></i> Carregando dados...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="../assets/js/header.js"></script>
+    <script src="../game-data.js"></script>
+    <script src="../assets/js/hub.js"></script>
+</body>
+</html>
