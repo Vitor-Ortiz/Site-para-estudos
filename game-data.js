@@ -1,11 +1,13 @@
-/* ARQUIVO: game-data.js - VERSÃO FINAL V25 (REVISADA)
-   Funcionalidades:
-   1. Autenticação & Segurança
-   2. Sistema de Admin & Roles
-   3. Áudio Global & Confetes
-   4. Limpeza Automática de Convidados (24h)
-   5. Estatísticas (Pomodoro/Tarefas)
-   6. Loja e Inventário (Comprar/Equipar/Consumir)
+/* ARQUIVO: game-data.js - VERSÃO FINAL COMPLETA (V29)
+   Funcionalidades Integradas:
+   - Autenticação & Segurança (Auto-Wipe 24h)
+   - Banco de Dados (Firestore)
+   - Admin Tools & God Mode
+   - Protocolo Love (Página Secreta)
+   - Loja, Inventário e Temas
+   - Cursos (LMS) e Progresso
+   - Gamificação (XP, Níveis, Streak, Escudo)
+   - Interface (Áudio, Confetes, Toasts)
 */
 
 // =================================================
@@ -20,7 +22,7 @@ const firebaseConfig = {
     appId: "1:894897799858:web:615292d62afc04af61ffab"
 };
 
-// Inicializa Firebase apenas uma vez
+// Inicializa apenas se ainda não existir
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -28,7 +30,7 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-// Expõe serviços para outros scripts (Admin.js, Login.js)
+// Expõe serviços para outros scripts
 window.db = db;
 window.auth = auth;
 
@@ -36,23 +38,25 @@ window.auth = auth;
 // 2. ESTADO GLOBAL (VARIÁVEIS)
 // =================================================
 window.globalXP = 0;
+window.loveCoins = 0;
 window.globalLevel = 1;
 window.currentUser = null;
 window.isAdminUser = false;
+window.isLoveUser = false; // Permissão para página Love
 window.userCustomTitle = "";
-// Estatísticas completas (incluindo aulas e streak)
+// Estatísticas completas
 window.userStats = { pomodoros: 0, tasks: 0, streak: 0, lessons: [], lastLogin: null };
 window.userInventory = [];
 window.userLoadout = { theme: 'theme_default', title: null };
 
 // =================================================
-// 3. SISTEMA DE ÁUDIO GLOBAL (COM PROTEÇÃO)
+// 3. SISTEMA DE ÁUDIO GLOBAL
 // =================================================
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 let lastSoundTime = 0; // Previne som duplicado
 
 function playSound(type) {
-    // Debounce: Impede sons muito rápidos (menos de 100ms)
+    // Debounce: Impede sons muito rápidos (<100ms)
     const now = Date.now();
     if (now - lastSoundTime < 100) return;
     lastSoundTime = now;
@@ -124,7 +128,6 @@ auth.onAuthStateChanged((user) => {
         window.currentUser = user;
         console.log("Conectado como:", user.email);
 
-        // Define nome seguro
         const nome = user.displayName || (user.email ? user.email.split('@')[0] : "Dev");
 
         // Carrega dados (false = não é convidado)
@@ -134,8 +137,8 @@ auth.onAuthStateChanged((user) => {
 
         // Segurança: Bloqueia acesso direto ao Admin sem login
         if (window.location.pathname.includes("admin.html")) {
-            console.warn("Admin protegido. Login necessário.");
-            return; // O script do admin.js fará o redirect
+            // Admin.js fará o redirect visual
+            return;
         }
 
         window.currentUser = null;
@@ -151,6 +154,19 @@ auth.onAuthStateChanged((user) => {
         carregarDados(guestId, "Visitante", true);
     }
 });
+
+
+// --- NOVAS FUNÇÕES DE LOVE COINS ---
+
+// Função Global para modificar Love Coins e Salvar
+window.adicionarLoveCoins = function(qtd) {
+    window.loveCoins += qtd;
+    // Atualiza UI se existir
+    const el = document.getElementById('love-coins');
+    if(el) el.innerText = window.loveCoins;
+    
+    salvarProgresso(); // Salva no Firebase
+};
 
 // =================================================
 // 7. GESTÃO DE DADOS (CARREGAR/SALVAR/RESETAR)
@@ -183,6 +199,7 @@ async function carregarDados(uid, nomeAtual, isGuest) {
             // Carrega Estado
             window.globalXP = data.xp || 0;
             window.globalLevel = data.level || 1;
+            window.loveCoins = data.loveCoins || 0;
             window.userCustomTitle = data.customTitle || "";
 
             // Garante estrutura de stats e inventário
@@ -192,7 +209,7 @@ async function carregarDados(uid, nomeAtual, isGuest) {
             window.userInventory = data.inventory || [];
             window.userLoadout = data.loadout || { theme: 'theme_default', title: null };
 
-            // === LÓGICA DE STREAK (DIAS CONSECUTIVOS) ===
+            // === LÓGICA DE STREAK (DIAS CONSECUTIVOS + ESCUDO) ===
             if (!isGuest) {
                 const today = new Date().setHours(0, 0, 0, 0);
                 const last = data.stats?.lastLogin ? data.stats.lastLogin.toDate().setHours(0, 0, 0, 0) : 0;
@@ -206,7 +223,9 @@ async function carregarDados(uid, nomeAtual, isGuest) {
                     if (window.userInventory.includes('item_shield')) {
                         const idx = window.userInventory.indexOf('item_shield');
                         if (idx > -1) window.userInventory.splice(idx, 1); // Consome
-                        showNotification("🛡️ Escudo usado! Streak salvo.", "info");
+
+                        // Notificação de salvamento
+                        setTimeout(() => showNotification("🛡️ Escudo usado! Streak salva.", "info"), 2000);
                     } else {
                         window.userStats.streak = 1; // Reseta
                     }
@@ -214,26 +233,24 @@ async function carregarDados(uid, nomeAtual, isGuest) {
                     window.userStats.streak = 1; // Primeira vez
                 }
 
+                // Atualiza lastLogin
                 window.userStats.lastLogin = firebase.firestore.FieldValue.serverTimestamp();
                 docRef.update({ stats: window.userStats, inventory: window.userInventory });
             }
 
             // Atualiza nome se necessário
-            if (!isGuest && (data.nome === "Convidado" || !data.nome)) {
+            if (!isGuest && (!data.nome || data.nome === "Convidado")) {
                 docRef.update({ nome: nomeAtual });
             }
 
         } else {
-            // --- CRIAÇÃO DE NOVO PERFIL ---
-            data = {
-                xp: 0, level: 1,
-                nome: nomeAtual,
-                isAdmin: false,
-                customTitle: "",
-                stats: { pomodoros: 0, tasks: 0, streak: 1, lessons: [], lastLogin: firebase.firestore.FieldValue.serverTimestamp() },
-                inventory: [],
-                loadout: { theme: 'theme_default' },
-                criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+            // === CRIAÇÃO DE NOVO PERFIL ===
+            data = { 
+                xp:0, level:1, loveCoins: 500, // Bónus inicial de 500 LC
+                nome:nomeAtual, isAdmin:false, customTitle:"", 
+                stats:{pomodoros:0, tasks:0, streak:1, lessons:[], lastLogin:firebase.firestore.FieldValue.serverTimestamp()}, 
+                inventory:[], loadout:{theme:'theme_default'}, 
+                criadoEm:firebase.firestore.FieldValue.serverTimestamp() 
             };
             await docRef.set(data);
 
@@ -242,24 +259,34 @@ async function carregarDados(uid, nomeAtual, isGuest) {
             window.userStats = data.stats; window.userInventory = []; window.userLoadout = { theme: 'theme_default' };
         }
 
-        // === ADMIN CHECK ===
+        // --- VERIFICAÇÃO DE ADMIN SUPREMO ---
         if (window.currentUser && window.currentUser.email === "vitorortiz512@gmail.com") {
+            data.isAdmin = true;
             docRef.update({ isAdmin: true });
-            window.isAdminUser = true;
-        } else {
-            window.isAdminUser = data.isAdmin || false;
         }
-
-        // === LOVE PAGE CHECK (AQUI ESTÁ A VERIFICAÇÃO) ===
-        // Verifica se é a namorada OU o Admin (para poderes testar)
-        if (window.isAdminUser || (window.currentUser && window.currentUser.email === "nYasmimsanches461@gmail.com")) {
+        window.isAdminUser = data.isAdmin || false;
+        // === VERIFICAÇÃO DE PROTOCOLO LOVE (Página Secreta) ===
+        // Verifica se é a namorada OU se és tu (Admin) para poderes testar
+        // IMPORTANTE: Substitui "namorada@gmail.com" pelo email real dela!
+        if (window.isAdminUser || (window.currentUser && window.currentUser.email === "namorada@gmail.com")) {
             window.isLoveUser = true;
             console.log("❤️ Acesso Especial: Concedido");
         } else {
             window.isLoveUser = false;
         }
 
+        // --- VERIFICAÇÃO DE PROTOCOLO LOVE (Página Secreta) ---
+        if (window.isAdminUser || (window.currentUser && window.currentUser.email === "namorada@gmail.com")) {
+            window.isLoveUser = true;
+            console.log("❤️ Acesso Especial: Concedido");
+        } else {
+            window.isLoveUser = false;
+        }
+
+        // Aplica o tema visual salvo
         aplicarTema(window.userLoadout.theme);
+
+        // Avisa toda a aplicação que estamos prontos
         window.dispatchEvent(new CustomEvent('gameDataLoaded'));
         atualizarHUD();
         atualizarUIComNome(nomeAtual, !!window.currentUser);
@@ -280,9 +307,7 @@ window.comprarItemGlobal = async function (itemId, price, name, icon) {
     if (confirm(`Comprar "${name}" por ${price} XP?`)) {
         window.globalXP -= price;
 
-        // Adiciona ao inventário
-        // Se for item consumível (Escudo), permite adicionar múltiplos
-        // Se for tema/título, apenas 1
+        // Adiciona ao inventário (permite múltiplos se for consumível como escudo)
         if (itemId === 'item_shield' || !window.userInventory.includes(itemId)) {
             window.userInventory.push(itemId);
         }
@@ -423,6 +448,7 @@ function salvarProgresso() {
         db.collection('jogadores').doc(uid).update({
             xp: window.globalXP,
             level: window.globalLevel,
+            loveCoins: window.loveCoins,
             inventory: window.userInventory,
             loadout: window.userLoadout,
             stats: window.userStats
@@ -538,17 +564,10 @@ function showPurchaseModal(name, iconClass) {
     if (window.confetti) window.confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#4ade80', '#ffffff', '#38bdf8'] });
 }
 
-window.closeLevelModal = function (btn) {
-    const modal = btn.closest('.level-up-overlay');
-    modal.style.opacity = '0';
-    setTimeout(() => modal.remove(), 300);
-    playSound('click');
-}
-
 // SISTEMA DE NOTIFICAÇÃO (TOAST)
 function showNotification(message, type = 'success') {
     const toast = document.createElement('div');
-    toast.className = 'toast-notification'; // Usa a classe do CSS
+    toast.className = 'toast-notification';
 
     let icon = 'fa-check-circle';
     let color = '#4ade80';
@@ -564,6 +583,13 @@ function showNotification(message, type = 'success') {
 
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3500);
+}
+
+window.closeLevelModal = function (btn) {
+    const modal = btn.closest('.level-up-overlay');
+    modal.style.opacity = '0';
+    setTimeout(() => modal.remove(), 300);
+    playSound('click');
 }
 
 function fazerLogout() {

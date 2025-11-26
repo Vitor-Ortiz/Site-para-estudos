@@ -18,6 +18,7 @@
 
     <audio id="bg-music" loop>
         <source src="../assets/music.mp3" type="audio/mpeg">
+        Seu navegador não suporta áudio.
     </audio>
 
     <div class="love-container">
@@ -25,9 +26,11 @@
         <div class="twinkling"></div>
 
         <div class="love-card animate__animated animate__fadeInUp">
+            
             <div class="photo-frame">
                 <img id="photo-display" src="" alt="Nós">
                 <div class="heart-badge"><i class="fas fa-heart"></i></div>
+                
                 <button class="photo-btn prev" onclick="mudarFoto(-1)">❮</button>
                 <button class="photo-btn next" onclick="mudarFoto(1)">❯</button>
             </div>
@@ -47,9 +50,11 @@
                 <button class="btn-love" onclick="gerarAmor()">
                     <i class="fas fa-magic"></i> MOTIVO PARA TE AMAR
                 </button>
+                
                 <button class="btn-love btn-shop" onclick="abrirLoja()">
                     <i class="fas fa-shopping-bag"></i> LOJA DE MIMOS
                 </button>
+
                 <button class="btn-love btn-letter" onclick="abrirCarta()">
                     <i class="fas fa-envelope-open-text"></i> CARTA SECRETA
                 </button>
@@ -71,12 +76,16 @@
         <div id="letter-modal" class="modal hidden">
             <div class="modal-content">
                 <span class="close-btn" onclick="fecharCarta()">&times;</span>
-                <h2 style="font-family: 'Dancing Script'; color: #ff1493;">Para a Mulher da Minha Vida</h2>
-                <div class="letter-text" style="font-family: 'Dancing Script'; font-size: 1.5rem; line-height: 1.6; margin-top: 15px; color: #4a4a4a;">
+                
+                <h2 style="font-family: 'Dancing Script', cursive; color: #ff1493; border-bottom: 1px dashed #ff69b4; padding-bottom: 10px;">
+                    Para a Mulher da Minha Vida
+                </h2>
+                
+                <div class="letter-text" style="font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.6; margin-top: 15px; color: #4a4a4a;">
                     <p>Meu Amor,</p>
-                    <p>Escrevo isto para te lembrar o quanto és especial para mim. Desde que entraste na minha vida, tudo ganhou mais cor.</p>
-                    <p>Não preciso de datas especiais para te dizer que te amo, porque sinto isso em cada pequeno momento.</p>
-                    <p>Obrigado por seres a minha companheira. Prometo cuidar de ti e fazer-te sorrir sempre.</p>
+                    <p>Desde o dia em que o nosso "Hello World" aconteceu, o meu mundo parou de rodar num loop infinito.</p>
+                    <p>Tu não és apenas uma variável na minha vida, és a minha constante favorita.</p>
+                    <p>Prometo estar contigo em cada nível, enfrentar qualquer Boss e corrigir qualquer bug que apareça.</p>
                     <p>Te amo infinitamente! ❤️</p>
                     <div style="text-align: right; margin-top: 30px;">
                         <strong style="font-family: 'Dancing Script'; font-size: 1.4rem; color: #ff1493;">Vitor</strong>
@@ -88,26 +97,35 @@
         <div id="shop-modal" class="modal hidden">
             <div class="modal-content shop-content" style="background: #fff0f5; border: 4px solid #ff69b4; color: #333;">
                 <span class="close-btn" onclick="fecharLoja()">&times;</span>
+                
                 <div class="shop-header" style="border-bottom: 2px dashed #ffb6c1;">
                     <h2 style="color: #ff1493; font-family: 'Dancing Script'; margin: 0;"><i class="fas fa-heart"></i> Loja de Mimos</h2>
                     <div class="wallet" style="background: #ff69b4; color: white; padding: 5px 15px; border-radius: 20px; font-family: 'Fira Code'; font-weight: bold;">
                         Saldo: <span id="love-coins">0</span> ❤️
                     </div>
                 </div>
-                <div class="shop-grid" id="love-shop-grid"></div>
+
+                <div class="shop-grid" id="love-shop-grid">
+                    </div>
             </div>
         </div>
 
         <div id="purchase-modal" class="modal hidden">
-            <div class="modal-content" style="text-align:center; border: 4px solid #ff69b4;">
-                <div style="font-size: 4rem; color: #ff69b4; margin-bottom: 1rem;">
+            <div class="modal-content" style="text-align:center; border: 4px solid #4ade80; background: #f0fff4;">
+                <div style="font-size: 4rem; color: #4ade80; margin-bottom: 1rem; animation: bounce 1s infinite;">
                     <i id="purchase-icon" class="fas fa-gift"></i>
                 </div>
-                <h2 style="color: #ff69b4; font-family: 'Fira Code';">COMPRA REALIZADA!</h2>
-                <p style="font-size: 1.2rem; margin: 10px 0;">Você adquiriu:</p>
-                <h3 id="purchase-item-name" style="background: #e6fffa; color: #064e3b; padding: 10px; border-radius: 8px; display:inline-block;">Item</h3>
-                <p style="margin-top: 20px; font-style: italic; color: #666;">Tire um print e envie para o Vitor!</p>
-                <button class="btn-love" onclick="fecharPurchaseModal()" style="margin-top: 20px; background: #ff69b4;">
+                <h2 style="color: #2f855a; font-family: 'Fira Code'; margin-bottom: 10px;">COMPRA REALIZADA!</h2>
+                
+                <p style="font-size: 1.1rem; margin: 10px 0; color: #4a5568;">Você adquiriu:</p>
+                
+                <h3 id="purchase-item-name" style="background: #fff; color: #d53f8c; padding: 10px 20px; border-radius: 10px; display:inline-block; border: 2px dashed #d53f8c; font-size: 1.5rem;">Item</h3>
+                
+                <p style="margin-top: 20px; font-style: italic; color: #718096; font-size: 0.9rem;">
+                    <i class="fas fa-camera"></i> Tire um print e envie para o Vitor para resgatar!
+                </p>
+                
+                <button class="btn-love" onclick="fecharPurchaseModal()" style="margin-top: 20px; background: #4ade80; width: auto; padding: 10px 40px;">
                     <i class="fas fa-check"></i> YAY!
                 </button>
             </div>
