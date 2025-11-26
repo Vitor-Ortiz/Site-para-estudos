@@ -1,10 +1,19 @@
-/* assets/css/love.css - TEMA ROMÂNTICO V2 */
+/* assets/css/love.css - TEMA ROMÂNTICO FINAL (V3) */
 
-/* Fundo Mágico Estrelado */
-body {
+/* =========================================
+   1. FUNDO E ESTRUTURA
+   ========================================= */
+   body {
     background: #000 url('https://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
-    overflow: hidden;
+    /* IMPORTANTE: Permite rolagem vertical se necessário, mas esconde horizontal */
+    overflow-x: hidden;
+    overflow-y: auto;
     font-family: 'Inter', sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
 }
 
 /* Animação das Estrelas e Nuvens */
@@ -13,6 +22,7 @@ body {
     top: 0; left: 0; right: 0; bottom: 0;
     width: 100%; height: 100%;
     display: block;
+    pointer-events: none;
 }
 
 .stars {
@@ -33,46 +43,54 @@ body {
 }
 
 .love-container {
-    min-height: calc(100vh - 80px);
+    /* Garante altura mínima mas permite crescer */
+    min-height: calc(100vh - 80px); 
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    padding: 2rem;
+    padding: 2rem 1rem; /* Espaço seguro nas bordas */
+    box-sizing: border-box;
     z-index: 1;
 }
 
-/* Cartão Principal */
+/* =========================================
+   2. CARTÃO PRINCIPAL
+   ========================================= */
 .love-card {
-    background: rgba(20, 10, 20, 0.7);
+    background: rgba(20, 10, 20, 0.85);
     border: 1px solid rgba(255, 20, 147, 0.5);
-    padding: 3rem 2rem;
+    padding: 2.5rem 2rem;
     border-radius: 24px;
     text-align: center;
     backdrop-filter: blur(15px);
-    box-shadow: 0 0 60px rgba(255, 20, 147, 0.3);
+    box-shadow: 0 0 60px rgba(255, 20, 147, 0.2);
     max-width: 450px;
     width: 100%;
     position: relative;
     z-index: 10;
-    transition: transform 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
+    
+    /* Garante que não corta em telas pequenas */
+    margin: 20px auto; 
 }
 
 .love-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 20, 147, 0.8);
+    border-color: rgba(255, 20, 147, 0.9);
+    box-shadow: 0 0 80px rgba(255, 20, 147, 0.3);
+    transform: translateY(-3px);
 }
 
 /* Foto Polaroid */
 .photo-frame {
-    width: 160px;
-    height: 160px;
+    width: 150px;
+    height: 150px;
     margin: 0 auto 1.5rem;
     position: relative;
-    padding: 5px;
+    padding: 4px;
     background: linear-gradient(45deg, #ff1493, #ff69b4);
     border-radius: 50%;
-    box-shadow: 0 0 30px rgba(255, 20, 147, 0.4);
+    box-shadow: 0 0 25px rgba(255, 20, 147, 0.3);
 }
 
 .photo-frame img {
@@ -80,16 +98,29 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    border: 4px solid #1a050a;
+    border: 3px solid #1a050a;
+    transition: opacity 0.3s;
 }
+
+/* Botões de Navegação da Foto */
+.photo-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255, 20, 147, 0.8); color: white; border: none;
+    width: 25px; height: 25px; border-radius: 50%; cursor: pointer;
+    font-size: 0.8rem; opacity: 0; transition: opacity 0.3s;
+}
+.photo-frame:hover .photo-btn { opacity: 1; }
+.photo-btn.prev { left: -10px; } 
+.photo-btn.next { right: -10px; }
 
 .heart-badge {
     position: absolute; bottom: 5px; right: 5px;
     background: #ff1493; color: white;
-    width: 40px; height: 40px; border-radius: 50%;
+    width: 35px; height: 35px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem; animation: beat 1.2s infinite;
+    font-size: 1rem; animation: beat 1.2s infinite;
     border: 3px solid #1a050a;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
@@ -98,110 +129,179 @@ body {
 .love-title {
     font-family: 'Dancing Script', cursive;
     color: #ff69b4;
-    font-size: 3rem;
-    margin: 0 0 1.5rem;
-    text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    font-size: 2.8rem;
+    margin: 0 0 1rem;
+    text-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+    line-height: 1;
 }
 
 .timer-box {
     background: rgba(255, 255, 255, 0.05);
-    padding: 15px;
+    padding: 12px;
     border-radius: 12px;
     margin-bottom: 1.5rem;
     border: 1px dashed rgba(255, 105, 180, 0.3);
 }
 
-.timer-box p { margin: 0 0 5px; font-size: 0.8rem; color: #ffb6c1; text-transform: uppercase; letter-spacing: 2px; }
-#relationship-timer { font-family: 'Fira Code', monospace; font-size: 1.1rem; color: white; font-weight: bold; }
+.timer-box p { margin: 0 0 5px; font-size: 0.75rem; color: #ffb6c1; text-transform: uppercase; letter-spacing: 2px; }
+#relationship-timer { font-family: 'Fira Code', monospace; font-size: 1rem; color: white; font-weight: bold; }
 
 .message-box {
-    min-height: 60px;
-    margin-bottom: 2rem;
+    min-height: 50px;
+    margin-bottom: 1.5rem;
     color: #ffd1dc;
     font-style: italic;
     font-size: 1.1rem;
     line-height: 1.4;
+    padding: 0 10px;
 }
 
-/* Botões */
-.actions { display: flex; flex-direction: column; gap: 10px; }
+/* Botões de Ação */
+.actions { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 
 .btn-love {
     background: linear-gradient(45deg, #ff1493, #ff69b4);
     color: white;
     border: none;
-    padding: 14px 30px;
+    padding: 12px;
     border-radius: 50px;
     font-weight: bold;
     font-family: 'Fira Code';
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.4);
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
     width: 100%;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    display: flex; justify-content: center; align-items: center; gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
-.btn-love:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255, 20, 147, 0.6); }
+.btn-love:hover { transform: scale(1.02); box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6); }
 
-.btn-letter {
-    background: transparent;
-    border: 2px solid #ff69b4;
-    color: #ff69b4;
-    box-shadow: none;
-}
+.btn-shop { background: white; color: #ff1493; border: 2px solid #ff1493; }
+.btn-shop:hover { background: #fff0f5; }
+
+.btn-letter { background: transparent; border: 2px solid #ff69b4; color: #ff69b4; box-shadow: none; }
 .btn-letter:hover { background: rgba(255, 105, 180, 0.1); }
 
-/* Music Player */
+/* =========================================
+   3. MUSIC PLAYER ANIMADO
+   ========================================= */
 .music-controls {
     margin-top: 2rem;
     color: #ff69b4;
     cursor: pointer;
     font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    opacity: 0.8;
-    transition: opacity 0.3s;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    opacity: 0.9;
+    transition: all 0.3s;
+    background: rgba(255, 20, 147, 0.1);
+    padding: 8px 15px;
+    border-radius: 50px;
+    border: 1px solid transparent;
+    width: 100%; box-sizing: border-box;
 }
-.music-controls:hover { opacity: 1; }
-.playing i { animation: spin 4s linear infinite; }
+
+.music-controls:hover { background: rgba(255, 20, 147, 0.2); border-color: #ff69b4; }
+
+.music-icon-wrapper { width: 30px; height: 30px; background: #ff1493; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; }
+.music-info { flex-grow: 1; display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+#music-text { font-size: 0.75rem; color: #ffb6c1; margin-bottom: 2px; }
+
+/* Barras do Visualizador */
+.music-bars { display: flex; gap: 3px; height: 15px; align-items: flex-end; opacity: 0.3; transition: opacity 0.3s; }
+.music-controls.playing .music-bars { opacity: 1; }
+.bar { width: 3px; background: #ff1493; animation: sound 0s infinite alternate; }
+.music-controls.playing .bar { animation-duration: 0.5s; }
+.bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.bar:nth-child(2) { height: 100%; animation-delay: 0.3s; }
+.bar:nth-child(3) { height: 60%; animation-delay: 0.2s; }
+.bar:nth-child(4) { height: 80%; animation-delay: 0.4s; }
+@keyframes sound { 0% { height: 20%; } 100% { height: 100%; } }
+.music-controls i { transition: transform 0.5s; }
+.music-controls.playing .music-icon-wrapper i { animation: spin 3s linear infinite; }
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
-/* MODAL DA CARTA */
+/* =========================================
+   4. MODAIS (CARTA & LOJA)
+   ========================================= */
 .modal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
     display: flex; justify-content: center; align-items: center;
-    z-index: 1000;
-    opacity: 1; transition: opacity 0.3s;
+    z-index: 2000; opacity: 1; transition: opacity 0.3s;
+    padding: 20px;
+    box-sizing: border-box;
 }
-.modal.hidden { display: none; opacity: 0; }
+.modal.hidden { display: none; opacity: 0; pointer-events: none; }
 
+/* Conteúdo Genérico do Modal */
 .modal-content {
-    background: #fff0f5; /* Rosa muito claro */
-    padding: 2rem;
-    border-radius: 10px;
-    max-width: 500px;
-    width: 90%;
-    position: relative;
-    color: #333;
-    font-family: 'Dancing Script', cursive;
-    font-size: 1.5rem;
-    border: 10px solid #ff69b4;
-    box-shadow: 0 0 50px rgba(255, 105, 180, 0.5);
-    transform: scale(0.9);
+    background: #fff0f5;
+    padding: 2rem; border-radius: 16px;
+    max-width: 500px; width: 100%;
+    
+    /* Scroll Inteligente */
+    max-height: 85vh; 
+    overflow-y: auto;
+    
+    position: relative; color: #4a4a4a;
+    border: 4px solid #ff69b4;
+    box-shadow: 0 0 60px rgba(255, 105, 180, 0.6);
     animation: popIn 0.3s forwards;
+    box-sizing: border-box;
 }
+
+/* Conteúdo Específico da Loja */
+.shop-content {
+    max-width: 800px;
+    background: #0f172a;
+    border-color: #facc15;
+    color: white;
+}
+
+/* Scrollbar Personalizada */
+.modal-content::-webkit-scrollbar { width: 8px; }
+.modal-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 4px; }
+.modal-content::-webkit-scrollbar-thumb { background: #ff69b4; border-radius: 4px; }
+.modal-content::-webkit-scrollbar-thumb:hover { background: #ff1493; }
 
 .close-btn {
     position: absolute; top: 10px; right: 15px;
-    font-size: 2rem; cursor: pointer; color: #ff1493;
-    font-family: sans-serif;
+    font-size: 2.5rem; cursor: pointer; color: #ff1493;
+    font-family: sans-serif; line-height: 0.8; transition: transform 0.2s;
+    z-index: 10;
+}
+.close-btn:hover { transform: scale(1.2) rotate(90deg); }
+
+/* Grid da Loja */
+.shop-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px dashed #ffb6c1; padding-bottom: 10px; }
+.shop-header h2 { color: #ff1493; font-family: 'Dancing Script'; margin: 0; font-size: 2rem; }
+.wallet { background: #ff69b4; color: white; padding: 5px 15px; border-radius: 20px; font-family: 'Fira Code'; font-weight: bold; font-size: 0.9rem; }
+
+.shop-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+    gap: 15px; 
+    width: 100%;
+    margin-top: 15px;
 }
 
-@keyframes popIn { to { transform: scale(1); } }
+.love-item {
+    background: rgba(255,255,255,0.05); border: 1px solid #ff69b4;
+    border-radius: 12px; padding: 15px; text-align: center;
+    transition: transform 0.2s; display: flex; flex-direction: column; justify-content: space-between;
+}
+.love-item:hover { transform: translateY(-3px); background: rgba(255, 20, 147, 0.1); box-shadow: 0 5px 15px rgba(255, 20, 147, 0.2); }
+.love-item i { font-size: 2rem; color: #ff69b4; margin-bottom: 10px; }
+.love-item h4 { margin: 0 0 5px; color: white; font-size: 0.9rem; }
+.love-item .price { font-family: 'Fira Code'; color: #facc15; font-size: 0.8rem; display: block; margin-bottom: 10px; }
+.btn-buy-love { background: #ff69b4; color: white; border: none; padding: 6px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 0.8rem; font-weight: bold; }
+.btn-buy-love:hover { background: #d63384; }
 
-/* Partículas */
+@keyframes popIn { from { transform: scale(0.8) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+
+/* Partículas de Fundo */
 .heart-particle {
     position: absolute;
     color: rgba(255, 20, 147, 0.6);
@@ -210,3 +310,13 @@ body {
     pointer-events: none;
 }
 @keyframes floatUp { to { transform: translateY(-100vh) rotate(360deg); opacity: 0; } }
+
+/* RESPONSIVIDADE EXTREMA (Mobile Pequeno) */
+@media (max-width: 480px) {
+    .love-card { padding: 2rem 1.5rem; margin: 1rem 0; }
+    .photo-frame { width: 130px; height: 130px; }
+    .love-title { font-size: 2.2rem; }
+    .btn-love { font-size: 0.8rem; padding: 12px; }
+    .modal-content { padding: 1.5rem; }
+    .shop-header { flex-direction: column; gap: 10px; align-items: flex-start; }
+}

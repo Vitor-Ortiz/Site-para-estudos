@@ -60,7 +60,7 @@ function playSound(type) {
     if (audioCtx.state === 'suspended') audioCtx.resume();
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
-    
+
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
     const t = audioCtx.currentTime;
@@ -92,7 +92,7 @@ loadConfetti();
 // =================================================
 // 5. SISTEMA DE HIERARQUIA (ROLES)
 // =================================================
-window.getRole = function(level) {
+window.getRole = function (level) {
     // 1. Título Equipado da Loja
     if (window.userLoadout && window.userLoadout.title && window.userLoadout.title !== 'default_title') {
         const titles = {
@@ -105,13 +105,13 @@ window.getRole = function(level) {
         };
         return titles[window.userLoadout.title] || "Operador";
     }
-    
+
     // 2. Títulos Padrão por Nível
     if (level >= 500) return "Are You Admin ⁇";
     if (level >= 50) return "Cyber Legend 👑";
     if (level >= 20) return "Tech Lead 🚀";
     if (level >= 10) return "Developer 💻";
-    if (level >= 5)  return "Apprentice ⚡";
+    if (level >= 5) return "Apprentice ⚡";
     return "Neófito 🌱";
 };
 
@@ -123,15 +123,15 @@ auth.onAuthStateChanged((user) => {
         // --- USUÁRIO LOGADO ---
         window.currentUser = user;
         console.log("Conectado como:", user.email);
-        
+
         // Define nome seguro
         const nome = user.displayName || (user.email ? user.email.split('@')[0] : "Dev");
-        
+
         // Carrega dados (false = não é convidado)
         carregarDados(user.uid, nome, false);
     } else {
         // --- VISITANTE ---
-        
+
         // Segurança: Bloqueia acesso direto ao Admin sem login
         if (window.location.pathname.includes("admin.html")) {
             console.warn("Admin protegido. Login necessário.");
@@ -139,14 +139,14 @@ auth.onAuthStateChanged((user) => {
         }
 
         window.currentUser = null;
-        
+
         // Gestão de ID Temporário
         let guestId = localStorage.getItem('devstudy_guest_id');
         if (!guestId) {
             guestId = 'guest_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('devstudy_guest_id', guestId);
         }
-        
+
         // true = É convidado (Ativa timer de 24h)
         carregarDados(guestId, "Visitante", true);
     }
@@ -163,7 +163,7 @@ async function carregarDados(uid, nomeAtual, isGuest) {
 
         if (doc.exists) {
             data = doc.data();
-            
+
             // === LÓGICA DE AUTO-DESTRUIÇÃO (24 HORAS) ===
             if (isGuest && data.criadoEm) {
                 const agora = new Date();
@@ -184,18 +184,18 @@ async function carregarDados(uid, nomeAtual, isGuest) {
             window.globalXP = data.xp || 0;
             window.globalLevel = data.level || 1;
             window.userCustomTitle = data.customTitle || "";
-            
+
             // Garante estrutura de stats e inventário
             window.userStats = data.stats || { pomodoros: 0, tasks: 0, streak: 0, lessons: [], lastLogin: null };
-            if(!window.userStats.lessons) window.userStats.lessons = [];
-            
+            if (!window.userStats.lessons) window.userStats.lessons = [];
+
             window.userInventory = data.inventory || [];
             window.userLoadout = data.loadout || { theme: 'theme_default', title: null };
 
             // === LÓGICA DE STREAK (DIAS CONSECUTIVOS) ===
             if (!isGuest) {
-                const today = new Date().setHours(0,0,0,0);
-                const last = data.stats?.lastLogin ? data.stats.lastLogin.toDate().setHours(0,0,0,0) : 0;
+                const today = new Date().setHours(0, 0, 0, 0);
+                const last = data.stats?.lastLogin ? data.stats.lastLogin.toDate().setHours(0, 0, 0, 0) : 0;
                 const diffDays = (today - last) / 86400000;
 
                 if (diffDays === 1) {
@@ -213,14 +213,14 @@ async function carregarDados(uid, nomeAtual, isGuest) {
                 } else if (diffDays !== 0) {
                     window.userStats.streak = 1; // Primeira vez
                 }
-                
+
                 window.userStats.lastLogin = firebase.firestore.FieldValue.serverTimestamp();
                 docRef.update({ stats: window.userStats, inventory: window.userInventory });
             }
 
             // Atualiza nome se necessário
             if (!isGuest && (data.nome === "Convidado" || !data.nome)) {
-                 docRef.update({ nome: nomeAtual });
+                docRef.update({ nome: nomeAtual });
             }
 
         } else {
@@ -236,23 +236,30 @@ async function carregarDados(uid, nomeAtual, isGuest) {
                 criadoEm: firebase.firestore.FieldValue.serverTimestamp()
             };
             await docRef.set(data);
-            
+
             // Reseta locais
             window.globalXP = 0; window.globalLevel = 1;
             window.userStats = data.stats; window.userInventory = []; window.userLoadout = { theme: 'theme_default' };
         }
-        
-        // --- VERIFICAÇÃO DE ADMIN SUPREMO ---
-        if(window.currentUser && window.currentUser.email === "vitorortiz512@gmail.com") {
-             data.isAdmin = true;
-             docRef.update({ isAdmin: true });
-        }
-        window.isAdminUser = data.isAdmin || false;
-        
-        // Aplica o tema visual salvo
-        aplicarTema(window.userLoadout.theme);
 
-        // Avisa toda a aplicação que estamos prontos
+        // === ADMIN CHECK ===
+        if (window.currentUser && window.currentUser.email === "vitorortiz512@gmail.com") {
+            docRef.update({ isAdmin: true });
+            window.isAdminUser = true;
+        } else {
+            window.isAdminUser = data.isAdmin || false;
+        }
+
+        // === LOVE PAGE CHECK (AQUI ESTÁ A VERIFICAÇÃO) ===
+        // Verifica se é a namorada OU o Admin (para poderes testar)
+        if (window.isAdminUser || (window.currentUser && window.currentUser.email === "nYasmimsanches461@gmail.com")) {
+            window.isLoveUser = true;
+            console.log("❤️ Acesso Especial: Concedido");
+        } else {
+            window.isLoveUser = false;
+        }
+
+        aplicarTema(window.userLoadout.theme);
         window.dispatchEvent(new CustomEvent('gameDataLoaded'));
         atualizarHUD();
         atualizarUIComNome(nomeAtual, !!window.currentUser);
@@ -263,7 +270,7 @@ async function carregarDados(uid, nomeAtual, isGuest) {
 // =================================================
 // 8. SISTEMA DE LOJA E INVENTÁRIO
 // =================================================
-window.comprarItemGlobal = async function(itemId, price, name, icon) {
+window.comprarItemGlobal = async function (itemId, price, name, icon) {
     if (window.globalXP < price) {
         showNotification("XP Insuficiente!", "error");
         playSound('error');
@@ -272,7 +279,7 @@ window.comprarItemGlobal = async function(itemId, price, name, icon) {
 
     if (confirm(`Comprar "${name}" por ${price} XP?`)) {
         window.globalXP -= price;
-        
+
         // Adiciona ao inventário
         // Se for item consumível (Escudo), permite adicionar múltiplos
         // Se for tema/título, apenas 1
@@ -281,26 +288,26 @@ window.comprarItemGlobal = async function(itemId, price, name, icon) {
         }
 
         playSound('success');
-        
+
         // Animação
-        if(typeof showPurchaseModal === "function") showPurchaseModal(name, icon);
+        if (typeof showPurchaseModal === "function") showPurchaseModal(name, icon);
         else showNotification("Item Adquirido!", "success");
-        
+
         atualizarHUD();
         salvarProgresso();
     }
 };
 
-window.equiparItemGlobal = async function(type, itemId) {
+window.equiparItemGlobal = async function (type, itemId) {
     if (!window.userLoadout) window.userLoadout = {};
-    
+
     // Atualiza loadout
     window.userLoadout[type] = itemId;
     playSound('click');
 
     // Aplica efeito imediato (se for tema)
     if (type === 'theme') aplicarTema(itemId);
-    
+
     // Atualiza UI (se for título, o nome muda no header)
     const nome = window.currentUser ? window.currentUser.displayName.split(' ')[0] : "Visitante";
     atualizarUIComNome(nome, !!window.currentUser);
@@ -310,7 +317,7 @@ window.equiparItemGlobal = async function(type, itemId) {
 
 function aplicarTema(themeId) {
     const root = document.documentElement;
-    
+
     // Reset para Padrão
     if (!themeId || themeId === 'theme_default') {
         root.style.setProperty('--primary-neon', '#38bdf8');
@@ -321,12 +328,12 @@ function aplicarTema(themeId) {
 
     // Temas Especiais
     const themes = {
-        'theme_matrix':  { p: '#00ff00', s: '#008f11', b:'#050a05' },
-        'theme_dracula': { p: '#bd93f9', s: '#ff79c6', b:'#282a36' },
-        'theme_gold':    { p: '#ffd700', s: '#c0c0c0', b:'#1a1a00' },
-        'theme_fire':    { p: '#ff4500', s: '#ff8c00', b:'#1a0500' },
-        'theme_neon':    { p: '#b026ff', s: '#00d4ff', b:'#0b001a' },
-        'theme_retro':   { p: '#ffb000', s: '#ff5500', b:'#1a1000' }
+        'theme_matrix': { p: '#00ff00', s: '#008f11', b: '#050a05' },
+        'theme_dracula': { p: '#bd93f9', s: '#ff79c6', b: '#282a36' },
+        'theme_gold': { p: '#ffd700', s: '#c0c0c0', b: '#1a1a00' },
+        'theme_fire': { p: '#ff4500', s: '#ff8c00', b: '#1a0500' },
+        'theme_neon': { p: '#b026ff', s: '#00d4ff', b: '#0b001a' },
+        'theme_retro': { p: '#ffb000', s: '#ff5500', b: '#1a1000' }
     };
 
     const theme = themes[themeId];
@@ -341,9 +348,9 @@ function aplicarTema(themeId) {
 // 9. PROGRESSO E ESTATÍSTICAS
 // =================================================
 // Registar Aula (LMS)
-window.registrarAula = function(lessonId) {
-    if(!window.userStats.lessons) window.userStats.lessons = [];
-    if(window.userStats.lessons.includes(lessonId)) {
+window.registrarAula = function (lessonId) {
+    if (!window.userStats.lessons) window.userStats.lessons = [];
+    if (window.userStats.lessons.includes(lessonId)) {
         showNotification("Aula já completada!", "info");
         return;
     }
@@ -353,51 +360,51 @@ window.registrarAula = function(lessonId) {
     adicionarXP(50);
 };
 
-window.registrarPomodoro = function() {
+window.registrarPomodoro = function () {
     window.userStats.pomodoros = (window.userStats.pomodoros || 0) + 1;
-    if(window.userStats.pomodoros === 1) showNotification("🏆 CONQUISTA: Senhor do Tempo!", "success");
+    if (window.userStats.pomodoros === 1) showNotification("🏆 CONQUISTA: Senhor do Tempo!", "success");
     adicionarXP(100);
 };
 
-window.registrarTarefa = function() {
+window.registrarTarefa = function () {
     window.userStats.tasks = (window.userStats.tasks || 0) + 1;
-    if(window.userStats.tasks === 3) showNotification("🏆 CONQUISTA: Task Master!", "success");
+    if (window.userStats.tasks === 3) showNotification("🏆 CONQUISTA: Task Master!", "success");
     adicionarXP(15);
 };
 
 async function adicionarXP(qtd) {
     window.globalXP += qtd;
-    
+
     // Level Up Check
     if (window.globalXP >= window.globalLevel * 100) {
         window.globalLevel++;
-        
+
         const displayRole = window.userCustomTitle || window.getRole(window.globalLevel);
-        
-        if(typeof showLevelUpModal === "function") {
-             showLevelUpModal(window.globalLevel, displayRole);
+
+        if (typeof showLevelUpModal === "function") {
+            showLevelUpModal(window.globalLevel, displayRole);
         } else {
-             showNotification(`LEVEL UP! NÍVEL ${window.globalLevel}`, "success");
+            showNotification(`LEVEL UP! NÍVEL ${window.globalLevel}`, "success");
         }
         playSound('success');
     }
-    
+
     atualizarHUD();
-    if(typeof mostrarFloatXP === "function") mostrarFloatXP(qtd);
+    if (typeof mostrarFloatXP === "function") mostrarFloatXP(qtd);
     salvarProgresso();
 }
 
 // Admin Tool: Definir Nível
-window.definirNivel = async function(targetUid, novoNivel) {
+window.definirNivel = async function (targetUid, novoNivel) {
     const uid = targetUid || (window.currentUser ? window.currentUser.uid : localStorage.getItem('devstudy_guest_id'));
-    if(!uid) return;
+    if (!uid) return;
 
     try {
-        const novoXP = (novoNivel - 1) * 100; 
+        const novoXP = (novoNivel - 1) * 100;
         await db.collection('jogadores').doc(uid).update({ level: parseInt(novoNivel), xp: novoXP });
-        
+
         // Se for o próprio usuário, atualiza a tela
-        if(uid === (window.currentUser?.uid || localStorage.getItem('devstudy_guest_id'))) {
+        if (uid === (window.currentUser?.uid || localStorage.getItem('devstudy_guest_id'))) {
             window.globalLevel = parseInt(novoNivel);
             window.globalXP = novoXP;
             atualizarHUD();
@@ -406,15 +413,15 @@ window.definirNivel = async function(targetUid, novoNivel) {
             playSound('success');
             showNotification(`Nível definido para ${novoNivel}!`, "success");
         }
-    } catch(e) { alert("Erro: " + e.message); }
+    } catch (e) { alert("Erro: " + e.message); }
 };
 
 // Função Global de Salvamento
 function salvarProgresso() {
     const uid = window.currentUser ? window.currentUser.uid : localStorage.getItem('devstudy_guest_id');
-    if(uid) {
-        db.collection('jogadores').doc(uid).update({ 
-            xp: window.globalXP, 
+    if (uid) {
+        db.collection('jogadores').doc(uid).update({
+            xp: window.globalXP,
             level: window.globalLevel,
             inventory: window.userInventory,
             loadout: window.userLoadout,
@@ -435,7 +442,7 @@ function atualizarHUD() {
 
 function atualizarUIComNome(nome, isLogado) {
     const container = document.getElementById('user-info-display');
-    
+
     // Retry system: Se o header.js ainda não criou o HTML, espera e tenta de novo
     if (!container) {
         setTimeout(() => atualizarUIComNome(nome, isLogado), 200);
@@ -450,8 +457,8 @@ function atualizarUIComNome(nome, isLogado) {
     const loginLink = isPages ? "login.html" : "pages/login.html";
 
     if (isLogado) {
-        const avatarSrc = window.currentUser && window.currentUser.photoURL 
-            ? window.currentUser.photoURL 
+        const avatarSrc = window.currentUser && window.currentUser.photoURL
+            ? window.currentUser.photoURL
             : `https://ui-avatars.com/api/?name=${nome}&background=0D8ABC&color=fff`;
 
         container.innerHTML = `
@@ -531,7 +538,7 @@ function showPurchaseModal(name, iconClass) {
     if (window.confetti) window.confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#4ade80', '#ffffff', '#38bdf8'] });
 }
 
-window.closeLevelModal = function(btn) {
+window.closeLevelModal = function (btn) {
     const modal = btn.closest('.level-up-overlay');
     modal.style.opacity = '0';
     setTimeout(() => modal.remove(), 300);
@@ -542,7 +549,7 @@ window.closeLevelModal = function(btn) {
 function showNotification(message, type = 'success') {
     const toast = document.createElement('div');
     toast.className = 'toast-notification'; // Usa a classe do CSS
-    
+
     let icon = 'fa-check-circle';
     let color = '#4ade80';
 
@@ -554,7 +561,7 @@ function showNotification(message, type = 'success') {
         <i class="fas ${icon} toast-icon" style="color:${color}"></i>
         <span class="toast-text">${message}</span>
     `;
-    
+
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3500);
 }
