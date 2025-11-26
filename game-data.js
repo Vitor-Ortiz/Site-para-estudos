@@ -262,13 +262,14 @@ async function carregarDados(uid, nomeAtual, isGuest) {
         // --- VERIFICAÇÃO DE ADMIN SUPREMO ---
         if (window.currentUser && window.currentUser.email === "vitorortiz512@gmail.com") {
             data.isAdmin = true;
+            window.isLoveUser = true;
             docRef.update({ isAdmin: true });
         }
         window.isAdminUser = data.isAdmin || false;
         // === VERIFICAÇÃO DE PROTOCOLO LOVE (Página Secreta) ===
         // Verifica se é a namorada OU se és tu (Admin) para poderes testar
         // IMPORTANTE: Substitui "namorada@gmail.com" pelo email real dela!
-        if (window.isAdminUser || (window.currentUser && window.currentUser.email === "namorada@gmail.com")) {
+        if (window.isAdminUser || (window.currentUser && window.currentUser.email === "Yasmimsanches461@gmail.com")) {
             window.isLoveUser = true;
             console.log("❤️ Acesso Especial: Concedido");
         } else {
