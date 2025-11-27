@@ -2,32 +2,48 @@
 
 const CATALOG = {
     items: [
-        { 
-            id: 'item_shield', 
-            name: 'Escudo de Defensiva', 
-            price: 500, 
-            desc: 'Protege sua sequência de dias (Streak) se esquecer de logar.', 
-            icon: 'fa-shield-alt',
-            type: 'consumable' 
-        }
+        { id: 'item_shield', name: 'Escudo de Defensiva', price: 500, desc: 'Protege sua sequência de dias.', icon: 'fa-shield-alt', type: 'consumable' }
     ],
     themes: [
+        // TEMAS CLÁSSICOS
         { id: 'theme_default', name: 'Cyber Blue', price: 0, desc: 'O visual clássico.', icon: 'fa-desktop' },
-        { id: 'theme_matrix', name: 'The Matrix', price: 500, desc: 'Verde hacker terminal.', icon: 'fa-code', styleClass: 'preview-matrix' },
-        { id: 'theme_dracula', name: 'Dracula', price: 1200, desc: 'Tons roxos escuros.', icon: 'fa-moon', styleClass: 'preview-dracula' },
+        { id: 'theme_matrix', name: 'The Matrix', price: 500, desc: 'Verde hacker.', icon: 'fa-code', styleClass: 'preview-matrix' },
+        { id: 'theme_dracula', name: 'Dracula', price: 1200, desc: 'Roxo escuro.', icon: 'fa-moon', styleClass: 'preview-dracula' },
         { id: 'theme_gold', name: 'Golden State', price: 5000, desc: 'Luxo puro.', icon: 'fa-crown', styleClass: 'preview-gold' },
-        { id: 'theme_fire', name: 'Firewall', price: 2500, desc: 'Quente e agressivo.', icon: 'fa-fire', styleClass: 'preview-fire' },
-        { id: 'theme_neon', name: 'Neon Future', price: 3000, desc: 'Ciano e Roxo Vibrante.', icon: 'fa-bolt', styleClass: 'preview-neon' },
-        { id: 'theme_retro', name: 'Retro Amber', price: 1500, desc: 'Monitores antigos.', icon: 'fa-terminal', styleClass: 'preview-retro' }
+        { id: 'theme_fire', name: 'Firewall', price: 2500, desc: 'Quente.', icon: 'fa-fire', styleClass: 'preview-fire' },
+        { id: 'theme_neon', name: 'Neon Future', price: 3000, desc: 'Vibrante.', icon: 'fa-bolt', styleClass: 'preview-neon' },
+        { id: 'theme_retro', name: 'Retro Amber', price: 1500, desc: 'Monitores antigos.', icon: 'fa-terminal', styleClass: 'preview-retro' },
+        
+        // TEMAS ESPECIAIS
+        { id: 'theme_midnight_purple', name: 'Midnight', price: 3500, desc: 'Roxo profundo.', icon: 'fa-moon', styleClass: 'preview-midnight-purple' },
+        { id: 'theme_acid_green', name: 'Acid Green', price: 2800, desc: 'Verde tóxico.', icon: 'fa-biohazard', styleClass: 'preview-acid-green' },
+        { id: 'theme_crystal_blue', name: 'Crystal', price: 3200, desc: 'Azul cristalino.', icon: 'fa-gem', styleClass: 'preview-crystal-blue' },
+        { id: 'theme_lava_red', name: 'Lava Flow', price: 4000, desc: 'Vermelho vulcânico.', icon: 'fa-temperature-high', styleClass: 'preview-lava-red' },
+        { id: 'theme_ocean', name: 'Deep Ocean', price: 2000, desc: 'Azul marinho.', icon: 'fa-water', styleClass: 'preview-ocean' },
+        { id: 'theme_cyberpunk', name: 'Night City', price: 4000, desc: 'Amarelo elétrico.', icon: 'fa-city', styleClass: 'preview-cyberpunk' },
+        
+        // O TEMA ESPECIAL (RENOMEADO)
+        { id: 'theme_galaxy', name: 'The Galaxy', price: 5000, desc: 'Fundo cósmico animado.', icon: 'fa-user-astronaut', styleClass: 'preview-galaxy' },
+        { id: 'theme_cyber_void', name: 'Cyber Void', price: 4500, desc: 'Preto absoluto.', icon: 'fa-skull', styleClass: 'preview-cyber-void' }
     ],
     titles: [
-        { id: 'default_title', name: 'Padrão (Nível)', price: 0, desc: 'Usa o título do nível.', icon: 'fa-user' },
+        { id: 'default_title', name: 'Padrão (Nível)', price: 0, desc: 'Usa o nível atual.', icon: 'fa-user' },
         { id: 'title_bug_hunter', name: 'Bug Hunter', price: 300, desc: 'Tag: Bug Hunter 🐛', icon: 'fa-bug' },
         { id: 'title_architect', name: 'Architect', price: 800, desc: 'Tag: Architect 📐', icon: 'fa-ruler-combined' },
         { id: 'title_wizard', name: 'Code Wizard', price: 2000, desc: 'Tag: Wizard 🧙‍♂️', icon: 'fa-hat-wizard' },
         { id: 'title_ninja', name: 'Ninja', price: 1000, desc: 'Tag: Ninja 🥷', icon: 'fa-user-ninja' },
         { id: 'title_fs', name: 'Fullstack', price: 5000, desc: 'Tag: Fullstack 🌐', icon: 'fa-layer-group' },
-        { id: 'title_coffee', name: 'Coffee Lover', price: 150, desc: 'Tag: Java Lover ☕', icon: 'fa-coffee' }
+        { id: 'title_coffee', name: 'Coffee Lover', price: 150, desc: 'Tag: Java Lover ☕', icon: 'fa-coffee' },
+        { id: 'title_hacker', name: 'Elite Hacker', price: 3500, desc: 'Tag: Elite Hacker 💀', icon: 'fa-user-secret' },
+        { id: 'title_guru', name: 'Tech Guru', price: 10000, desc: 'Tag: Guru 🧘‍♂️', icon: 'fa-om' },
+        { id: 'title_void_walker', name: 'Void Walker', price: 6000, desc: 'Tag: Void Walker 🌌', icon: 'fa-meteor' },
+        { id: 'title_ai_overlord', name: 'AI Overlord', price: 8000, desc: 'Tag: AI Overlord 🤖', icon: 'fa-robot' },
+        { id: 'title_time_traveler', name: 'Time Traveler', price: 5500, desc: 'Tag: Time Traveler ⏳', icon: 'fa-hourglass-half' },
+        { id: 'title_digital_shaman', name: 'Digital Shaman', price: 4500, desc: 'Tag: Digital Shaman 🌀', icon: 'fa-eye' },
+        { id: 'title_neon_samurai', name: 'Neon Samurai', price: 3800, desc: 'Tag: Neon Samurai ⚔️', icon: 'fa-khanda' },
+        { id: 'title_quantum_ghost', name: 'Quantum Ghost', price: 7000, desc: 'Tag: Quantum Ghost 👻', icon: 'fa-ghost' },
+        { id: 'title_data_alchemist', name: 'Data Alchemist', price: 5200, desc: 'Tag: Data Alchemist 🔮', icon: 'fa-flask' },
+        { id: 'title_cyber_dragon', name: 'Cyber Dragon', price: 6500, desc: 'Tag: Cyber Dragon 🐲', icon: 'fa-dragon' }
     ]
 };
 
@@ -49,14 +65,14 @@ function initShop() {
 
 function updateWalletUI() {
     const xpEl = document.getElementById('shop-user-xp');
-    if(xpEl) xpEl.innerText = window.globalXP ? window.globalXP.toLocaleString() : 0;
+    if (xpEl) xpEl.innerText = window.globalXP ? window.globalXP.toLocaleString() : 0;
 }
 
 function renderSection(containerId, items, type) {
     const container = document.getElementById(containerId);
-    if(!container) return;
+    if (!container) return;
     container.innerHTML = '';
-    
+
     const inventory = window.userInventory || [];
     const currentEquipped = window.userLoadout ? window.userLoadout[type] : null;
     const userXP = window.globalXP || 0;
@@ -87,7 +103,7 @@ function renderSection(containerId, items, type) {
 
         } else {
             const isEquipped = currentEquipped === item.id || (item.price === 0 && !currentEquipped && type === 'theme');
-            
+
             if (isEquipped) {
                 btnHTML = '<i class="fas fa-check-circle"></i> EQUIPADO';
                 btnClass += ' equipped';
@@ -109,7 +125,7 @@ function renderSection(containerId, items, type) {
 
         const card = document.createElement('div');
         card.className = `shop-item ${item.styleClass || ''}`;
-        
+
         let qtyBadge = (isConsumable && count > 0) ? `<div class="item-qty">${count}x</div>` : '';
 
         card.innerHTML = `
@@ -127,14 +143,14 @@ function renderSection(containerId, items, type) {
 }
 
 // Ponte atualizada para aceitar nome e ícone
-window.comprarItem = function(itemId, price, name, icon) {
-    if(window.comprarItemGlobal) {
+window.comprarItem = function (itemId, price, name, icon) {
+    if (window.comprarItemGlobal) {
         window.comprarItemGlobal(itemId, price, name, icon).then(() => initShop());
     }
 };
 
-window.equiparItem = function(type, itemId) {
-    if(window.equiparItemGlobal) {
+window.equiparItem = function (type, itemId) {
+    if (window.equiparItemGlobal) {
         window.equiparItemGlobal(type, itemId).then(() => initShop());
     }
 };

@@ -3,7 +3,7 @@
 /* =========================================
    1. FUNDO E ESTRUTURA
    ========================================= */
-   body {
+body {
     background: #000 url('https://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
     /* IMPORTANTE: Permite rolagem vertical se necessário, mas esconde horizontal */
     overflow-x: hidden;
@@ -17,10 +17,15 @@
 }
 
 /* Animação das Estrelas e Nuvens */
-.stars, .twinkling {
+.stars,
+.twinkling {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
     display: block;
     pointer-events: none;
 }
@@ -38,18 +43,24 @@
 }
 
 @keyframes move-twink-back {
-    from {background-position:0 0;}
-    to {background-position:-10000px 5000px;}
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -10000px 5000px;
+    }
 }
 
 .love-container {
     /* Garante altura mínima mas permite crescer */
-    min-height: calc(100vh - 80px); 
+    min-height: calc(100vh - 80px);
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    padding: 2rem 1rem; /* Espaço seguro nas bordas */
+    padding: 2rem 1rem;
+    /* Espaço seguro nas bordas */
     box-sizing: border-box;
     z-index: 1;
 }
@@ -70,9 +81,9 @@
     position: relative;
     z-index: 10;
     transition: transform 0.3s, box-shadow 0.3s;
-    
+
     /* Garante que não corta em telas pequenas */
-    margin: 20px auto; 
+    margin: 20px auto;
 }
 
 .love-card:hover {
@@ -104,26 +115,62 @@
 
 /* Botões de Navegação da Foto */
 .photo-btn {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    background: rgba(255, 20, 147, 0.8); color: white; border: none;
-    width: 25px; height: 25px; border-radius: 50%; cursor: pointer;
-    font-size: 0.8rem; opacity: 0; transition: opacity 0.3s;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 20, 147, 0.8);
+    color: white;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
-.photo-frame:hover .photo-btn { opacity: 1; }
-.photo-btn.prev { left: -10px; } 
-.photo-btn.next { right: -10px; }
+
+.photo-frame:hover .photo-btn {
+    opacity: 1;
+}
+
+.photo-btn.prev {
+    left: -10px;
+}
+
+.photo-btn.next {
+    right: -10px;
+}
 
 .heart-badge {
-    position: absolute; bottom: 5px; right: 5px;
-    background: #ff1493; color: white;
-    width: 35px; height: 35px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem; animation: beat 1.2s infinite;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #ff1493;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    animation: beat 1.2s infinite;
     border: 3px solid #1a050a;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+@keyframes beat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+}
 
 /* Textos */
 .love-title {
@@ -143,8 +190,20 @@
     border: 1px dashed rgba(255, 105, 180, 0.3);
 }
 
-.timer-box p { margin: 0 0 5px; font-size: 0.75rem; color: #ffb6c1; text-transform: uppercase; letter-spacing: 2px; }
-#relationship-timer { font-family: 'Fira Code', monospace; font-size: 1rem; color: white; font-weight: bold; }
+.timer-box p {
+    margin: 0 0 5px;
+    font-size: 0.75rem;
+    color: #ffb6c1;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#relationship-timer {
+    font-family: 'Fira Code', monospace;
+    font-size: 1rem;
+    color: white;
+    font-weight: bold;
+}
 
 .message-box {
     min-height: 50px;
@@ -157,7 +216,12 @@
 }
 
 /* Botões de Ação */
-.actions { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
 
 .btn-love {
     background: linear-gradient(45deg, #ff1493, #ff69b4);
@@ -172,17 +236,39 @@
     box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
     width: 100%;
     font-size: 0.95rem;
-    display: flex; justify-content: center; align-items: center; gap: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
-.btn-love:hover { transform: scale(1.02); box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6); }
 
-.btn-shop { background: white; color: #ff1493; border: 2px solid #ff1493; }
-.btn-shop:hover { background: #fff0f5; }
+.btn-love:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);
+}
 
-.btn-letter { background: transparent; border: 2px solid #ff69b4; color: #ff69b4; box-shadow: none; }
-.btn-letter:hover { background: rgba(255, 105, 180, 0.1); }
+.btn-shop {
+    background: white;
+    color: #ff1493;
+    border: 2px solid #ff1493;
+}
+
+.btn-shop:hover {
+    background: #fff0f5;
+}
+
+.btn-letter {
+    background: transparent;
+    border: 2px solid #ff69b4;
+    color: #ff69b4;
+    box-shadow: none;
+}
+
+.btn-letter:hover {
+    background: rgba(255, 105, 180, 0.1);
+}
 
 /* =========================================
    3. MUSIC PLAYER ANIMADO
@@ -192,60 +278,159 @@
     color: #ff69b4;
     cursor: pointer;
     font-size: 0.9rem;
-    display: flex; align-items: center; justify-content: center; gap: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     opacity: 0.9;
     transition: all 0.3s;
     background: rgba(255, 20, 147, 0.1);
     padding: 8px 15px;
     border-radius: 50px;
     border: 1px solid transparent;
-    width: 100%; box-sizing: border-box;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.music-controls:hover { background: rgba(255, 20, 147, 0.2); border-color: #ff69b4; }
+.music-controls:hover {
+    background: rgba(255, 20, 147, 0.2);
+    border-color: #ff69b4;
+}
 
-.music-icon-wrapper { width: 30px; height: 30px; background: #ff1493; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; }
-.music-info { flex-grow: 1; display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
-#music-text { font-size: 0.75rem; color: #ffb6c1; margin-bottom: 2px; }
+.music-icon-wrapper {
+    width: 30px;
+    height: 30px;
+    background: #ff1493;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.music-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+#music-text {
+    font-size: 0.75rem;
+    color: #ffb6c1;
+    margin-bottom: 2px;
+}
 
 /* Barras do Visualizador */
-.music-bars { display: flex; gap: 3px; height: 15px; align-items: flex-end; opacity: 0.3; transition: opacity 0.3s; }
-.music-controls.playing .music-bars { opacity: 1; }
-.bar { width: 3px; background: #ff1493; animation: sound 0s infinite alternate; }
-.music-controls.playing .bar { animation-duration: 0.5s; }
-.bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
-.bar:nth-child(2) { height: 100%; animation-delay: 0.3s; }
-.bar:nth-child(3) { height: 60%; animation-delay: 0.2s; }
-.bar:nth-child(4) { height: 80%; animation-delay: 0.4s; }
-@keyframes sound { 0% { height: 20%; } 100% { height: 100%; } }
-.music-controls i { transition: transform 0.5s; }
-.music-controls.playing .music-icon-wrapper i { animation: spin 3s linear infinite; }
-@keyframes spin { 100% { transform: rotate(360deg); } }
+.music-bars {
+    display: flex;
+    gap: 3px;
+    height: 15px;
+    align-items: flex-end;
+    opacity: 0.3;
+    transition: opacity 0.3s;
+}
+
+.music-controls.playing .music-bars {
+    opacity: 1;
+}
+
+.bar {
+    width: 3px;
+    background: #ff1493;
+    animation: sound 0s infinite alternate;
+}
+
+.music-controls.playing .bar {
+    animation-duration: 0.5s;
+}
+
+.bar:nth-child(1) {
+    height: 40%;
+    animation-delay: 0.1s;
+}
+
+.bar:nth-child(2) {
+    height: 100%;
+    animation-delay: 0.3s;
+}
+
+.bar:nth-child(3) {
+    height: 60%;
+    animation-delay: 0.2s;
+}
+
+.bar:nth-child(4) {
+    height: 80%;
+    animation-delay: 0.4s;
+}
+
+@keyframes sound {
+    0% {
+        height: 20%;
+    }
+
+    100% {
+        height: 100%;
+    }
+}
+
+.music-controls i {
+    transition: transform 0.5s;
+}
+
+.music-controls.playing .music-icon-wrapper i {
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 /* =========================================
    4. MODAIS (CARTA & LOJA)
    ========================================= */
 .modal {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 2000; opacity: 1; transition: opacity 0.3s;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 1;
+    transition: opacity 0.3s;
     padding: 20px;
     box-sizing: border-box;
 }
-.modal.hidden { display: none; opacity: 0; pointer-events: none; }
+
+.modal.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
 
 /* Conteúdo Genérico do Modal */
 .modal-content {
     background: #fff0f5;
-    padding: 2rem; border-radius: 16px;
-    max-width: 500px; width: 100%;
-    
+    padding: 2rem;
+    border-radius: 16px;
+    max-width: 500px;
+    width: 100%;
+
     /* Scroll Inteligente */
-    max-height: 85vh; 
+    max-height: 85vh;
     overflow-y: auto;
-    
-    position: relative; color: #4a4a4a;
+
+    position: relative;
+    color: #4a4a4a;
     border: 4px solid #ff69b4;
     box-shadow: 0 0 60px rgba(255, 105, 180, 0.6);
     animation: popIn 0.3s forwards;
@@ -261,45 +446,161 @@
 }
 
 /* Scrollbar Personalizada */
-.modal-content::-webkit-scrollbar { width: 8px; }
-.modal-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 4px; }
-.modal-content::-webkit-scrollbar-thumb { background: #ff69b4; border-radius: 4px; }
-.modal-content::-webkit-scrollbar-thumb:hover { background: #ff1493; }
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: #ff69b4;
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: #ff1493;
+}
 
 .close-btn {
-    position: absolute; top: 10px; right: 15px;
-    font-size: 2.5rem; cursor: pointer; color: #ff1493;
-    font-family: sans-serif; line-height: 0.8; transition: transform 0.2s;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: #ff1493;
+    font-family: sans-serif;
+    line-height: 0.8;
+    transition: transform 0.2s;
     z-index: 10;
 }
-.close-btn:hover { transform: scale(1.2) rotate(90deg); }
+
+.close-btn:hover {
+    transform: scale(1.2) rotate(90deg);
+}
 
 /* Grid da Loja */
-.shop-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px dashed #ffb6c1; padding-bottom: 10px; }
-.shop-header h2 { color: #ff1493; font-family: 'Dancing Script'; margin: 0; font-size: 2rem; }
-.wallet { background: #ff69b4; color: white; padding: 5px 15px; border-radius: 20px; font-family: 'Fira Code'; font-weight: bold; font-size: 0.9rem; }
+.shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #ffb6c1;
+    padding-bottom: 10px;
+}
 
-.shop-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
-    gap: 15px; 
+.shop-header h2 {
+    color: #ff1493;
+    font-family: 'Dancing Script';
+    margin: 0;
+    font-size: 2rem;
+}
+
+.wallet {
+    background: #ff69b4;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-family: 'Fira Code';
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
     width: 100%;
     margin-top: 15px;
 }
 
 .love-item {
-    background: rgba(255,255,255,0.05); border: 1px solid #ff69b4;
-    border-radius: 12px; padding: 15px; text-align: center;
-    transition: transform 0.2s; display: flex; flex-direction: column; justify-content: space-between;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #ff69b4;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-.love-item:hover { transform: translateY(-3px); background: rgba(255, 20, 147, 0.1); box-shadow: 0 5px 15px rgba(255, 20, 147, 0.2); }
-.love-item i { font-size: 2rem; color: #ff69b4; margin-bottom: 10px; }
-.love-item h4 { margin: 0 0 5px; color: white; font-size: 0.9rem; }
-.love-item .price { font-family: 'Fira Code'; color: #facc15; font-size: 0.8rem; display: block; margin-bottom: 10px; }
-.btn-buy-love { background: #ff69b4; color: white; border: none; padding: 6px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 0.8rem; font-weight: bold; }
-.btn-buy-love:hover { background: #d63384; }
 
-@keyframes popIn { from { transform: scale(0.8) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+.love-item:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 20, 147, 0.1);
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.2);
+}
+
+.love-item i {
+    font-size: 2rem;
+    color: #ff69b4;
+    margin-bottom: 10px;
+}
+
+.love-item h4 {
+    margin: 0 0 5px;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.love-item .price {
+    font-family: 'Fira Code';
+    color: #facc15;
+    font-size: 0.8rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.btn-buy-love {
+    background: #ff69b4;
+    color: white;
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.btn-buy-love:hover {
+    background: #d63384;
+}
+
+
+.btn-buy-love.equipped {
+    background-color: #4ade80;
+    /* Verde Sucesso */
+    border-color: #4ade80;
+    color: #064e3b;
+    cursor: default;
+    box-shadow: none;
+}
+
+.btn-buy-love.owned {
+    background-color: transparent;
+    border: 2px solid #4ade80;
+    color: #4ade80;
+}
+
+.btn-buy-love.owned:hover {
+    background-color: rgba(74, 222, 128, 0.1);
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.8) translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
 
 /* Partículas de Fundo */
 .heart-particle {
@@ -309,14 +610,42 @@
     z-index: 1;
     pointer-events: none;
 }
-@keyframes floatUp { to { transform: translateY(-100vh) rotate(360deg); opacity: 0; } }
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
 
 /* RESPONSIVIDADE EXTREMA (Mobile Pequeno) */
 @media (max-width: 480px) {
-    .love-card { padding: 2rem 1.5rem; margin: 1rem 0; }
-    .photo-frame { width: 130px; height: 130px; }
-    .love-title { font-size: 2.2rem; }
-    .btn-love { font-size: 0.8rem; padding: 12px; }
-    .modal-content { padding: 1.5rem; }
-    .shop-header { flex-direction: column; gap: 10px; align-items: flex-start; }
+    .love-card {
+        padding: 2rem 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .photo-frame {
+        width: 130px;
+        height: 130px;
+    }
+
+    .love-title {
+        font-size: 2.2rem;
+    }
+
+    .btn-love {
+        font-size: 0.8rem;
+        padding: 12px;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+    }
+
+    .shop-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
 }

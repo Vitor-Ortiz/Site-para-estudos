@@ -162,6 +162,18 @@
 .admin-card-menu:hover { border-color: var(--danger); }
 .admin-card-menu .card-icon, .admin-card-menu .card-action { color: var(--danger); }
 
+/* --- NOVOS CARDS --- */
+
+/* Matemática (Rosa Choque) */
+.math-card:hover { border-color: #f472b6; }
+.math-card .card-icon, .math-card .card-action { color: #f472b6; }
+.math-card:hover .card-bg-icon { color: #f472b6; }
+
+/* Pentest (Vermelho Escuro/Hacker) */
+.pentest-card:hover { border-color: #ef4444; }
+.pentest-card .card-icon, .pentest-card .card-action { color: #ef4444; }
+.pentest-card:hover .card-bg-icon { color: #ef4444; }
+
 /* Responsividade */
 @media (max-width: 768px) {
     .welcome-section { flex-direction: column; align-items: flex-start; gap: 1rem; }

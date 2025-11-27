@@ -3,52 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy | Cyber Typer</title>
+    <title>DevStudy | Matrix</title>
+    
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/header.css">
     <link rel="stylesheet" href="../assets/css/components.css">
-    <link rel="stylesheet" href="../assets/css/game.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header></header>
 
-    <main class="game-wrapper">
-        <div class="game-header">
-            <h1><i class="fas fa-keyboard"></i> CYBER TYPER</h1>
-            <p>Digite os comandos antes que o sistema colapse.</p>
+    <div class="dashboard-container">
+        <aside class="skill-sidebar">
+            <div class="sidebar-header"><h3>SISTEMA</h3></div>
+            <ul class="module-list">
+                <li class="module-item active"><i class="fab fa-html5"></i> HTML</li>
+                <li class="module-item"><i class="fab fa-css3-alt"></i> CSS</li>
+                <li class="module-item"><i class="fab fa-js"></i> JavaScript</li>
+            </ul>
+        </aside>
+
+        <main class="workspace">
             
-            <div class="stats">
-                <div class="stat-box">
-                    <span class="label">SCORE</span>
-                    <span class="value" id="score">0</span>
+            <section class="challenge-card">
+                <div class="card-top"><span class="badge code-badge">EDITOR PRO</span></div>
+                <h3>Lista Ordenada</h3>
+                <p>Crie uma lista ordenada com 3 itens.</p>
+                
+                <div class="code-window">
+                    <div class="window-header"><span>index.html</span> <button onclick="resetEditor('html')"><i class="fas fa-undo"></i></button></div>
+                    <div id="html-editor" class="editor jar language-html"></div>
                 </div>
-                <div class="stat-box">
-                    <span class="label">VIDAS</span>
-                    <span class="value lives" id="lives">❤️❤️❤️❤️❤️</span>
+                
+                <button class="deploy-btn" onclick="validarHTML()">COMPILAR</button>
+                <div id="feedback-html" class="feedback-area"></div>
+            </section>
+
+            <section class="challenge-card">
+                <div class="card-top"><span class="badge code-badge">EDITOR PRO</span></div>
+                <h3>Flexbox Center</h3>
+                <p>Centralize os itens.</p>
+                
+                <div class="code-window">
+                    <div class="window-header"><span>style.css</span> <button onclick="resetEditor('css')"><i class="fas fa-undo"></i></button></div>
+                    <div id="css-flex-editor" class="editor jar language-css"></div>
                 </div>
-            </div>
-        </div>
+                
+                <button class="deploy-btn" onclick="validarFlexbox()">COMPILAR</button>
+            </section>
 
-        <div class="game-container" id="game-area">
-            <div class="start-screen" id="start-screen">
-                <i class="fas fa-terminal" style="font-size: 3rem; color: var(--primary-neon); margin-bottom: 1rem;"></i>
-                <h2>PRONTO PARA O HACK?</h2>
-                <p style="color: #94a3b8; margin-bottom: 20px;">Digite as palavras que caem.</p>
-                <button class="btn btn-primary" onclick="startGame()">INICIAR SISTEMA</button>
-            </div>
-        </div>
+            <section class="challenge-card">
+                <div class="card-top"><span class="badge code-badge">EDITOR PRO</span></div>
+                <h3>Lógica Condicional</h3>
+                
+                <div class="code-window">
+                    <div class="window-header"><span>script.js</span> <button onclick="resetEditor('js')"><i class="fas fa-undo"></i></button></div>
+                    <div id="js-if-editor" class="editor jar language-javascript"></div>
+                </div>
+                
+                <button class="deploy-btn" onclick="validarJSIf()">COMPILAR</button>
+            </section>
 
-        <div class="input-zone">
-            <input type="text" id="word-input" class="cyber-input" placeholder="Aguardando comando..." autocomplete="off" disabled>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    
+    <script type="module">
+        import { CodeJar } from 'https://medv.io/codejar/codejar.js';
+        window.CodeJar = CodeJar; // Torna global para o dashboard.js
+    </script>
+
     <script src="../game-data.js"></script>
     <script src="../assets/js/header.js"></script>
-    <script src="../assets/js/game.js"></script>
+    <script src="../assets/js/dashboard.js" defer></script>
 </body>
 </html>

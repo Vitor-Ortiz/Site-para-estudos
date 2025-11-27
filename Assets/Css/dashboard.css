@@ -1,20 +1,31 @@
-/* assets/css/dashboard.css - ESTILOS DA SIDEBAR, MATRIX E ATLAS */
+/* assets/css/dashboard.css - VERSÃO FINAL V31
+   Inclui: Sidebar, Matrix (Editor), Docs (Atlas), Archive e Trophies
+*/
 
-/* --- LAYOUT GERAL --- */
+/* =========================================
+   1. LAYOUT PRINCIPAL
+   ========================================= */
 .dashboard-container {
     display: grid;
-    grid-template-columns: 260px 1fr; /* Sidebar fixa | Conteúdo fluido */
-    min-height: calc(100vh - 80px); /* Altura total menos header */
+    grid-template-columns: 260px 1fr; /* Sidebar fixa | Conteúdo */
+    min-height: calc(100vh - 80px);
+    background-image: radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.05) 0%, transparent 40%);
 }
 
-/* --- SIDEBAR (LATERAL) --- */
+/* =========================================
+   2. SIDEBAR (NAVEGAÇÃO LATERAL)
+   ========================================= */
 .skill-sidebar {
-    background: rgba(15, 23, 42, 0.6);
+    background: rgba(15, 23, 42, 0.8);
     backdrop-filter: blur(10px);
     border-right: 1px solid rgba(255, 255, 255, 0.05);
     padding: 2rem 0;
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
 }
 
 .sidebar-header {
@@ -26,8 +37,9 @@
 .sidebar-header h3 {
     color: var(--text-muted);
     font-family: var(--font-code);
-    font-size: 0.9rem;
-    letter-spacing: 1px;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .module-list {
@@ -52,6 +64,7 @@
 .module-item:hover {
     background: rgba(255, 255, 255, 0.05);
     color: white;
+    transform: translateX(5px);
 }
 
 .module-item.active {
@@ -60,28 +73,32 @@
     border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
+.module-item i { width: 20px; text-align: center; }
+
 .sidebar-divider {
     height: 1px;
     background: rgba(255,255,255,0.1);
-    margin: 10px 15px;
+    margin: 15px 20px;
 }
 
 .sidebar-footer {
     margin-top: auto;
     padding: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .progress-widget span {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
 }
 
 .progress-bar {
-    height: 4px;
+    height: 6px;
     background: rgba(255,255,255,0.1);
-    border-radius: 2px;
+    border-radius: 3px;
     overflow: hidden;
 }
 
@@ -89,392 +106,161 @@
     height: 100%;
     background: var(--primary-neon);
     box-shadow: 0 0 10px var(--primary-neon);
+    animation: pulse-bar 2s infinite;
 }
 
-@keyframes pulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
-}
+@keyframes pulse-bar { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
 
-/* --- ÁREA DE TRABALHO (WORKSPACE) --- */
+/* =========================================
+   3. ÁREA DE TRABALHO (WORKSPACE)
+   ========================================= */
 .workspace {
     padding: 2rem 3rem;
     overflow-y: auto;
+    height: calc(100vh - 80px);
 }
 
-.module-content {
-    display: none;
-    animation: fadeIn 0.4s ease;
-}
+.module-content { display: none; animation: slideInRight 0.4s ease; }
+.module-content.active { display: block; }
 
-.module-content.active {
-    display: block;
-}
+@keyframes slideInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Banners de Título */
+/* Banners de Cabeçalho */
 .module-banner {
-    background: linear-gradient(135deg, rgba(56,189,248,0.1), rgba(15,23,42,0));
-    padding: 2rem;
-    border-radius: 12px;
-    margin-bottom: 2rem;
-    border-left: 4px solid var(--primary-neon);
+    padding: 2.5rem;
+    border-radius: 16px;
+    margin-bottom: 2.5rem;
+    border-left: 5px solid var(--primary-neon);
+    background: linear-gradient(90deg, rgba(56,189,248,0.1) 0%, transparent 100%);
+    position: relative;
+    overflow: hidden;
 }
 
-.module-banner.html-bg { border-color: #e34c26; }
-.module-banner.css-bg { border-color: #264de4; }
-.module-banner.js-bg { border-color: #f7df1e; }
+.module-banner.html-bg { border-color: #e34c26; background: linear-gradient(90deg, rgba(227, 76, 38, 0.1), transparent); }
+.module-banner.css-bg { border-color: #264de4; background: linear-gradient(90deg, rgba(38, 77, 228, 0.1), transparent); }
+.module-banner.js-bg { border-color: #f7df1e; background: linear-gradient(90deg, rgba(247, 223, 30, 0.1), transparent); }
 
 .module-banner h2 {
     font-family: var(--font-code);
-    font-size: 2rem;
+    font-size: 2.2rem;
     color: white;
     margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 15px;
 }
 
-/* --- ATLAS DE LINGUAGENS (DOCS) --- */
+/* =========================================
+   4. ATLAS DE LINGUAGENS (DOCS)
+   ========================================= */
 .atlas-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
 }
 
 .lang-card {
-    background: rgba(255,255,255,0.03);
+    background: rgba(255,255,255,0.02);
     border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 2rem;
     text-align: center;
     transition: all 0.3s;
     cursor: pointer;
     position: relative;
-    overflow: hidden;
 }
 
 .lang-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
     background: rgba(255,255,255,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
 .lang-icon {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
     color: var(--text-muted);
-    transition: color 0.3s, filter 0.3s;
+    transition: all 0.3s;
 }
 
 .lang-title {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: white;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
     font-family: var(--font-code);
 }
 
 .lang-desc {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 /* Cores Específicas (Só ativam no Hover) */
 .js-card:hover { border-color: #f7df1e; }
-.js-card:hover .lang-icon { color: #f7df1e; filter: drop-shadow(0 0 10px rgba(247, 223, 30, 0.5)); }
+.js-card:hover .lang-icon { color: #f7df1e; filter: drop-shadow(0 0 15px rgba(247, 223, 30, 0.4)); }
 
 .py-card:hover { border-color: #306998; }
-.py-card:hover .lang-icon { color: #306998; filter: drop-shadow(0 0 10px rgba(48, 105, 152, 0.5)); }
+.py-card:hover .lang-icon { color: #306998; filter: drop-shadow(0 0 15px rgba(48, 105, 152, 0.4)); }
 
 .css-card:hover { border-color: #264de4; }
-.css-card:hover .lang-icon { color: #264de4; filter: drop-shadow(0 0 10px rgba(38, 77, 228, 0.5)); }
+.css-card:hover .lang-icon { color: #264de4; filter: drop-shadow(0 0 15px rgba(38, 77, 228, 0.4)); }
 
 .html-card:hover { border-color: #e34c26; }
-.html-card:hover .lang-icon { color: #e34c26; filter: drop-shadow(0 0 10px rgba(227, 76, 38, 0.5)); }
+.html-card:hover .lang-icon { color: #e34c26; filter: drop-shadow(0 0 15px rgba(227, 76, 38, 0.4)); }
 
 .react-card:hover { border-color: #61dbfb; }
-.react-card:hover .lang-icon { color: #61dbfb; filter: drop-shadow(0 0 10px rgba(97, 219, 251, 0.5)); }
+.react-card:hover .lang-icon { color: #61dbfb; filter: drop-shadow(0 0 15px rgba(97, 219, 251, 0.4)); }
 
-
-/* --- CARTÕES DE DESAFIO E QUIZ --- */
-.challenge-card {
-    background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    position: relative;
-}
-
-.card-top {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-
-.badge {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    color: var(--text-muted);
-}
-
-.code-badge {
-    background: rgba(56, 189, 248, 0.2);
-    color: var(--primary-neon);
-}
-
-.xp-reward {
-    color: var(--accent);
-    font-weight: bold;
-    font-family: var(--font-code);
-}
-
-/* Quiz */
-.quiz-options {
-    display: grid;
-    gap: 10px;
-    margin-top: 1.5rem;
-}
-
-.quiz-opt {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-main);
-    padding: 12px;
-    text-align: left;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: var(--font-code);
-    transition: all 0.2s;
-}
-
-.quiz-opt:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--text-muted);
-}
-
-.quiz-opt.correct {
-    border-color: var(--success);
-    background: rgba(74, 222, 128, 0.1);
-    color: var(--success);
-}
-
-.quiz-opt.incorrect {
-    border-color: var(--danger);
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
-}
-
-/* --- EDITOR DE CÓDIGO (Matrix) --- */
-.code-environment {
-    background: #1e1e1e;
-    border-radius: 8px;
-    border: 1px solid #333;
-    margin: 1.5rem 0;
-    overflow: hidden;
-}
-
-.editor-toolbar {
-    background: #252526;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 15px;
-    border-bottom: 1px solid #333;
-}
-
-.editor-toolbar span {
-    color: #9cdcfe;
-    font-size: 0.8rem;
-    font-family: 'Fira Code';
-}
-
-.icon-btn {
-    background: transparent;
-    border: none;
-    color: #ccc;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-.icon-btn:hover { color: white; }
-
-.code-wrapper {
-    display: flex;
-    padding: 10px 0;
-}
-
-.line-numbers {
-    padding: 0 10px;
-    color: #858585;
-    font-family: 'Fira Code';
-    font-size: 0.9rem;
-    line-height: 1.5;
-    text-align: right;
-    border-right: 1px solid #333;
-    user-select: none;
-}
-
-.code-editor {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: #d4d4d4;
-    font-family: 'Fira Code';
-    font-size: 0.9rem;
-    line-height: 1.5;
-    padding: 0 15px;
-    outline: none;
-    white-space: pre;
-}
-
-/* Feedback */
-.feedback-area {
-    margin-top: 15px;
-    display: none;
-    animation: fadeIn 0.3s;
-}
-
-.msg-success {
-    background: rgba(74, 222, 128, 0.1);
-    color: var(--success);
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid var(--success);
-    font-family: var(--font-code);
-}
-
-.msg-error {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid var(--danger);
-    font-family: var(--font-code);
-}
-
-.deploy-btn {
-    width: 100%;
-    padding: 12px;
-    background: var(--primary-neon);
-    color: #0f172a;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    font-family: var(--font-code);
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.deploy-btn:hover {
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-    transform: translateY(-1px);
-}
-
-/* --- CONQUISTAS (TROPHIES) --- */
-.trophy-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-.trophy-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 2rem;
-    text-align: center;
-    border: 1px solid transparent;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-}
-
-.trophy-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    transition: transform 0.3s;
-}
-
-.trophy-card.locked {
-    opacity: 0.5;
-    filter: grayscale(100%);
-}
-
-.trophy-card.locked::after {
-    content: '\f023';
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.2rem;
-    color: #666;
-}
-
-.trophy-card.unlocked {
-    background: linear-gradient(135deg, rgba(250, 204, 21, 0.1), rgba(0,0,0,0.2));
-    border-color: var(--accent);
-    box-shadow: 0 0 15px rgba(250, 204, 21, 0.1);
-}
-
-.trophy-card.unlocked .trophy-icon {
-    color: var(--accent);
-    transform: scale(1.1);
-    animation: bounce 2s infinite;
-}
-
-.trophy-card h4 {
-    color: white;
-    margin-bottom: 5px;
-}
-
-.trophy-card p {
-    color: #999;
-    font-size: 0.8rem;
-}
-
-/* ADICIONAR AO FINAL DE dashboard.css */
-
-/* --- NEURAL ARCHIVE (BANCO DE COMANDOS) --- */
-
+/* =========================================
+   5. NEURAL ARCHIVE (PESQUISA)
+   ========================================= */
 .search-container {
     position: relative;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .search-icon {
     position: absolute;
-    left: 15px;
+    left: 20px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--primary-neon);
+    font-size: 1.2rem;
 }
 
 .search-container input {
-    padding-left: 45px; /* Espaço para o ícone */
+    width: 100%;
+    padding: 15px 15px 15px 55px;
     font-size: 1.1rem;
-    border-radius: 50px; /* Arredondado */
+    border-radius: 50px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    font-family: var(--font-body);
+    transition: all 0.3s;
+}
+
+.search-container input:focus {
+    border-color: var(--primary-neon);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+    outline: none;
 }
 
 .filter-tags {
     display: flex;
     gap: 10px;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
 }
 
 .filter-btn {
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
     color: var(--text-muted);
-    padding: 6px 15px;
+    padding: 8px 20px;
     border-radius: 20px;
     cursor: pointer;
-    font-family: 'Fira Code';
-    font-size: 0.8rem;
+    font-family: var(--font-code);
+    font-size: 0.85rem;
     transition: all 0.2s;
 }
 
@@ -482,18 +268,19 @@
     background: var(--primary-neon);
     color: #000;
     border-color: var(--primary-neon);
+    font-weight: bold;
 }
 
 .commands-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    gap: 20px;
 }
 
 .cmd-card {
-    background: rgba(15, 23, 42, 0.6);
+    background: rgba(15, 23, 42, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 1.5rem;
     transition: all 0.2s;
     position: relative;
@@ -503,57 +290,176 @@
 .cmd-card:hover {
     transform: translateY(-3px);
     border-color: var(--text-muted);
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.08);
 }
 
-/* Borda lateral colorida por tipo */
-.cmd-card.html { border-left: 3px solid #e34c26; }
-.cmd-card.css { border-left: 3px solid #264de4; }
-.cmd-card.js { border-left: 3px solid #f7df1e; }
+/* Bordas laterais coloridas */
+.cmd-card.html { border-left: 4px solid #e34c26; }
+.cmd-card.css { border-left: 4px solid #264de4; }
+.cmd-card.js { border-left: 4px solid #f7df1e; }
+.cmd-card.git { border-left: 4px solid #f05032; }
 
 .cmd-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
 }
-
 .cmd-name {
-    font-family: 'Fira Code';
-    font-weight: bold;
-    color: white;
-    font-size: 1.1rem;
+    font-family: var(--font-code); font-weight: bold; color: white; font-size: 1.1rem;
 }
-
 .cmd-type {
-    font-size: 0.65rem;
-    padding: 2px 6px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    font-weight: bold;
+    font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold;
 }
 
+/* Cores das tags */
 .cmd-type.html { background: rgba(227, 76, 38, 0.2); color: #e34c26; }
 .cmd-type.css { background: rgba(38, 77, 228, 0.2); color: #66a1ff; }
 .cmd-type.js { background: rgba(247, 223, 30, 0.2); color: #f7df1e; }
+.cmd-type.git { background: rgba(240, 80, 50, 0.2); color: #f05032; }
 
 .cmd-desc {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-    line-height: 1.4;
+    font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;
 }
 
 .cmd-code {
-    background: #000;
-    padding: 10px;
-    border-radius: 6px;
-    font-family: 'Fira Code';
-    font-size: 0.8rem;
-    color: #a5f3fc;
-    overflow-x: auto;
-    white-space: nowrap;
+    background: #050505; padding: 12px; border-radius: 6px;
+    font-family: var(--font-code); font-size: 0.85rem; color: #a5f3fc;
+    overflow-x: auto; white-space: nowrap; border: 1px solid rgba(255,255,255,0.1);
 }
+
+/* =========================================
+   6. QUIZZES E DESAFIOS (MATRIX)
+   ========================================= */
+.challenge-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.card-top { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
+.badge { background: rgba(255, 255, 255, 0.1); padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; color: var(--text-muted); font-family: 'Fira Code'; }
+.code-badge { background: rgba(56, 189, 248, 0.2); color: var(--primary-neon); }
+.xp-reward { color: var(--accent); font-weight: bold; font-family: var(--font-code); font-size: 1rem; }
+
+/* Opções do Quiz */
+.quiz-options { display: grid; gap: 12px; margin-top: 1.5rem; }
+.quiz-opt {
+    background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-main); padding: 15px; text-align: left; border-radius: 8px;
+    cursor: pointer; font-family: var(--font-code); transition: all 0.2s; font-size: 0.9rem;
+}
+.quiz-opt:hover { background: rgba(255, 255, 255, 0.05); border-color: var(--text-muted); }
+.quiz-opt.correct { border-color: var(--success); background: rgba(74, 222, 128, 0.15); color: var(--success); }
+.quiz-opt.incorrect { border-color: var(--danger); background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+/* =========================================
+   7. EDITOR DE CÓDIGO (MATRIX 2.0)
+   ========================================= */
+.code-window {
+    background: #1e1e1e;
+    border-radius: 8px;
+    border: 1px solid #333;
+    margin: 1.5rem 0;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.window-header {
+    background: #252526;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 15px;
+    border-bottom: 1px solid #333;
+}
+
+.window-header span { color: #9cdcfe; font-size: 0.8rem; font-family: var(--font-code); }
+.icon-btn { background: transparent; border: none; color: #666; cursor: pointer; font-size: 0.9rem; transition: color 0.2s; }
+.icon-btn:hover { color: white; }
+
+.editor {
+    font-family: var(--font-code);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 150px;
+    padding: 15px;
+    color: #d4d4d4;
+    outline: none;
+    background: #1e1e1e;
+}
+
+/* Feedback */
+.feedback-area { margin-top: 20px; display: none; animation: fadeIn 0.3s; }
+.msg-success {
+    background: rgba(74, 222, 128, 0.1); color: var(--success);
+    padding: 15px; border-radius: 8px; border: 1px solid var(--success);
+    font-family: var(--font-code); display: flex; align-items: center; gap: 10px;
+}
+.msg-error {
+    background: rgba(239, 68, 68, 0.1); color: var(--danger);
+    padding: 15px; border-radius: 8px; border: 1px solid var(--danger);
+    font-family: var(--font-code); display: flex; align-items: center; gap: 10px;
+}
+
+.deploy-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary-neon);
+    color: #0f172a;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-family: var(--font-code);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.deploy-btn:hover { box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); transform: translateY(-2px); }
+
+/* =========================================
+   8. SALA DE TROFÉUS
+   ========================================= */
+.trophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 25px;
+}
+
+.trophy-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.trophy-icon { font-size: 3.5rem; margin-bottom: 1.5rem; transition: transform 0.3s; }
+
+/* Estado Bloqueado */
+.trophy-card.locked { opacity: 0.5; filter: grayscale(100%); cursor: not-allowed; }
+.trophy-card.locked::after {
+    content: '\f023';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute; top: 15px; right: 15px;
+    font-size: 1.2rem; color: #666;
+}
+
+/* Estado Desbloqueado */
+.trophy-card.unlocked {
+    background: linear-gradient(135deg, rgba(250, 204, 21, 0.1), rgba(0,0,0,0.2));
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(250, 204, 21, 0.1);
+}
+.trophy-card.unlocked .trophy-icon { color: var(--accent); transform: scale(1.1); animation: bounce 2s infinite; }
+
+.trophy-card h4 { color: white; margin-bottom: 5px; font-size: 1.1rem; font-family: var(--font-code); }
+.trophy-card p { color: var(--text-muted); font-size: 0.85rem; }
 
 @keyframes bounce {
     0%, 100% { transform: translateY(0) scale(1.1); }
@@ -562,7 +468,7 @@
 
 /* Responsividade */
 @media (max-width: 768px) {
-    .dashboard-container { grid-template-columns: 1fr; }
+    .dashboard-container { grid-template-columns: 1fr; height: auto; }
     .skill-sidebar { display: none; }
-    .workspace { padding: 1rem; }
+    .workspace { padding: 1.5rem; height: auto; }
 }

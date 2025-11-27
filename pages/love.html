@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Minha Player 1 ❤️</title>
-    
+
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/header.css">
     <link rel="stylesheet" href="../assets/css/components.css">
     <link rel="stylesheet" href="../assets/css/love.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Fira+Code:wght@400;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
     <header></header>
 
@@ -26,17 +30,17 @@
         <div class="twinkling"></div>
 
         <div class="love-card animate__animated animate__fadeInUp">
-            
+
             <div class="photo-frame">
                 <img id="photo-display" src="" alt="Nós">
                 <div class="heart-badge"><i class="fas fa-heart"></i></div>
-                
+
                 <button class="photo-btn prev" onclick="mudarFoto(-1)">❮</button>
                 <button class="photo-btn next" onclick="mudarFoto(1)">❯</button>
             </div>
-            
+
             <h1 class="love-title">Minha Player 1</h1>
-            
+
             <div class="timer-box">
                 <p>Conectados há:</p>
                 <div id="relationship-timer">Calculando amor...</div>
@@ -50,7 +54,7 @@
                 <button class="btn-love" onclick="gerarAmor()">
                     <i class="fas fa-magic"></i> MOTIVO PARA TE AMAR
                 </button>
-                
+
                 <button class="btn-love btn-shop" onclick="abrirLoja()">
                     <i class="fas fa-shopping-bag"></i> LOJA DE MIMOS
                 </button>
@@ -59,7 +63,7 @@
                     <i class="fas fa-envelope-open-text"></i> CARTA SECRETA
                 </button>
             </div>
-            
+
             <div class="music-controls" onclick="toggleMusic()">
                 <div class="music-icon-wrapper">
                     <i class="fas fa-music" id="music-icon"></i>
@@ -67,7 +71,10 @@
                 <div class="music-info">
                     <span id="music-text">Toque para ouvir nossa música</span>
                     <div class="music-bars" id="visualizer">
-                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
                     </div>
                 </div>
             </div>
@@ -76,16 +83,43 @@
         <div id="letter-modal" class="modal hidden">
             <div class="modal-content">
                 <span class="close-btn" onclick="fecharCarta()">&times;</span>
-                
-                <h2 style="font-family: 'Dancing Script', cursive; color: #ff1493; border-bottom: 1px dashed #ff69b4; padding-bottom: 10px;">
+
+                <h2
+                    style="font-family: 'Dancing Script', cursive; color: #ff1493; border-bottom: 1px dashed #ff69b4; padding-bottom: 10px;">
                     Para a Mulher da Minha Vida
                 </h2>
-                
-                <div class="letter-text" style="font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.6; margin-top: 15px; color: #4a4a4a;">
+
+                <div class="letter-text"
+                    style="font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 1.6; margin-top: 15px; color: #4a4a4a;">
                     <p>Meu Amor,</p>
-                    <p>Desde o dia em que o nosso "Hello World" aconteceu, o meu mundo parou de rodar num loop infinito.</p>
-                    <p>Tu não és apenas uma variável na minha vida, és a minha constante favorita.</p>
-                    <p>Prometo estar contigo em cada nível, enfrentar qualquer Boss e corrigir qualquer bug que apareça.</p>
+                    <p>Meu amor,
+                        Eu estava pensando na gente, no que vivemos até aqui… e percebi que nosso relacionamento parece
+                        aquelas teorias dos físicos que eu tanto admiro: não dá pra explicar por completo, mas dá pra
+                        sentir. Einstein falava que o tempo é relativo — e é verdade, porque quando estou com você tudo
+                        passa rápido demais, e quando estou longe parece que o relógio luta contra mim.
+
+                        Newton falava da força que mantém tudo unido… e eu acho que a nossa é isso aí: uma força
+                        invisível, mas constante, que mesmo quando o mundo aperta, continua puxando um para o outro.
+
+                        E Hawking dizia que enquanto houver amor, sempre existe algo pelo que vale a pena continuar.
+                        Você é esse “algo”. Essa razão simples e enorme ao mesmo tempo.
+
+                        Sobre o Carl Sagan… eu queria usar uma frase dele que sempre me lembra você e o que sinto:
+                        “Para criaturas tão pequenas como nós, a imensidão só é suportável através do amor.”
+                        E é exatamente isso. O mundo pode ser grande, confuso, cheio de desafios… mas com você, tudo
+                        fica mais leve.
+
+                        Eu sei que o ano que vem vai ser corrido pros dois. A gente talvez se veja menos, talvez a
+                        rotina aperte, talvez o tempo queira testar a gente. Mas isso não é um fim — é um recomeço. É a
+                        fase em que a gente mostra que o que sente é forte demais pra ser abalado pela distância ou pelo
+                        cansaço.
+
+                        Meu amor por você não diminui quando estamos longe… ele só cresce, igual o universo em expansão.
+                        E eu quero que você sempre se lembre disso.
+
+                        Eu te amo muito. Mais do que qualquer palavra, mais do que qualquer teoria.
+                        Com carinho,
+                        Vitor ❤️✨</p>
                     <p>Te amo infinitamente! ❤️</p>
                     <div style="text-align: right; margin-top: 30px;">
                         <strong style="font-family: 'Dancing Script'; font-size: 1.4rem; color: #ff1493;">Vitor</strong>
@@ -95,37 +129,44 @@
         </div>
 
         <div id="shop-modal" class="modal hidden">
-            <div class="modal-content shop-content" style="background: #fff0f5; border: 4px solid #ff69b4; color: #333;">
+            <div class="modal-content shop-content"
+                style="background: #fff0f5; border: 4px solid #ff69b4; color: #333;">
                 <span class="close-btn" onclick="fecharLoja()">&times;</span>
-                
+
                 <div class="shop-header" style="border-bottom: 2px dashed #ffb6c1;">
-                    <h2 style="color: #ff1493; font-family: 'Dancing Script'; margin: 0;"><i class="fas fa-heart"></i> Loja de Mimos</h2>
-                    <div class="wallet" style="background: #ff69b4; color: white; padding: 5px 15px; border-radius: 20px; font-family: 'Fira Code'; font-weight: bold;">
+                    <h2 style="color: #ff1493; font-family: 'Dancing Script'; margin: 0;"><i class="fas fa-heart"></i>
+                        Loja de Mimos</h2>
+                    <div class="wallet"
+                        style="background: #ff69b4; color: white; padding: 5px 15px; border-radius: 20px; font-family: 'Fira Code'; font-weight: bold;">
                         Saldo: <span id="love-coins">0</span> ❤️
                     </div>
                 </div>
 
                 <div class="shop-grid" id="love-shop-grid">
-                    </div>
+                </div>
             </div>
         </div>
 
         <div id="purchase-modal" class="modal hidden">
-            <div class="modal-content" style="text-align:center; border: 4px solid #ff69b4; background: #f0fff4;">
+            <div class="modal-content"
+                style="text-align:center; border: 4px solid #ff69b4; background: #f0fff4; justify-items: center;">
                 <div style="font-size: 4rem; color: #ff69b4; margin-bottom: 1rem; animation: bounce 1s infinite;">
                     <i id="purchase-icon" class="fas fa-gift"></i>
                 </div>
                 <h2 style="color: #ff69b4; font-family: 'Fira Code'; margin-bottom: 10px;">COMPRA REALIZADA!</h2>
-                
+
                 <p style="font-size: 1.1rem; margin: 10px 0; color: #4a5568;">Você adquiriu:</p>
-                
-                <h3 id="purchase-item-name" style="background: #fff; color: #d53f8c; padding: 10px 20px; border-radius: 10px; display:inline-block; border: 2px dashed #d53f8c; font-size: 1.5rem;">Item</h3>
-                
+
+                <h3 id="purchase-item-name"
+                    style="background: #fff; color: #d53f8c; padding: 10px 20px; border-radius: 10px; display:inline-block; border: 2px dashed #d53f8c; font-size: 1.5rem;">
+                    Item</h3>
+
                 <p style="margin-top: 20px; font-style: italic; color: #718096; font-size: 0.9rem;">
                     <i class="fas fa-camera"></i> Tire um print e envie para o Vitor para resgatar!
                 </p>
-                
-                <button class="btn-love" onclick="fecharPurchaseModal()" style="margin-top: 20px; background: #ff69b4; width: auto; padding: 10px 40px;">
+
+                <button class="btn-love" onclick="fecharPurchaseModal()"
+                    style="margin-top: 20px; background: #ff69b4; width: auto; padding: 10px 40px; justify-content: center;">
                     <i class="fas fa-check"></i> BOA!
                 </button>
             </div>
@@ -137,9 +178,10 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    
+
     <script src="../game-data.js"></script>
     <script src="../assets/js/header.js"></script>
     <script src="../assets/js/love.js"></script>
 </body>
+
 </html>

@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevStudy | Mainframe</title>
-    
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/menu.css">
-    <link rel="icon" href="https://img.icons8.com/fluency/48/source-code.png" type="image/png">
+    <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/header.css">
-    
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -18,16 +16,12 @@
     <div class="container">
         <section class="welcome-section">
             <div class="user-greeting">
-                <h1 id="home-greeting">A carregar sistema...</h1>
-                <p>O sistema está online. Escolha o seu destino.</p>
+                <h1 id="home-greeting">Carregando...</h1>
+                <p>Sistemas online. Escolha o seu destino.</p>
             </div>
             <div class="quick-stats">
-                <div class="stat-pill">
-                    <i class="fas fa-bolt"></i> <span id="home-level">Lvl --</span>
-                </div>
-                <div class="stat-pill xp">
-                    <i class="fas fa-star"></i> <span id="home-xp">-- XP</span>
-                </div>
+                <div class="stat-pill"><i class="fas fa-bolt"></i> <span id="home-level">--</span></div>
+                <div class="stat-pill xp"><i class="fas fa-star"></i> <span id="home-xp">-- XP</span></div>
             </div>
         </section>
 
@@ -37,8 +31,8 @@
                 <div class="card-bg-icon"><i class="fas fa-code"></i></div>
                 <div class="card-content">
                     <i class="fas fa-terminal card-icon"></i>
-                    <h3>Matrix de Treino</h3>
-                    <p>Resolva desafios de código, quizzes e ganhe XP rápido.</p>
+                    <h3>Matrix</h3>
+                    <p>Desafios de código e quizzes.</p>
                 </div>
                 <div class="card-action">ACESSAR <i class="fas fa-arrow-right"></i></div>
             </a>
@@ -47,8 +41,8 @@
                 <div class="card-bg-icon"><i class="fas fa-gamepad"></i></div>
                 <div class="card-content">
                     <i class="fas fa-keyboard card-icon"></i>
-                    <h3>Cyber Typer</h3>
-                    <p>Teste sua velocidade de digitação e reflexos hacker.</p>
+                    <h3>Arcade</h3>
+                    <p>Jogos Cyber Typer e Termo.</p>
                 </div>
                 <div class="card-action">JOGAR <i class="fas fa-arrow-right"></i></div>
             </a>
@@ -58,19 +52,29 @@
                 <div class="card-content">
                     <i class="fas fa-layer-group card-icon"></i>
                     <h3>Biblioteca</h3>
-                    <p>Atlas de linguagens e laboratórios interativos (Flexbox).</p>
+                    <p>Atlas de linguagens e laboratórios.</p>
                 </div>
                 <div class="card-action">ESTUDAR <i class="fas fa-arrow-right"></i></div>
             </a>
 
-            <a href="profile.html" class="menu-card profile-card">
-                <div class="card-bg-icon"><i class="fas fa-id-card"></i></div>
+            <a href="mathematics.html" class="menu-card math-card">
+                <div class="card-bg-icon"><i class="fas fa-calculator"></i></div>
                 <div class="card-content">
-                    <i class="fas fa-user-astronaut card-icon"></i>
-                    <h3>Meu Perfil</h3>
-                    <p>Veja suas estatísticas, medalhas e histórico de evolução.</p>
+                    <i class="fas fa-square-root-alt card-icon"></i>
+                    <h3>Matemática</h3>
+                    <p>Lógica e cálculos para devs.</p>
                 </div>
-                <div class="card-action">VER DADOS <i class="fas fa-arrow-right"></i></div>
+                <div class="card-action" >CALCULAR <i class="fas fa-arrow-right"></i></div>
+            </a>
+
+            <a href="pentest.html" class="menu-card pentest-card">
+                <div class="card-bg-icon"><i class="fas fa-user-secret"></i></div>
+                <div class="card-content">
+                    <i class="fas fa-mask card-icon"></i>
+                    <h3>Pentest</h3>
+                    <p>Hacking ético e segurança.</p>
+                </div>
+                <div class="card-action">HACKEAR <i class="fas fa-arrow-right"></i></div>
             </a>
 
             <a href="shop.html" class="menu-card shop-card">
@@ -78,17 +82,17 @@
                 <div class="card-content">
                     <i class="fas fa-store card-icon"></i>
                     <h3>Loja</h3>
-                    <p>Gaste seu XP em temas, títulos e itens exclusivos.</p>
+                    <p>Gaste XP em itens exclusivos.</p>
                 </div>
-                <div class="card-action">ABRIR LOJA <i class="fas fa-arrow-right"></i></div>
+                <div class="card-action">COMPRAR <i class="fas fa-arrow-right"></i></div>
             </a>
-
+            
             <a href="admin.html" class="menu-card admin-card-menu" id="home-admin-card" style="display:none">
                 <div class="card-bg-icon"><i class="fas fa-shield-alt"></i></div>
                 <div class="card-content">
                     <i class="fas fa-user-secret card-icon"></i>
-                    <h3>Admin Panel</h3>
-                    <p>Gestão de utilizadores e controle do sistema.</p>
+                    <h3>Admin</h3>
+                    <p>Painel de controle.</p>
                 </div>
                 <div class="card-action">GERIR <i class="fas fa-arrow-right"></i></div>
             </a>
@@ -104,33 +108,24 @@
     <script src="../assets/js/header.js"></script>
     
     <script>
-        // Script Local para preencher dados da Home
         document.addEventListener('DOMContentLoaded', () => {
             const fillData = () => {
                 const user = window.currentUser;
                 const xp = window.globalXP || 0;
                 const level = window.globalLevel || 1;
                 
-                // Preenche Nome
-                const nameEl = document.getElementById('home-greeting');
-                if(nameEl) {
+                if(document.getElementById('home-greeting')) {
                     const nome = user ? (user.displayName || user.email.split('@')[0]) : "Visitante";
-                    nameEl.innerText = `Bem-vindo, ${nome}.`;
+                    document.getElementById('home-greeting').innerText = `Bem-vindo, ${nome}.`;
                 }
-
-                // Preenche Stats
                 document.getElementById('home-level').innerText = `Lvl ${level}`;
                 document.getElementById('home-xp').innerText = `${xp} XP`;
 
-                // Mostra Card Admin se for Admin
                 if(window.isAdminUser) {
                     document.getElementById('home-admin-card').style.display = 'flex';
                 }
             };
-
-            // Tenta preencher assim que o game-data avisa
             window.addEventListener('gameDataLoaded', fillData);
-            // Fallback
             setTimeout(fillData, 1500);
         });
     </script>

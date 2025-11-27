@@ -31,14 +31,23 @@ const LOVE_QUOTES = [
 
 // Catálogo da Loja de Mimos (Moeda: Love Coins)
 const LOVE_ITEMS = [
-    { name: "Açaí", price: 200, icon: "fa-ice-cream" },
-    { name: "Massagem", price: 500, icon: "fa-hands" },
-    { name: "Cinema", price: 800, icon: "fa-film" },
-    { name: "Jantar Romântico", price: 1500, icon: "fa-utensils" },
-    { name: "Chocolate", price: 150, icon: "fa-candy-cane" },
-    { name: "Beijo", price: 50, icon: "fa-kiss-wink-heart" },
-    { name: "Dormir de Conchinha", price: 1000, icon: "fa-bed" },
-    { name: "Mimo Surpresa", price: 2000, icon: "fa-gift" }
+    { name: "Açaí", price: 200, icon: "fa-ice-cream", type: "consumable" },
+    { name: "Massagem", price: 500, icon: "fa-hands", type: "consumable" },
+    { name: "Cinema", price: 800, icon: "fa-film", type: "consumable" },
+    { name: "Jantar Romântico", price: 1500, icon: "fa-utensils", type: "consumable" },
+    { name: "Chocolate", price: 150, icon: "fa-candy-cane", type: "consumable" },
+    { name: "Beijo", price: 50, icon: "fa-kiss-wink-heart", type: "consumable" },
+    { name: "Dormir de Conchinha", price: 1000, icon: "fa-bed", type: "consumable" },
+    { name: "Mimo Surpresa", price: 2000, icon: "fa-gift", type: "consumable" },
+    
+    // ITEM REAL (Vai para o Inventário)
+    { 
+        id: "title_love", 
+        name: "Título: Player 2", 
+        price: 5000, 
+        icon: "fa-gamepad", 
+        type: "real_item" 
+    }
 ];
 
 // =================================================
@@ -78,7 +87,7 @@ function iniciarPagina() {
     const img = document.getElementById('photo-display');
     if(img) img.src = PHOTOS[0];
 
-    // Configura Loja (Lê saldo global do game-data.js)
+    // Configura Loja (USA VARIÁVEL GLOBAL DO GAME-DATA)
     const coinEl = document.getElementById('love-coins');
     if(coinEl) coinEl.innerText = window.loveCoins || 0;
     
@@ -192,56 +201,100 @@ function renderLoveShop() {
     if(!grid) return;
     
     grid.innerHTML = '';
+    
+    const inventory = window.userInventory || [];
 
     LOVE_ITEMS.forEach(item => {
+        // Verifica se é item real e se já tem
+        const isOwned = item.type === 'real_item' && inventory.includes(item.id);
+        
+        let btnHTML = "COMPRAR";
+        let btnClass = "btn-buy-love";
+        let btnAction = `comprarAmor('${item.name}', ${item.price}, '${item.icon}', '${item.type}', '${item.id}')`;
+        let isDisabled = false;
+        let priceDisplay = `${item.price} LC`;
+
+        if (isOwned) {
+            // Se for título e já tiver, vira botão de equipar
+            btnHTML = "EQUIPAR";
+            btnClass += " owned";
+            priceDisplay = "Adquirido";
+            btnAction = `equiparTitulo('${item.id}')`;
+            
+            // Se já estiver equipado
+            if (window.userLoadout && window.userLoadout.title === item.id) {
+                btnHTML = "EQUIPADO";
+                btnClass = "btn-buy-love equipped";
+                isDisabled = true;
+            }
+        }
+
         const card = document.createElement('div');
         card.className = 'love-item';
         card.innerHTML = `
             <i class="fas ${item.icon}"></i>
             <h4>${item.name}</h4>
-            <span class="price">${item.price} LC</span>
-            <button class="btn-buy-love" onclick="comprarAmor('${item.name}', ${item.price}, '${item.icon}')">COMPRAR</button>
+            <span class="price">${priceDisplay}</span>
+            <button class="${btnClass}" onclick="${btnAction}" ${isDisabled ? 'disabled' : ''}>
+                ${btnHTML}
+            </button>
         `;
         grid.appendChild(card);
     });
 }
 
-window.comprarAmor = function(item, price, iconClass) {
-    // Verifica saldo global (window.loveCoins vem do game-data.js)
+window.comprarAmor = function(name, price, iconClass, type, itemId) {
+    // Usa variável GLOBAL (window.loveCoins)
     if (window.loveCoins >= price) {
         
-        // Usa a função global do game-data.js para descontar e salvar no Firebase
-        window.adicionarLoveCoins(-price);
+        // 1. Processa Item Real (Título)
+        if (type === 'real_item') {
+            if (!window.userInventory.includes(itemId)) {
+                window.userInventory.push(itemId);
+                // Salva no banco
+                if(window.salvarProgressoGlobal) window.salvarProgressoGlobal(); 
+            }
+        }
+
+        // 2. Desconta e Salva (Usa função global do game-data)
+        if (window.adicionarLoveCoins) {
+            window.adicionarLoveCoins(-price);
+        }
         
-        // Atualiza visualmente o saldo
+        // 3. Atualiza UI Local
         document.getElementById('love-coins').innerText = window.loveCoins;
         
-        // Efeitos
+        // 4. Efeitos
         if(window.playSoundGlobal) window.playSoundGlobal('success');
         if(window.confetti) window.confetti({ colors: ['#4ade80', '#fff'], spread: 80 });
 
-        // Fecha a loja para mostrar a confirmação
+        // Fecha loja e abre confirmação
         fecharLoja();
+        
+        // Re-renderiza se foi item real para atualizar botão
+        if (type === 'real_item') renderLoveShop();
 
-        // Abre o Modal de Sucesso com o item comprado
-        document.getElementById('purchase-item-name').innerText = item;
-        const iconEl = document.getElementById('purchase-icon');
-        if(iconEl) iconEl.className = `fas ${iconClass}`;
+        // Abre Modal Sucesso
+        const modalName = document.getElementById('purchase-item-name');
+        const modalIcon = document.getElementById('purchase-icon');
+        if(modalName) modalName.innerText = name;
+        if(modalIcon) modalIcon.className = `fas ${iconClass}`;
         
         document.getElementById('purchase-modal').classList.remove('hidden');
 
     } else {
-        // Saldo Insuficiente
         if(window.playSoundGlobal) window.playSoundGlobal('error');
-        
-        // Animação Shake na carteira (se o CSS tiver .shake)
-        const wallet = document.querySelector('.wallet');
-        if(wallet) {
-            wallet.classList.add('shake');
-            setTimeout(() => wallet.classList.remove('shake'), 500);
-        }
-        
-        alert("Saldo insuficiente de Love Coins! 😢\nPeça um beijo para recarregar.");
+        alert("Saldo insuficiente! 😢");
+    }
+};
+
+// Função para equipar título direto daqui
+window.equiparTitulo = function(itemId) {
+    if(window.equiparItemGlobal) {
+        window.equiparItemGlobal('title', itemId).then(() => {
+            renderLoveShop(); // Atualiza botão para "Equipado"
+            if(window.confetti) window.confetti({ particleCount: 30, spread: 40 });
+        });
     }
 };
 
@@ -258,14 +311,13 @@ window.toggleMusic = function() {
 
     if (isPlaying) {
         audio.pause();
-        container.classList.remove('playing'); // Remove animação das barras e borda
+        container.classList.remove('playing'); 
         icon.className = "fas fa-music";
         text.innerText = "Toque para ouvir nossa música";
     } else {
-        // Tenta tocar (navegadores bloqueiam autoplay sem interação)
         audio.play().then(() => {
-            container.classList.add('playing'); // Ativa animação das barras
-            icon.className = "fas fa-compact-disc fa-spin"; // Ícone girando
+            container.classList.add('playing'); 
+            icon.className = "fas fa-compact-disc fa-spin"; 
             text.innerText = "Tocando...";
         }).catch(e => {
             alert("Clique na página para permitir o áudio!");
@@ -283,7 +335,7 @@ function criarCoracao() {
     
     // Posição aleatória na largura da tela
     heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.top = '100vh'; // Começa abaixo da tela
+    heart.style.top = '80vh'; // Começa abaixo da tela
     
     // Tamanho variável
     const size = Math.random() * 20 + 10;

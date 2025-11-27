@@ -1,116 +1,89 @@
-/* assets/css/game.css - CYBER TYPER STYLE */
+/* assets/css/game.css - ATUALIZADO */
 
-.game-wrapper {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 20px;
-    text-align: center;
+.game-wrapper { max-width: 800px; margin: 2rem auto; padding: 0 20px; text-align: center; }
+
+/* SELETOR DE JOGOS */
+.game-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 2rem; }
+.btn-game-select {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: #94a3b8; padding: 10px 20px; border-radius: 8px; cursor: pointer;
+    font-family: 'Fira Code'; transition: all 0.3s;
+}
+.btn-game-select:hover { background: rgba(255,255,255,0.1); color: white; }
+.btn-game-select.active { border-color: var(--primary-neon); color: var(--primary-neon); background: rgba(56, 189, 248, 0.1); }
+
+/* PAINÉIS */
+.game-panel { animation: fadeIn 0.5s; }
+.game-panel.hidden { display: none; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- ESTILOS DO CYBER TYPER (ANTIGOS) --- */
+.game-header h1 { font-family: 'Fira Code'; color: var(--primary-neon); font-size: 2.5rem; text-shadow: 0 0 15px rgba(56, 189, 248, 0.5); margin-bottom: 0.5rem; }
+.stats { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; }
+.stat-box { background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; padding: 10px 25px; border-radius: 8px; display: flex; flex-direction: column; }
+.stat-box .label { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 1px; }
+.stat-box .value { font-family: 'Fira Code'; font-size: 1.5rem; font-weight: bold; color: white; }
+.game-container { background: linear-gradient(180deg, #020617 0%, #0f172a 100%); border: 2px solid var(--primary-neon); border-radius: 12px; height: 400px; position: relative; overflow: hidden; margin-bottom: 1.5rem; }
+.start-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
+.falling-word { position: absolute; color: var(--success); font-family: 'Fira Code'; font-weight: bold; font-size: 1.2rem; padding: 5px 10px; background: rgba(0,0,0,0.6); border-radius: 4px; text-shadow: 0 0 5px var(--success); z-index: 1; }
+.falling-word.matched { color: var(--accent); text-shadow: 0 0 15px var(--accent); animation: popOut 0.2s forwards; }
+.input-zone input { text-align: center; font-size: 1.5rem; letter-spacing: 1px; height: 60px; border-color: var(--primary-neon); }
+@keyframes popOut { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+
+/* --- ESTILOS DO CYBER TERMO (NOVOS) --- */
+.termo-container {
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
 }
 
-.game-header h1 {
-    font-family: 'Fira Code', monospace;
-    color: var(--primary-neon);
-    font-size: 2.5rem;
-    text-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
-    margin-bottom: 0.5rem;
+.termo-grid {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-gap: 5px;
 }
 
-.stats {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin: 1.5rem 0;
+.termo-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 5px;
 }
 
-.stat-box {
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid #334155;
-    padding: 10px 25px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    min-width: 120px;
-}
-
-.stat-box .label {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.stat-box .value {
-    font-family: 'Fira Code', monospace;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
-}
-
-.lives { letter-spacing: 2px; font-size: 1.2rem !important; }
-
-/* ÁREA DE JOGO */
-.game-container {
-    background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
-    border: 2px solid var(--primary-neon);
-    border-radius: 12px;
-    height: 400px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 30px rgba(56, 189, 248, 0.1);
-    margin-bottom: 1.5rem;
-}
-
-/* TELA DE INÍCIO / GAME OVER */
-.start-screen {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(2, 6, 23, 0.85);
-    backdrop-filter: blur(5px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-}
-
-.start-screen h2 {
-    color: white;
-    font-family: 'Fira Code';
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
-}
-
-/* PALAVRAS CAINDO */
-.falling-word {
-    position: absolute;
-    color: var(--success);
-    font-family: 'Fira Code', monospace;
-    font-weight: bold;
-    font-size: 1.2rem;
-    padding: 5px 10px;
-    background: rgba(0, 0, 0, 0.6);
+.termo-tile {
+    width: 50px; height: 50px;
+    border: 2px solid #334155;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; font-weight: bold; font-family: 'Fira Code';
+    color: white; text-transform: uppercase;
     border-radius: 4px;
-    white-space: nowrap;
-    text-shadow: 0 0 5px var(--success);
-    z-index: 1;
+    transition: all 0.3s;
 }
 
-.falling-word.matched {
-    color: var(--accent);
-    text-shadow: 0 0 15px var(--accent);
-    animation: popOut 0.2s forwards;
-}
+.termo-tile.filled { border-color: #94a3b8; }
+.termo-tile.flip { animation: flip 0.5s ease forwards; }
 
-/* INPUT */
-.input-zone input {
-    text-align: center;
-    font-size: 1.5rem;
-    letter-spacing: 1px;
-    height: 60px;
-    border-color: var(--primary-neon);
-}
+/* Cores do Resultado */
+.termo-tile.correct { background: var(--success); border-color: var(--success); color: #000; } /* Verde */
+.termo-tile.present { background: var(--accent); border-color: var(--accent); color: #000; } /* Amarelo */
+.termo-tile.absent { background: #334155; border-color: #334155; } /* Cinza */
 
-@keyframes popOut {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(2); opacity: 0; }
+/* Teclado Virtual */
+.keyboard {
+    display: flex; flex-direction: column; gap: 8px; margin-top: 10px;
+}
+.key-row { display: flex; justify-content: center; gap: 5px; }
+.key {
+    background: #1e293b; color: white;
+    padding: 15px 10px; border-radius: 4px;
+    font-weight: bold; cursor: pointer;
+    min-width: 30px; text-align: center;
+    transition: background 0.2s;
+}
+.key:hover { background: #334155; }
+.key.correct { background: var(--success); color: black; }
+.key.present { background: var(--accent); color: black; }
+.key.absent { background: #0f172a; color: #64748b; }
+
+@keyframes flip {
+    0% { transform: rotateX(0); }
+    50% { transform: rotateX(90deg); }
+    100% { transform: rotateX(0); }
 }
