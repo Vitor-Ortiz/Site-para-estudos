@@ -57,84 +57,108 @@ styleSheet.innerText = `
 document.head.appendChild(styleSheet);
 
 
-// --- 3. WIDGET: FOCO NEURAL (POMODORO) ---
-let timerInterval;
-let timeLeft = 25 * 60; // 25 minutos em segundos
-let isTimerRunning = false;
+// Variáveis do Pomodoro
+let pomoInterval;
+let isPomoRunning = false;
 
-function startTimer() {
-    if (isTimerRunning) return;
+function iniciarPomodoro() {
+    if (isPomoRunning) return;
+
+    const minInput = document.getElementById('pomo-minutes');
+    const secInput = document.getElementById('pomo-seconds');
+    const statusEl = document.getElementById('pomoStatus');
     
-    isTimerRunning = true;
-    playSound('click');
+    let minutos = parseInt(minInput.value);
+
+    // 1. Validação de Segurança (Mínimo 5 minutos)
+    if (isNaN(minutos) || minutos < 5) {
+        alert("⚠️ O tempo mínimo de foco é 5 minutos!");
+        minInput.value = "05"; // Corrige visualmente
+        return;
+    }
+
+    // 2. Bloqueia edição
+    minInput.disabled = true;
+    isPomoRunning = true;
     
-    // Atualiza UI
-    const statusBadge = document.getElementById('timer-status');
-    if(statusBadge) {
-        statusBadge.textContent = "EM FOCO";
-        statusBadge.className = "project-status status-active";
-        statusBadge.style.borderColor = "#4ade80";
-        statusBadge.style.color = "#4ade80";
+    // Atualiza Status
+    if(statusEl) {
+        statusEl.innerText = "FOCADO";
+        statusEl.style.color = "#facc15";
+        statusEl.style.borderColor = "#facc15";
     }
     
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        updateTimerDisplay();
-        
-        // Fim do Tempo
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            isTimerRunning = false;
-            playSound('success');
-            
-            alert("Sessão de Foco Completa! +100 XP");
-            
-            // Regista a conquista no game-data.js
-            if(window.registrarPomodoro) window.registrarPomodoro();
-            else ganharXP(100); // Fallback se a função não existir
-            
-            resetTimer();
+    playSound('click');
+
+    // 3. Lógica do Timer
+    let tempoTotal = minutos * 60; // Converte para segundos
+
+    pomoInterval = setInterval(() => {
+        tempoTotal--;
+
+        let m = Math.floor(tempoTotal / 60);
+        let s = tempoTotal % 60;
+
+        // Atualiza visual (adiciona zero à esquerda se menor que 10)
+        minInput.value = m < 10 ? "0" + m : m;
+        secInput.value = s < 10 ? "0" + s : s;
+
+        // FIM DO TEMPO
+        if (tempoTotal <= 0) {
+            clearInterval(pomoInterval);
+            finalizarPomodoro();
         }
     }, 1000);
 }
 
-function pauseTimer() {
-    clearInterval(timerInterval);
-    isTimerRunning = false;
+function finalizarPomodoro() {
+    isPomoRunning = false;
+    const minInput = document.getElementById('pomo-minutes');
+    const secInput = document.getElementById('pomo-seconds');
+    const statusEl = document.getElementById('pomoStatus');
+
+    // Toca som de vitória
+    if(window.playSoundGlobal) window.playSoundGlobal('success');
     
-    const statusBadge = document.getElementById('timer-status');
-    if(statusBadge) {
-        statusBadge.textContent = "PAUSADO";
-        statusBadge.className = "project-status";
-        statusBadge.style.borderColor = "#facc15";
-        statusBadge.style.color = "#facc15";
+    // Dá XP e Moedas (Chama função do game-data.js)
+    if (window.registrarPomodoro) {
+        window.registrarPomodoro(); // Isso já dá o XP e mostra o Toast
+    } else {
+        alert("Pomodoro Concluído! +100 XP"); // Fallback
     }
-    playSound('click');
-}
 
-function resetTimer() {
-    clearInterval(timerInterval);
-    isTimerRunning = false;
-    timeLeft = 25 * 60;
-    updateTimerDisplay();
+    // Reseta visual
+    minInput.disabled = false;
+    minInput.value = "25";
+    secInput.value = "00";
     
-    const statusBadge = document.getElementById('timer-status');
-    if(statusBadge) {
-        statusBadge.textContent = "AGUARDANDO";
-        statusBadge.className = "project-status";
-        statusBadge.style.borderColor = "#94a3b8";
-        statusBadge.style.color = "#94a3b8";
+    if(statusEl) {
+        statusEl.innerText = "CONCLUÍDO";
+        statusEl.style.color = "#4ade80";
+        statusEl.style.borderColor = "#4ade80";
     }
-    playSound('click');
 }
 
-function updateTimerDisplay() {
-    const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-    const secs = (timeLeft % 60).toString().padStart(2, '0');
-    const display = document.getElementById('timer-display');
-    if(display) display.textContent = `${mins}:${secs}`;
-}
+function resetarPomodoro() {
+    clearInterval(pomoInterval);
+    isPomoRunning = false;
+    
+    const minInput = document.getElementById('pomo-minutes');
+    const secInput = document.getElementById('pomo-seconds');
+    const statusEl = document.getElementById('pomoStatus');
 
+    minInput.disabled = false;
+    minInput.value = "25"; // Volta ao padrão
+    secInput.value = "00";
+    
+    if(statusEl) {
+        statusEl.innerText = "READY";
+        statusEl.style.color = "var(--success)";
+        statusEl.style.borderColor = "var(--success)";
+    }
+    
+    if(window.playSoundGlobal) window.playSoundGlobal('click');
+}
 
 // --- 4. WIDGET: MISSÕES (TODO LIST) ---
 function adicionarTarefa() {

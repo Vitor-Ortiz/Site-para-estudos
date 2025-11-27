@@ -1,40 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudy | A Jornada Fullstack</title>
-
+    <title>DevStudy | Home</title>
+    
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/home.css">
-    <link rel="stylesheet" href="assets/css/modules.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
-
 <body>
     <header></header>
 
     <section class="hero">
         <div class="container">
-            <span class="badge-new animate__animated animate__fadeInDown">v2.0 ONLINE</span>
-            <h1 class="animate__animated animate__fadeInUp">Domine o <span class="text-highlight typing-cursor"></span>
-            </h1>
+            <span class="badge-new animate__animated animate__fadeInDown">SYSTEM v6.0 ONLINE</span>
+            <h1 class="animate__animated animate__fadeInUp">Domine o <span class="typing-cursor"></span></h1>
             <p class="animate__animated animate__fadeInUp animate__delay-1s">
-                A plataforma gamificada onde cada linha de código vale XP.
-                Evolua de Neófito a Lenda Cyberpunk enquanto constrói projetos reais.
+                Plataforma de treino para desenvolvedores. Ganhe XP resolvendo bugs, completando desafios e dominando a stack web.
             </p>
 
             <div class="hero-actions animate__animated animate__fadeInUp animate__delay-1s">
                 <a href="pages/challenges.html" class="btn btn-primary">
-                    <i class="fas fa-play"></i> COMEÇAR AGORA
+                    <i class="fas fa-terminal"></i> INICIAR TREINO
                 </a>
-                <a href="pages/login.html" class="btn btn-outline">
-                    <i class="fas fa-user-astronaut"></i> ACESSAR PERFIL
+                <a href="pages/game.html" class="btn btn-outline">
+                    <i class="fas fa-gamepad"></i> ARCADE
                 </a>
             </div>
 
@@ -71,8 +64,7 @@
     <section class="roadmap-section">
         <div class="container">
             <h2 class="section-title">Sua Jornada de Evolução</h2>
-            <p class="section-desc">Siga o caminho lógico para dominar a stack.</p>
-
+            
             <div class="timeline">
                 <div class="timeline-item" id="html">
                     <div class="timeline-marker html-marker"><i class="fab fa-html5"></i></div>
@@ -128,52 +120,34 @@
         </div>
     </section>
 
-    <section class="features-section">
-        <div class="container">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="icon-box"><i class="fas fa-cloud-upload-alt"></i></div>
-                    <h3>Cloud Save</h3>
-                    <p>Seu progresso é salvo no Firebase. Acesse de qualquer lugar.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon-box"><i class="fas fa-medal"></i></div>
-                    <h3>Sistema de Rank</h3>
-                    <p>Ganhe XP, suba de nível e desbloqueie títulos exclusivos.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon-box"><i class="fas fa-laptop-code"></i></div>
-                    <h3>Projetos Reais</h3>
-                    <p>Construa calculadoras, jogos e apps de tarefas funcionais.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="projetos" class="labs-section">
         <div class="container">
             <h2 class="section-title">Laboratórios Práticos</h2>
             <div class="card-grid">
-
-                <div class="card lab-card">
+                
+                <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-clock"></i> foco_neural.exe
-                        <span id="timer-status" class="project-status"
-                            style="margin-left: auto; border:1px solid #94a3b8; color:#94a3b8;">AGUARDANDO</span>
+                        pomodoro.js
+                        <span id="pomoStatus" class="project-status status-active" style="margin-left: auto;">READY</span>
                     </div>
                     <div class="card-body">
-                        <h3>Temporizador de Foco</h3>
-                        <p>25 minutos de foco total. Complete para ganhar XP.</p>
+                        <h3>Focus Timer</h3>
+                        <p>Defina o tempo de foco (Min: 5 min). Ganhe XP ao concluir.</p>
 
                         <div class="pomodoro-wrapper">
-                            <div id="timer-display" class="timer-display">25:00</div>
+                            <div class="timer-input-container">
+                                <input type="number" id="pomo-minutes" class="timer-input" value="25" min="5" max="120">
+                                <span class="timer-separator">:</span>
+                                <input type="text" id="pomo-seconds" class="timer-input" value="00" readonly>
+                            </div>
+
                             <div class="timer-controls">
-                                <button class="btn-timer start" onclick="startTimer()"><i
-                                        class="fas fa-play"></i></button>
-                                <button class="btn-timer stop" onclick="pauseTimer()"><i
-                                        class="fas fa-pause"></i></button>
-                                <button class="btn-timer reset" onclick="resetTimer()"><i
-                                        class="fas fa-undo"></i></button>
+                                <button class="btn-timer start" onclick="iniciarPomodoro()" title="Iniciar">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="btn-timer stop" onclick="resetarPomodoro()" title="Resetar">
+                                    <i class="fas fa-redo"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -185,20 +159,24 @@
                     </div>
                     <div class="card-body">
                         <h3>Log de Missões</h3>
-                        <p>Organize suas tarefas por prioridade.</p>
+                        <p>Organize suas tarefas. Concluir gera XP.</p>
 
                         <div class="task-input-group">
-                            <input type="text" id="novaTarefa" placeholder="Nova missão..." class="cyber-input"
-                                style="margin:0;">
+                            <input type="text" id="novaTarefa" placeholder="Nova missão..." class="cyber-input" style="margin:0;">
+                            
                             <select id="taskPriority" class="priority-select">
                                 <option value="low">Baixa</option>
                                 <option value="medium" selected>Média</option>
                                 <option value="high">Alta</option>
                             </select>
-                            <button class="interactive-btn" onclick="adicionarTarefa()" style="margin:0;"><i
-                                    class="fas fa-plus"></i></button>
+                            
+                            <button class="interactive-btn" onclick="adicionarTarefa()" style="margin:0;">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
-                        <ul id="listaTarefas" class="task-list"></ul>
+                        
+                        <ul id="listaTarefas" class="task-list">
+                            </ul>
                     </div>
                 </div>
             </div>
@@ -219,7 +197,7 @@
                 </div>
             </div>
             <div class="copyright">
-                &copy; 2023 DevStudy System v6.0 // Powered by Firebase
+                &copy; 2025 DevStudy System v6.0 // Powered by Firebase
             </div>
         </div>
     </footer>
@@ -228,9 +206,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <script src="assets/js/header.js"></script>
     <script src="game-data.js"></script>
+    <script src="assets/js/header.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
-
 </html>
