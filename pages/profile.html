@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevStudy | Perfil de Operador</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/profile.css">
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/header.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/profile.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header></header>
 
     <div class="container">
         <div class="profile-grid">
+            
             <aside class="profile-sidebar">
                 <div class="id-card">
                     <div class="avatar-container">
                         <img id="profile-avatar" src="https://via.placeholder.com/150" alt="Avatar">
+                        <button class="edit-avatar-btn" onclick="openAvatarModal()" title="Alterar Avatar">
+                            <i class="fas fa-camera"></i>
+                        </button>
                         <div class="level-badge" id="profile-lvl-badge">1</div>
                     </div>
+                    
                     <h2 id="profile-name">Carregando...</h2>
                     <p class="role-tag" id="profile-role">Recruta</p>
                     
+                    <div class="streak-widget">
+                        <div class="streak-icon"><i class="fas fa-fire"></i></div>
+                        <div class="streak-info">
+                            <span class="streak-count" id="streak-days">0</span>
+                            <span class="streak-label">Dias Seguidos</span>
+                        </div>
+                    </div>
+
                     <div class="id-stats">
                         <div class="stat">
                             <span class="label">Total XP</span>
@@ -36,7 +50,7 @@
                     
                     <div class="xp-progress-container">
                         <div class="xp-info">
-                            <span>Progresso do Nível</span>
+                            <span>Próximo Nível</span>
                             <span id="xp-percent">0%</span>
                         </div>
                         <div class="xp-bar-bg">
@@ -47,6 +61,14 @@
             </aside>
 
             <main class="profile-main">
+                
+                <section class="profile-section daily-quests-section">
+                    <h3><i class="fas fa-scroll"></i> Missões Diárias</h3>
+                    <div class="quests-list" id="daily-quests-list">
+                        <div class="loading-quests">Carregando missões...</div>
+                    </div>
+                </section>
+
                 <section class="profile-section">
                     <h3><i class="fas fa-chart-radar"></i> Radar de Competências</h3>
                     <div class="chart-container">
@@ -63,14 +85,46 @@
         </div>
     </div>
 
+    <div id="avatar-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3><i class="fas fa-user-astronaut"></i> Escolher Identidade</h3>
+            
+            <div class="upload-section">
+                <p>Carregar do Computador:</p>
+                <label for="file-upload" class="custom-file-upload">
+                    <i class="fas fa-cloud-upload-alt"></i> Escolher Arquivo
+                </label>
+                <input id="file-upload" type="file" accept="image/*" onchange="handleFileUpload(this)"/>
+            </div>
+
+            <div class="divider-text">OU ESCOLHA UM PRESET</div>
+
+            <div class="avatar-grid">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" onclick="selectAvatar(this.src)">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" onclick="selectAvatar(this.src)">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=1" onclick="selectAvatar(this.src)">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=2" onclick="selectAvatar(this.src)">
+                <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Abby" onclick="selectAvatar(this.src)">
+                <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Brian" onclick="selectAvatar(this.src)">
+            </div>
+
+            <div class="url-input-group">
+                <input type="text" id="avatar-url-input" class="cyber-input" placeholder="Cole uma URL de imagem...">
+                <button class="btn btn-sm" onclick="saveCustomAvatar()">Usar URL</button>
+            </div>
+
+            <button class="close-modal-btn" onclick="closeAvatarModal()">CANCELAR</button>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <script src="../assets/js/header.js"></script>
     <script src="../game-data.js"></script>
+    <script src="../assets/js/header.js"></script>
     <script src="../assets/js/profile.js"></script>
 </body>
 </html>

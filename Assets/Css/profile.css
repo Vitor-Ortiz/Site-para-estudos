@@ -1,13 +1,18 @@
-/* assets/css/profile.css */
+/* assets/css/profile.css - ESTILO DE PERFIL V4 (FINAL) */
 
-.profile-grid {
+/* =========================================
+   1. LAYOUT GERAL
+   ========================================= */
+   .profile-grid {
     display: grid;
     grid-template-columns: 300px 1fr;
     gap: 2rem;
     padding: 3rem 0;
 }
 
-/* --- SIDEBAR / ID CARD --- */
+/* =========================================
+   2. SIDEBAR (CARTÃO DE IDENTIDADE)
+   ========================================= */
 .id-card {
     background: rgba(15, 23, 42, 0.8);
     border: 1px solid rgba(56, 189, 248, 0.3);
@@ -17,9 +22,10 @@
     backdrop-filter: blur(10px);
     box-shadow: 0 0 30px rgba(0,0,0,0.3);
     position: sticky;
-    top: 100px;
+    top: 100px; /* Fica fixo ao rolar */
 }
 
+/* Avatar e Nível */
 .avatar-container {
     position: relative;
     width: 120px;
@@ -33,17 +39,49 @@
     border-radius: 50%;
     border: 3px solid var(--primary-neon);
     object-fit: cover;
+    background-color: #0f172a;
     box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    transition: transform 0.3s;
 }
 
-.level-badge {
+#profile-avatar:hover {
+    transform: scale(1.05);
+    border-color: var(--accent);
+}
+
+/* Botão de Editar Avatar (Câmera) */
+.edit-avatar-btn {
     position: absolute;
     bottom: 0;
     right: 0;
     background: var(--secondary-neon);
     color: white;
+    border: 2px solid #0f172a;
     width: 35px;
     height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.edit-avatar-btn:hover {
+    transform: scale(1.1);
+    background: #d946ef;
+}
+
+/* Badge de Nível */
+.level-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: var(--accent); /* Amarelo */
+    color: #000;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -51,34 +89,90 @@
     font-weight: bold;
     font-family: 'Fira Code', monospace;
     border: 2px solid #0f172a;
+    font-size: 0.8rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
+/* Informações do Utilizador */
 #profile-name {
     font-size: 1.5rem;
     color: white;
     margin-bottom: 0.5rem;
+    font-family: var(--font-code);
 }
 
 .role-tag {
     background: rgba(250, 204, 21, 0.1);
-    color: #facc15;
+    color: var(--accent);
     display: inline-block;
     padding: 5px 12px;
     border-radius: 20px;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border: 1px solid rgba(250, 204, 21, 0.3);
+    border: 1px solid var(--accent);
     margin-bottom: 1.5rem;
+    font-weight: bold;
 }
 
+/* =========================================
+   3. WIDGET DE STREAK (FOGO)
+   ========================================= */
+.streak-widget {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    background: linear-gradient(135deg, #ff4b1f, #ff9068); /* Gradiente Laranja/Vermelho */
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 75, 31, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.streak-icon {
+    font-size: 1.8rem;
+    animation: burn 1s infinite alternate;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 0, 0.5));
+}
+
+@keyframes burn {
+    from { transform: scale(1); opacity: 0.8; }
+    to { transform: scale(1.2); opacity: 1; }
+}
+
+.streak-info {
+    text-align: left;
+    line-height: 1.2;
+}
+
+.streak-count {
+    font-size: 1.4rem;
+    font-weight: bold;
+    display: block;
+    font-family: 'Fira Code';
+}
+
+.streak-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    opacity: 0.9;
+    font-weight: 600;
+}
+
+/* =========================================
+   4. ESTATÍSTICAS E BARRA DE XP
+   ========================================= */
 .id-stats {
     display: flex;
     justify-content: space-between;
     margin-bottom: 1.5rem;
     background: rgba(0,0,0,0.2);
-    padding: 10px;
+    padding: 12px;
     border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .stat {
@@ -89,17 +183,19 @@
 .stat .label {
     font-size: 0.7rem;
     color: var(--text-muted);
+    text-transform: uppercase;
 }
 
 .stat .value {
     font-family: 'Fira Code', monospace;
     font-weight: bold;
     color: var(--primary-neon);
+    font-size: 1.1rem;
 }
 
-.stat .value.sm { font-size: 0.8rem; }
+.stat .value.sm { font-size: 0.9rem; }
 
-/* XP Bar */
+/* Barra de Progresso XP */
 .xp-progress-container {
     text-align: left;
 }
@@ -110,6 +206,7 @@
     font-size: 0.8rem;
     color: var(--text-muted);
     margin-bottom: 5px;
+    font-family: 'Fira Code';
 }
 
 .xp-bar-bg {
@@ -124,15 +221,19 @@
     background: var(--success);
     box-shadow: 0 0 10px var(--success);
     transition: width 1s ease;
+    border-radius: 4px;
 }
 
-/* --- MAIN CONTENT --- */
+/* =========================================
+   5. CONTEÚDO PRINCIPAL (SEÇÕES)
+   ========================================= */
 .profile-section {
     background: rgba(15, 23, 42, 0.6);
     border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 2rem;
     margin-bottom: 2rem;
+    backdrop-filter: blur(5px);
 }
 
 .profile-section h3 {
@@ -140,54 +241,144 @@
     border-bottom: 1px solid rgba(255,255,255,0.1);
     padding-bottom: 1rem;
     margin-bottom: 1.5rem;
+    font-family: var(--font-code);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
+/* --- MISSÕES DIÁRIAS --- */
+.daily-quests-section h3 { color: var(--accent); border-color: rgba(250, 204, 21, 0.3); }
+
+.quests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.quest-item {
+    background: rgba(255,255,255,0.03);
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--text-muted);
+    transition: all 0.3s;
+}
+
+.quest-item:hover {
+    background: rgba(255,255,255,0.05);
+    transform: translateX(5px);
+}
+
+/* Estado Concluído */
+.quest-item.completed {
+    border-left-color: var(--success);
+    background: rgba(74, 222, 128, 0.1);
+}
+
+.quest-info h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 500;
+}
+
+.quest-xp {
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: bold;
+    font-family: 'Fira Code';
+}
+
+.quest-check { 
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; 
+    border: 2px solid var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    transition: all 0.3s;
+}
+
+.quest-item.completed .quest-check {
+    border-color: var(--success);
+    color: var(--success);
+    background: rgba(74,222,128,0.2);
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+}
+
+/* --- GRÁFICO RADAR --- */
 .chart-container {
     max-width: 500px;
     margin: 0 auto;
+    position: relative;
 }
 
-/* Medals Grid */
+/* --- GALERIA DE MEDALHAS --- */
 .medals-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 1.5rem;
 }
 
 .medal-item {
     background: rgba(0,0,0,0.3);
     padding: 1.5rem;
-    border-radius: 8px;
+    border-radius: 12px;
     text-align: center;
-    border: 1px solid transparent;
+    border: 1px solid rgba(255,255,255,0.05);
     transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
 .medal-item i {
     font-size: 2.5rem;
     margin-bottom: 10px;
-    color: #475569; /* Cor de bloqueado */
+    color: #475569; /* Cor de bloqueado (Cinza Escuro) */
+    transition: all 0.3s;
 }
 
 .medal-item p {
     font-size: 0.8rem;
     color: var(--text-muted);
+    margin: 0;
+    font-weight: bold;
 }
 
-/* Desbloqueada */
+.lock-tag {
+    display: block;
+    font-size: 0.65rem;
+    color: #64748b;
+    margin-top: 5px;
+    font-family: 'Fira Code';
+}
+
+/* Medalha Desbloqueada */
 .medal-item.unlocked {
-    background: rgba(250, 204, 21, 0.05);
-    border-color: rgba(250, 204, 21, 0.3);
+    background: linear-gradient(135deg, rgba(250, 204, 21, 0.1), rgba(0,0,0,0.2));
+    border-color: rgba(250, 204, 21, 0.5);
+    box-shadow: 0 0 20px rgba(250, 204, 21, 0.1);
+}
+
+.medal-item.unlocked:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 25px rgba(250, 204, 21, 0.2);
 }
 
 .medal-item.unlocked i {
     color: #facc15;
-    filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.4));
+    filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.6));
     animation: float 3s ease-in-out infinite;
 }
 
 .medal-item.unlocked p {
     color: white;
+    text-shadow: 0 0 5px rgba(250, 204, 21, 0.5);
 }
 
 @keyframes float {
@@ -195,8 +386,163 @@
     50% { transform: translateY(-5px); }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .profile-grid { grid-template-columns: 1fr; }
-    .id-card { position: static; }
+/* =========================================
+   6. MODAL DE AVATAR
+   ========================================= */
+.modal {
+    display: none; /* Controlado via JS (flex) */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+.modal.hidden { display: none; }
+
+.modal-content {
+    background: #1e293b;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+    border: 2px solid var(--primary-neon);
+    box-shadow: 0 0 40px rgba(56, 189, 248, 0.2);
+    position: relative;
+    animation: popIn 0.3s ease;
+}
+
+.modal-content h3 {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-code);
+}
+
+/* Upload Section */
+.upload-section {
+    margin-bottom: 20px;
+    border: 2px dashed #334155;
+    padding: 20px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.2);
+    transition: border-color 0.3s;
+}
+.upload-section:hover { border-color: var(--primary-neon); }
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background: var(--primary-neon);
+    color: #000;
+    font-weight: bold;
+    border-radius: 6px;
+    margin-top: 10px;
+    transition: all 0.2s;
+    font-family: var(--font-code);
+}
+.custom-file-upload:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3);
+}
+input[type="file"] { display: none; }
+
+.divider-text {
+    margin: 20px 0;
+    color: #64748b;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+/* Grid de Avatares (Presets) */
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.avatar-grid img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    background: #0f172a;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.avatar-grid img:hover {
+    transform: scale(1.1);
+    border-color: var(--primary-neon);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+}
+
+/* Input de URL */
+.url-input-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.url-input-group input {
+    width: 70%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: white;
+    font-family: var(--font-code);
+}
+
+.url-input-group input:focus {
+    border-color: var(--primary-neon);
+    outline: none;
+}
+
+.close-modal-btn {
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    padding: 8px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: var(--font-code);
+    transition: all 0.2s;
+}
+
+.close-modal-btn:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* Animações do Modal */
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* =========================================
+   7. RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 900px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+    .id-card {
+        position: static; /* Remove sticky no mobile */
+    }
+    .chart-container {
+        max-width: 100%;
+    }
+    .medals-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    }
 }

@@ -1,4 +1,4 @@
-/* assets/js/profile.js - Lógica do Perfil V2 */
+/* assets/js/profile.js - Gestão de Perfil Completa */
 
 document.addEventListener('DOMContentLoaded', () => {
     // Verifica se os dados globais já existem
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         // Se não, espera pelo evento do game-data.js
         window.addEventListener('gameDataLoaded', renderProfile);
-        // Fallback de segurança
+        // Fallback de segurança para carregar mesmo se o evento já tiver passado
         setTimeout(renderProfile, 1500);
     }
 });
@@ -17,24 +17,27 @@ function renderProfile() {
     const user = window.currentUser;
     const xp = window.globalXP || 0;
     const level = window.globalLevel || 1;
+    const stats = window.userStats || { streak: 0, pomodoros: 0, tasks: 0, dailyQuests: [] };
     
-    // --- CORREÇÃO DO TÍTULO AQUI ---
+    // --- LÓGICA DE TÍTULO ---
     // Prioridade: Título Personalizado > Título do Nível
     const roleText = window.userCustomTitle ? `★ ${window.userCustomTitle}` : window.getRole(level);
     
-    // Elementos DOM
+    // --- DOM ELEMENTS ---
     const nameEl = document.getElementById('profile-name');
     const roleEl = document.getElementById('profile-role');
     const lvlBadge = document.getElementById('profile-lvl-badge');
     const xpEl = document.getElementById('profile-xp');
     const idEl = document.getElementById('profile-id');
+    const streakEl = document.getElementById('streak-days');
     const avatarEl = document.getElementById('profile-avatar');
 
-    if(nameEl) nameEl.textContent = user ? (user.displayName || "Utilizador") : "Visitante";
+    // Preenchimento de Texto
+    if(nameEl) nameEl.textContent = user ? (user.displayName || "Operador") : "Visitante";
     
     if(roleEl) {
         roleEl.textContent = roleText;
-        // Se for título personalizado, muda a cor para Rosa, senão usa Amarelo padrão
+        // Estilo especial se for título customizado
         if (window.userCustomTitle) {
             roleEl.style.color = "#f472b6";
             roleEl.style.borderColor = "#f472b6";
@@ -44,19 +47,24 @@ function renderProfile() {
 
     if(lvlBadge) lvlBadge.textContent = level;
     if(xpEl) xpEl.textContent = xp.toLocaleString();
-    if(idEl) idEl.textContent = user ? user.uid.substring(0, 8) : "#GUEST";
-    
-    if (avatarEl) {
-        if (user && user.photoURL) {
-            avatarEl.src = user.photoURL;
-        } else {
-            // Avatar gerado com iniciais se não tiver foto
-            const nome = user ? (user.displayName || "U") : "U";
-            avatarEl.src = `https://ui-avatars.com/api/?name=${nome}&background=0f172a&color=38bdf8&bold=true`;
-        }
+    if(idEl) idEl.textContent = user ? '#' + user.uid.substring(0, 6).toUpperCase() : "#GUEST";
+    if(streakEl) streakEl.textContent = stats.streak || 0;
+
+    // --- LÓGICA DE AVATAR ---
+    // 1. Tenta customizado (URL ou Base64 salvo no Loadout)
+    // 2. Tenta foto do Google
+    // 3. Usa placeholder com iniciais
+    if (window.userLoadout && window.userLoadout.customAvatar) {
+        avatarEl.src = window.userLoadout.customAvatar;
+    } else if (user && user.photoURL) {
+        avatarEl.src = user.photoURL;
+    } else {
+        const n = user ? (user.displayName || "U") : "U";
+        avatarEl.src = `https://ui-avatars.com/api/?name=${n}&background=0f172a&color=38bdf8&bold=true`;
     }
 
-    // Barra de XP (Cálculo visual: 0 a 100%)
+    // --- BARRA DE PROGRESSO ---
+    // Supondo 100 XP por nível para visualização
     const xpCurrentLevel = xp % 100; 
     const percent = xpCurrentLevel + "%";
     const barFill = document.getElementById('profile-xp-bar');
@@ -65,35 +73,76 @@ function renderProfile() {
     if(barFill) barFill.style.width = percent;
     if(xpText) xpText.textContent = percent;
 
-    // Renderizar Gráficos e Medalhas
-    if(typeof renderChart === "function") renderChart(level, xp);
-    if(typeof renderMedals === "function") renderMedals(level);
+    // --- RENDERIZAÇÃO DOS COMPONENTES ---
+    renderDailyQuests(stats.dailyQuests);
+    renderChart(level, xp, stats);
+    renderMedals(level);
 }
 
-// --- GRÁFICO CHART.JS ---
-function renderChart(level, xp) {
+// =================================================
+// 1. MISSÕES DIÁRIAS
+// =================================================
+function renderDailyQuests(quests) {
+    const list = document.getElementById('daily-quests-list');
+    if(!list) return;
+    list.innerHTML = '';
+
+    // Se não houver missões (ex: primeiro login ou erro), mostra fallback ou gera visualmente
+    // Nota: A lógica real de gerar missões deve estar no game-data.js, aqui apenas exibimos.
+    // Se a lista estiver vazia, mostra placeholders para não ficar feio.
+    const displayQuests = (quests && quests.length > 0) ? quests : [
+        { text: "Fazer Login diário", xp: 50, done: true },
+        { text: "Completar 1 Pomodoro", xp: 100, done: (window.userStats?.pomodoros > 0) },
+        { text: "Visitar a Matrix", xp: 20, done: false }
+    ];
+
+    displayQuests.forEach(q => {
+        const div = document.createElement('div');
+        div.className = `quest-item ${q.done ? 'completed' : ''}`;
+        
+        div.innerHTML = `
+            <div class="quest-info">
+                <h4>${q.text}</h4>
+                <span class="quest-xp">+${q.xp} XP</span>
+            </div>
+            <div class="quest-check">
+                ${q.done ? '<i class="fas fa-check"></i>' : ''}
+            </div>
+        `;
+        list.appendChild(div);
+    });
+}
+
+// =================================================
+// 2. GRÁFICO (RADAR CHART)
+// =================================================
+let skillsChartInstance = null;
+
+function renderChart(level, xp, stats) {
     const canvas = document.getElementById('skillsChart');
     if(!canvas) return;
 
     const ctx = canvas.getContext('2d');
     
-    // Simulação de atributos baseados no nível
-    const htmlSkill = Math.min(100, level * 5 + 20);
-    const cssSkill = Math.min(100, level * 4 + 15);
-    const jsSkill = Math.min(100, level * 3 + 10);
-    const logicSkill = Math.min(100, level * 2 + 5);
-    const debugSkill = Math.min(100, xp / 50); // Baseado em XP total
+    // Destrói gráfico anterior para evitar sobreposição
+    if (skillsChartInstance) {
+        skillsChartInstance.destroy();
+    }
 
-    // Destrói gráfico anterior se existir (para não sobrepor ao atualizar)
-    if(window.myProfileChart) window.myProfileChart.destroy();
+    // Dados Dinâmicos Baseados no Progresso
+    const htmlSkill = Math.min(100, level * 8 + 20);
+    const cssSkill = Math.min(100, level * 7 + 15);
+    const jsSkill = Math.min(100, level * 5 + 10);
+    const logicSkill = Math.min(100, (stats.tasks || 0) * 10);
+    const focusSkill = Math.min(100, (stats.pomodoros || 0) * 5);
 
-    window.myProfileChart = new Chart(ctx, {
+    skillsChartInstance = new Chart(ctx, {
         type: 'radar',
         data: {
-            labels: ['HTML', 'CSS', 'JS', 'Lógica', 'Debug'],
+            labels: ['HTML', 'CSS', 'JS', 'Lógica', 'Foco'],
             datasets: [{
                 label: 'Nível de Habilidade',
-                data: [htmlSkill, cssSkill, jsSkill, logicSkill, debugSkill],
+                data: [htmlSkill, cssSkill, jsSkill, logicSkill, focusSkill],
                 backgroundColor: 'rgba(56, 189, 248, 0.2)',
                 borderColor: '#38bdf8',
                 pointBackgroundColor: '#facc15',
@@ -108,7 +157,7 @@ function renderChart(level, xp) {
                     grid: { color: 'rgba(255,255,255,0.1)' },
                     pointLabels: {
                         color: '#94a3b8',
-                        font: { family: "'Fira Code', monospace", size: 10 }
+                        font: { family: "'Fira Code', monospace", size: 11 }
                     },
                     ticks: { display: false, max: 100 },
                     suggestedMin: 0,
@@ -120,7 +169,9 @@ function renderChart(level, xp) {
     });
 }
 
-// --- MEDALHAS ---
+// =================================================
+// 3. GALERIA DE MEDALHAS
+// =================================================
 function renderMedals(level) {
     const gallery = document.getElementById('medals-gallery');
     if(!gallery) return;
@@ -138,15 +189,80 @@ function renderMedals(level) {
     medals.forEach(m => {
         const isUnlocked = level >= m.lvl;
         const div = document.createElement('div');
-        div.className = `medal-item ${isUnlocked ? 'unlocked' : 'locked'}`; // Adiciona classe locked explicita
+        div.className = `medal-item ${isUnlocked ? 'unlocked' : 'locked'}`;
         
         div.innerHTML = `
-            <div class="medal-icon-wrapper">
-                <i class="fas ${m.icon}"></i>
-            </div>
+            <i class="fas ${m.icon}"></i>
             <p>${m.title}</p>
             ${!isUnlocked ? `<span class="lock-tag">Lvl ${m.lvl}</span>` : ''}
         `;
         gallery.appendChild(div);
     });
 }
+
+// =================================================
+// 4. SISTEMA DE AVATAR (MODAL & UPLOAD)
+// =================================================
+
+// Abrir/Fechar Modal
+window.openAvatarModal = () => {
+    const modal = document.getElementById('avatar-modal');
+    if(modal) modal.style.display = 'flex';
+};
+
+window.closeAvatarModal = () => {
+    const modal = document.getElementById('avatar-modal');
+    if(modal) modal.style.display = 'none';
+};
+
+// Selecionar Avatar (Preset ou URL)
+window.selectAvatar = async function(url) {
+    if (!window.userLoadout) window.userLoadout = {};
+    
+    // Atualiza localmente
+    window.userLoadout.customAvatar = url;
+    const img = document.getElementById('profile-avatar');
+    if(img) img.src = url;
+    
+    // Salva no Firebase (chama função global do game-data.js)
+    // Tenta usar a função de salvar global, se não existir, tenta update manual
+    if (window.salvarProgressoGlobal) {
+        window.salvarProgressoGlobal();
+    } else {
+        // Fallback direto ao Firestore se a função global não estiver exposta
+        const uid = window.currentUser ? window.currentUser.uid : localStorage.getItem('devstudy_guest_id');
+        if(uid && window.db) {
+            await window.db.collection('jogadores').doc(uid).update({
+                loadout: window.userLoadout
+            });
+        }
+    }
+    
+    if(window.playSoundGlobal) window.playSoundGlobal('success');
+    closeAvatarModal();
+};
+
+// Salvar via Input de URL
+window.saveCustomAvatar = () => {
+    const url = document.getElementById('avatar-url-input').value;
+    if(url) selectAvatar(url);
+};
+
+// Upload de Arquivo Local (Converte para Base64)
+window.handleFileUpload = function(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            const base64Image = e.target.result;
+            // Verifica tamanho (opcional, para não estourar o localStorage/Firestore)
+            if (base64Image.length > 1000000) { // ~1MB limit warning
+                alert("Imagem muito grande! Tente uma menor.");
+                return;
+            }
+            selectAvatar(base64Image);
+        };
+        
+        reader.readAsDataURL(input.files[0]);
+    }
+};
