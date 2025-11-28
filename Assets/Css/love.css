@@ -1,11 +1,10 @@
-/* assets/css/love.css - TEMA ROMÂNTICO FINAL (V3) */
+/* assets/css/love.css - TEMA ROMÂNTICO ESCURO COMBINADO */
 
 /* =========================================
-   1. FUNDO E ESTRUTURA
+   1. FUNDO E ESTRUTURA (Versão Combinada)
    ========================================= */
 body {
     background: #000 url('https://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
-    /* IMPORTANTE: Permite rolagem vertical se necessário, mas esconde horizontal */
     overflow-x: hidden;
     overflow-y: auto;
     font-family: 'Inter', sans-serif;
@@ -16,9 +15,8 @@ body {
     min-height: 100vh;
 }
 
-/* Animação das Estrelas e Nuvens */
-.stars,
-.twinkling {
+/* Animação das Estrelas - Combinado */
+.stars, .twinkling {
     position: fixed;
     top: 0;
     left: 0;
@@ -43,65 +41,56 @@ body {
 }
 
 @keyframes move-twink-back {
-    from {
-        background-position: 0 0;
-    }
-
-    to {
-        background-position: -10000px 5000px;
-    }
+    from { background-position: 0 0; }
+    to { background-position: -10000px 5000px; }
 }
 
 .love-container {
-    /* Garante altura mínima mas permite crescer */
     min-height: calc(100vh - 80px);
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     padding: 2rem 1rem;
-    /* Espaço seguro nas bordas */
     box-sizing: border-box;
     z-index: 1;
 }
 
 /* =========================================
-   2. CARTÃO PRINCIPAL
+   2. CARTÃO PRINCIPAL (Versão 1 Aprimorada)
    ========================================= */
 .love-card {
-    background: rgba(20, 10, 20, 0.85);
-    border: 1px solid rgba(255, 20, 147, 0.5);
+    background: rgba(15, 5, 15, 0.9); /* Mais escuro que a versão original */
+    border: 1px solid rgba(176, 58, 100, 0.6); /* Borda mais escura da versão 2 */
     padding: 2.5rem 2rem;
     border-radius: 24px;
     text-align: center;
     backdrop-filter: blur(15px);
-    box-shadow: 0 0 60px rgba(255, 20, 147, 0.2);
+    box-shadow: 0 0 60px rgba(176, 58, 100, 0.3); /* Sombra mais escura */
     max-width: 450px;
     width: 100%;
     position: relative;
     z-index: 10;
     transition: transform 0.3s, box-shadow 0.3s;
-
-    /* Garante que não corta em telas pequenas */
     margin: 20px auto;
 }
 
 .love-card:hover {
     border-color: rgba(255, 20, 147, 0.9);
-    box-shadow: 0 0 80px rgba(255, 20, 147, 0.3);
+    box-shadow: 0 0 80px rgba(176, 58, 100, 0.5); /* Sombra hover mais escura */
     transform: translateY(-3px);
 }
 
-/* Foto Polaroid */
+/* Foto Polaroid - Combinado */
 .photo-frame {
     width: 150px;
     height: 150px;
     margin: 0 auto 1.5rem;
     position: relative;
     padding: 4px;
-    background: linear-gradient(45deg, #ff1493, #ff69b4);
+    background: linear-gradient(45deg, #B03A64, #D94A7A); /* Gradiente mais escuro */
     border-radius: 50%;
-    box-shadow: 0 0 25px rgba(255, 20, 147, 0.3);
+    box-shadow: 0 0 25px rgba(176, 58, 100, 0.4);
 }
 
 .photo-frame img {
@@ -113,12 +102,12 @@ body {
     transition: opacity 0.3s;
 }
 
-/* Botões de Navegação da Foto */
+/* Botões de Navegação - Versão 1 */
 .photo-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255, 20, 147, 0.8);
+    background: rgba(176, 58, 100, 0.8); /* Cor mais escura */
     color: white;
     border: none;
     width: 25px;
@@ -134,19 +123,14 @@ body {
     opacity: 1;
 }
 
-.photo-btn.prev {
-    left: -10px;
-}
-
-.photo-btn.next {
-    right: -10px;
-}
+.photo-btn.prev { left: -10px; }
+.photo-btn.next { right: -10px; }
 
 .heart-badge {
     position: absolute;
     bottom: 5px;
     right: 5px;
-    background: #ff1493;
+    background: #B03A64; /* Cor mais escura */
     color: white;
     width: 35px;
     height: 35px;
@@ -161,24 +145,17 @@ body {
 }
 
 @keyframes beat {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.15);
-    }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
 }
 
-/* Textos */
+/* Textos - Combinado */
 .love-title {
     font-family: 'Dancing Script', cursive;
-    color: #ff69b4;
+    color: #FF4F86;
     font-size: 2.8rem;
     margin: 0 0 1rem;
-    text-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+    text-shadow: 0 0 15px rgba(176, 58, 100, 0.6); /* Sombra mais escura */
     line-height: 1;
 }
 
@@ -187,7 +164,7 @@ body {
     padding: 12px;
     border-radius: 12px;
     margin-bottom: 1.5rem;
-    border: 1px dashed rgba(255, 105, 180, 0.3);
+    border: 1px dashed rgba(176, 58, 100, 0.4); /* Borda mais escura */
 }
 
 .timer-box p {
@@ -215,7 +192,7 @@ body {
     padding: 0 10px;
 }
 
-/* Botões de Ação */
+/* Botões de Ação - Versão 1 com cores mais escuras */
 .actions {
     display: flex;
     flex-direction: column;
@@ -224,7 +201,7 @@ body {
 }
 
 .btn-love {
-    background: linear-gradient(45deg, #ff1493, #ff69b4);
+    background: linear-gradient(45deg, #B03A64, #D94A7A); /* Gradiente mais escuro */
     color: white;
     border: none;
     padding: 12px;
@@ -233,7 +210,7 @@ body {
     font-family: 'Fira Code';
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+    box-shadow: 0 5px 15px rgba(176, 58, 100, 0.3);
     width: 100%;
     font-size: 0.95rem;
     display: flex;
@@ -246,36 +223,36 @@ body {
 
 .btn-love:hover {
     transform: scale(1.02);
-    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);
+    box-shadow: 0 8px 25px rgba(176, 58, 100, 0.5);
 }
 
 .btn-shop {
-    background: white;
-    color: #ff1493;
-    border: 2px solid #ff1493;
+    background: rgba(255, 255, 255, 0.1); /* Fundo mais escuro */
+    color: #FF4F86;
+    border: 2px solid #B03A64; /* Borda mais escura */
 }
 
 .btn-shop:hover {
-    background: #fff0f5;
+    background: rgba(176, 58, 100, 0.2);
 }
 
 .btn-letter {
     background: transparent;
-    border: 2px solid #ff69b4;
-    color: #ff69b4;
+    border: 2px solid #B03A64; /* Borda mais escura */
+    color: #FF4F86;
     box-shadow: none;
 }
 
 .btn-letter:hover {
-    background: rgba(255, 105, 180, 0.1);
+    background: rgba(176, 58, 100, 0.1);
 }
 
 /* =========================================
-   3. MUSIC PLAYER ANIMADO
+   3. MUSIC PLAYER ANIMADO (Versão 1)
    ========================================= */
 .music-controls {
     margin-top: 2rem;
-    color: #ff69b4;
+    color: #FF4F86;
     cursor: pointer;
     font-size: 0.9rem;
     display: flex;
@@ -284,7 +261,7 @@ body {
     gap: 12px;
     opacity: 0.9;
     transition: all 0.3s;
-    background: rgba(255, 20, 147, 0.1);
+    background: rgba(176, 58, 100, 0.1); /* Fundo mais escuro */
     padding: 8px 15px;
     border-radius: 50px;
     border: 1px solid transparent;
@@ -293,14 +270,14 @@ body {
 }
 
 .music-controls:hover {
-    background: rgba(255, 20, 147, 0.2);
-    border-color: #ff69b4;
+    background: rgba(176, 58, 100, 0.2);
+    border-color: #D94A7A;
 }
 
 .music-icon-wrapper {
     width: 30px;
     height: 30px;
-    background: #ff1493;
+    background: #B03A64; /* Cor mais escura */
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -322,7 +299,6 @@ body {
     margin-bottom: 2px;
 }
 
-/* Barras do Visualizador */
 .music-bars {
     display: flex;
     gap: 3px;
@@ -338,7 +314,7 @@ body {
 
 .bar {
     width: 3px;
-    background: #ff1493;
+    background: #B03A64; /* Cor mais escura */
     animation: sound 0s infinite alternate;
 }
 
@@ -346,34 +322,14 @@ body {
     animation-duration: 0.5s;
 }
 
-.bar:nth-child(1) {
-    height: 40%;
-    animation-delay: 0.1s;
-}
-
-.bar:nth-child(2) {
-    height: 100%;
-    animation-delay: 0.3s;
-}
-
-.bar:nth-child(3) {
-    height: 60%;
-    animation-delay: 0.2s;
-}
-
-.bar:nth-child(4) {
-    height: 80%;
-    animation-delay: 0.4s;
-}
+.bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.bar:nth-child(2) { height: 100%; animation-delay: 0.3s; }
+.bar:nth-child(3) { height: 60%; animation-delay: 0.2s; }
+.bar:nth-child(4) { height: 80%; animation-delay: 0.4s; }
 
 @keyframes sound {
-    0% {
-        height: 20%;
-    }
-
-    100% {
-        height: 100%;
-    }
+    0% { height: 20%; }
+    100% { height: 100%; }
 }
 
 .music-controls i {
@@ -385,13 +341,11 @@ body {
 }
 
 @keyframes spin {
-    100% {
-        transform: rotate(360deg);
-    }
+    100% { transform: rotate(360deg); }
 }
 
 /* =========================================
-   4. MODAIS (CARTA & LOJA)
+   4. MODAIS (Tema Escuro da Versão 2)
    ========================================= */
 .modal {
     position: fixed;
@@ -399,7 +353,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.9); /* Fundo mais escuro */
     backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
@@ -417,32 +371,141 @@ body {
     pointer-events: none;
 }
 
-/* Conteúdo Genérico do Modal */
+/* Conteúdo do Modal - Tema Escuro */
 .modal-content {
-    background: #fff0f5;
+    background: #3A2538; /* Roxo escuro da versão 2 */
     padding: 2rem;
     border-radius: 16px;
     max-width: 500px;
     width: 100%;
-
-    /* Scroll Inteligente */
     max-height: 85vh;
     overflow-y: auto;
-
     position: relative;
-    color: #4a4a4a;
-    border: 4px solid #ff69b4;
-    box-shadow: 0 0 60px rgba(255, 105, 180, 0.6);
+    color: #F4DDE1;
+    border: 4px solid #B03A64; /* Borda escura */
+    box-shadow: 0 0 60px rgba(176, 58, 100, 0.6);
     animation: popIn 0.3s forwards;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Conteúdo Específico da Loja */
+/* Loja - Tema Escuro Completo */
 .shop-content {
     max-width: 800px;
-    background: #0f172a;
-    border-color: #facc15;
+    background: #3A2538;
+    border-color: #B03A64;
+    color: #F4DDE1;
+}
+
+/* =========================================
+   5. MODAL DE COMPRA (PURCHASE) - CORRIGIDO
+   ========================================= */
+.purchase-content {
+    background: #3A2538;
+    border: 4px solid #B03A64;
+    color: #F4DDE1;
+    text-align: center;
+    border-radius: 18px;
+    padding: 30px 25px;
+    animation: fadeIn 0.3s ease;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Container principal do conteúdo de compra */
+.purchase-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 15px;
+}
+
+.purchase-icon-container {
+    font-size: 4rem;
+    color: #FF5E9E;
+    margin-bottom: 0.5rem;
+    animation: bounce 1s infinite;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.purchase-title {
+    color: #FF4F86;
+    font-family: 'Fira Code', monospace;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1.8rem;
+    text-align: center;
+    width: 100%;
+}
+
+.purchase-text {
+    font-size: 1.1rem;
+    margin: 8px 0;
+    color: #F4DDE1;
+    text-align: center;
+    width: 100%;
+    line-height: 1.5;
+}
+
+.purchase-item {
+    background: #2A1F2D;
+    color: #FF5E9E;
+    padding: 15px 30px;
+    border-radius: 12px;
+    border: 2px dashed #FF5E9E;
+    font-size: 1.3rem;
+    font-family: 'Fira Code', monospace;
+    margin: 10px 0;
+    text-align: center;
+    width: auto;
+    display: inline-block;
+}
+
+.purchase-instruction {
+    margin-top: 20px;
+    font-style: italic;
+    color: #C9AFC4;
+    font-size: 0.9rem;
+    text-align: center;
+    width: 100%;
+}
+
+.purchase-instruction i {
+    color: #FF5E9E;
+    margin-right: 5px;
+}
+
+/* Botão no modal de compra */
+.purchase-content .btn-love {
+    margin-top: 20px;
+    background: #D94A7A;
     color: white;
+    padding: 12px 40px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    width: auto;
+    min-width: 150px;
+}
+
+.purchase-content .btn-love:hover {
+    background: #FF4F86;
+    transform: scale(1.05);
 }
 
 /* Scrollbar Personalizada */
@@ -451,17 +514,17 @@ body {
 }
 
 .modal-content::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
 }
 
 .modal-content::-webkit-scrollbar-thumb {
-    background: #ff69b4;
+    background: #B03A64;
     border-radius: 4px;
 }
 
 .modal-content::-webkit-scrollbar-thumb:hover {
-    background: #ff1493;
+    background: #D94A7A;
 }
 
 .close-btn {
@@ -470,7 +533,7 @@ body {
     right: 15px;
     font-size: 2.5rem;
     cursor: pointer;
-    color: #ff1493;
+    color: #FF5E9E;
     font-family: sans-serif;
     line-height: 0.8;
     transition: transform 0.2s;
@@ -481,18 +544,18 @@ body {
     transform: scale(1.2) rotate(90deg);
 }
 
-/* Grid da Loja */
+/* Grid da Loja - Versão 2 Escura */
 .shop-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    border-bottom: 1px dashed #ffb6c1;
+    border-bottom: 2px dashed #B03A64;
     padding-bottom: 10px;
 }
 
 .shop-header h2 {
-    color: #ff1493;
+    color: #FF4F86;
     font-family: 'Dancing Script';
     margin: 0;
     font-size: 2rem;
@@ -500,12 +563,12 @@ body {
 
 .wallet {
     background: #ff69b4;
-    color: white;
-    padding: 5px 15px;
+    color: #FFF;
+    padding: 6px 18px;
     border-radius: 20px;
     font-family: 'Fira Code';
     font-weight: bold;
-    font-size: 0.9rem;
+    display: inline-block;
 }
 
 .shop-grid {
@@ -518,7 +581,7 @@ body {
 
 .love-item {
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid #ff69b4;
+    border: 1px solid #B03A64;
     border-radius: 12px;
     padding: 15px;
     text-align: center;
@@ -530,19 +593,20 @@ body {
 
 .love-item:hover {
     transform: translateY(-3px);
-    background: rgba(255, 20, 147, 0.1);
-    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.2);
+    background: rgba(176, 58, 100, 0.15);
+    box-shadow: 0 5px 15px rgba(176, 58, 100, 0.4);
+    border-color: #FF4F86;
 }
 
 .love-item i {
     font-size: 2rem;
-    color: #ff69b4;
+    color: #FF5E9E;
     margin-bottom: 10px;
 }
 
 .love-item h4 {
     margin: 0 0 5px;
-    color: white;
+    color: #F4DDE1;
     font-size: 0.9rem;
 }
 
@@ -555,10 +619,10 @@ body {
 }
 
 .btn-buy-love {
-    background: #ff69b4;
+    background: #D94A7A;
     color: white;
     border: none;
-    padding: 6px;
+    padding: 8px;
     border-radius: 6px;
     cursor: pointer;
     width: 100%;
@@ -567,13 +631,11 @@ body {
 }
 
 .btn-buy-love:hover {
-    background: #d63384;
+    background: #FF4F86;
 }
-
 
 .btn-buy-love.equipped {
     background-color: #4ade80;
-    /* Verde Sucesso */
     border-color: #4ade80;
     color: #064e3b;
     cursor: default;
@@ -590,22 +652,32 @@ body {
     background-color: rgba(74, 222, 128, 0.1);
 }
 
+/* Animações Combinadas */
 @keyframes popIn {
     from {
         transform: scale(0.8) translateY(20px);
         opacity: 0;
     }
-
     to {
         transform: scale(1) translateY(0);
         opacity: 1;
     }
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
 /* Partículas de Fundo */
 .heart-particle {
     position: absolute;
-    color: rgba(255, 20, 147, 0.6);
+    color: rgba(176, 58, 100, 0.6); /* Cor mais escura */
     animation: floatUp linear forwards;
     z-index: 1;
     pointer-events: none;
@@ -618,7 +690,7 @@ body {
     }
 }
 
-/* RESPONSIVIDADE EXTREMA (Mobile Pequeno) */
+/* RESPONSIVIDADE */
 @media (max-width: 480px) {
     .love-card {
         padding: 2rem 1.5rem;
@@ -647,5 +719,24 @@ body {
         flex-direction: column;
         gap: 10px;
         align-items: flex-start;
+    }
+    
+    .shop-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .purchase-content {
+        padding: 20px 15px;
+        width: 95%;
+    }
+
+    .purchase-title {
+        font-size: 1.5rem;
+    }
+
+    .purchase-item {
+        padding: 12px 20px;
+        font-size: 1.1rem;
     }
 }

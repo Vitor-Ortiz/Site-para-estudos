@@ -1,9 +1,9 @@
-/* assets/css/shop.css - ESTILO DO MERCADO V7 */
+/* assets/css/shop.css - ESTILO DO MERCADO V9 (COM FUNDOS ESPECIAIS) */
 
 /* =========================================
-   1. HERO E CARTEIRA
+   1. HERO E CARTEIRA (MANTIDO)
    ========================================= */
-   .shop-hero {
+.shop-hero {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -48,7 +48,7 @@
 }
 
 /* =========================================
-   2. GRID DE PRODUTOS
+   2. GRID DE PRODUTOS (MANTIDO)
    ========================================= */
 .items-grid {
     display: grid;
@@ -152,7 +152,7 @@
 }
 
 /* =========================================
-   3. BOTÕES
+   3. BOTÕES (MANTIDO)
    ========================================= */
 .btn-buy {
     width: 100%;
@@ -166,7 +166,7 @@
     background: var(--primary-neon);
     color: #000;
     position: relative;
-    z-index: 10; /* Garante clique */
+    z-index: 10;
 }
 
 .btn-buy:hover {
@@ -174,7 +174,6 @@
     box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
 }
 
-/* Estados do Botão */
 .btn-buy.owned {
     background: rgba(255, 255, 255, 0.1);
     color: white;
@@ -197,10 +196,10 @@
 }
 
 /* =========================================
-   4. PREVIEWS DE TEMAS (VISUALIZAÇÃO)
+   4. PREVIEWS DE TEMAS COM FUNDOS ESPECIAIS
    ========================================= */
 
-/* Temas Clássicos */
+/* Temas Clássicos (mantidos) */
 .preview-matrix .item-icon { color: #00ff00; text-shadow: 0 0 15px rgba(0, 255, 0, 0.5); }
 .preview-dracula .item-icon { color: #bd93f9; text-shadow: 0 0 15px rgba(189, 147, 249, 0.5); }
 .preview-gold .item-icon { color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
@@ -208,7 +207,7 @@
 .preview-neon .item-icon { color: #b026ff; text-shadow: 0 0 10px #00d4ff; }
 .preview-retro .item-icon { color: #ffb000; text-shadow: 0 0 10px #ff5500; }
 
-/* Novos Temas */
+/* Temas Existentes (mantidos) */
 .preview-midnight-purple .item-icon { color: #a855f7; text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
 .preview-acid-green .item-icon { color: #84cc16; text-shadow: 0 0 15px rgba(132, 204, 22, 0.5); }
 .preview-crystal-blue .item-icon { color: #06b6d4; text-shadow: 0 0 15px rgba(6, 182, 212, 0.5); }
@@ -217,7 +216,187 @@
 .preview-cyberpunk .item-icon { color: #fcee0a; text-shadow: 0 0 15px rgba(252, 238, 10, 0.6); }
 .preview-cyber-void .item-icon { color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
 
-/* TEMA GALAXY (ESPECIAL) */
+/* =========================================
+   5. NOVOS TEMAS COM FUNDOS ESPECIAIS
+   ========================================= */
+
+/* QUANTUM REALM - Domínio Quântico */
+.preview-quantum {
+    background: 
+        radial-gradient(ellipse at 30% 20%, rgba(0, 247, 255, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(255, 0, 247, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(0, 255, 136, 0.15) 0%, transparent 60%),
+        linear-gradient(135deg, #0a0a2a 0%, #1a0a2a 50%, #0a2a2a 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.preview-quantum::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(0, 247, 255, 0.4) 0%, transparent 2%),
+        radial-gradient(circle at 80% 70%, rgba(255, 0, 247, 0.4) 0%, transparent 2%),
+        radial-gradient(circle at 40% 80%, rgba(0, 255, 136, 0.3) 0%, transparent 2%);
+    background-size: 80px 80px;
+    opacity: 0.6;
+    z-index: 1;
+    pointer-events: none;
+    animation: quantumFloat 8s ease-in-out infinite;
+}
+
+.preview-quantum .item-icon { 
+    color: #00f7ff; 
+    text-shadow: 0 0 20px rgba(0, 247, 255, 0.8); 
+    animation: pulse 2s infinite alternate;
+}
+
+/* BINARY RAIN - Chuva de Código */
+.preview-binary-rain {
+    background: 
+        linear-gradient(160deg, #001100 0%, #003300 30%, #001a00 70%, #000500 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.preview-binary-rain::before {
+    content: '';
+    position: absolute;
+    top: -100%; left: 0; right: 0; bottom: -100%;
+    background: 
+        linear-gradient(90deg, transparent 0%, rgba(0, 255, 136, 0.03) 50%, transparent 100%),
+        repeating-linear-gradient(0deg, transparent 0px, transparent 19px, rgba(0, 255, 136, 0.02) 20px);
+    animation: binaryStream 3s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Caracteres binários flutuantes */
+.preview-binary-rain::after {
+    content: "0101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101";
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    color: rgba(0, 255, 136, 0.3);
+    font-size: 0.7rem;
+    font-family: 'Fira Code', monospace;
+    line-height: 1.2;
+    opacity: 0.6;
+    z-index: 1;
+    pointer-events: none;
+    animation: binaryRain 8s linear infinite;
+}
+
+.preview-binary-rain .item-icon { 
+    color: #00ff88; 
+    text-shadow: 0 0 15px rgba(0, 255, 136, 0.7); 
+    position: relative;
+}
+
+/* NEURAL NETWORK - Rede Neural */
+.preview-neural-net {
+    background: 
+        radial-gradient(ellipse at 20% 30%, rgba(255, 85, 0, 0.1) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 70%, rgba(85, 255, 0, 0.1) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 50%, rgba(255, 0, 247, 0.05) 0%, transparent 50%),
+        linear-gradient(135deg, #1a001a 0%, #001a1a 50%, #1a001a 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Conexões neurais animadas */
+.preview-neural-net::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(255, 85, 0, 0.3) 0%, transparent 3%),
+        radial-gradient(circle at 70% 70%, rgba(85, 255, 0, 0.3) 0%, transparent 3%),
+        radial-gradient(circle at 50% 20%, rgba(255, 0, 247, 0.2) 0%, transparent 3%),
+        radial-gradient(circle at 20% 80%, rgba(0, 247, 255, 0.2) 0%, transparent 3%);
+    background-size: 100px 100px;
+    opacity: 0.5;
+    z-index: 1;
+    pointer-events: none;
+    animation: neuralPulse 6s ease-in-out infinite;
+}
+
+/* Linhas de conexão */
+.preview-neural-net::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+        linear-gradient(90deg, transparent 49%, rgba(255, 85, 0, 0.1) 50%, transparent 51%),
+        linear-gradient(0deg, transparent 49%, rgba(85, 255, 0, 0.1) 50%, transparent 51%),
+        radial-gradient(circle at 30% 30%, transparent 49%, rgba(255, 0, 247, 0.05) 50%, transparent 51%),
+        radial-gradient(circle at 70% 70%, transparent 49%, rgba(0, 247, 255, 0.05) 50%, transparent 51%);
+    background-size: 50px 50px;
+    opacity: 0.3;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.preview-neural-net .item-icon { 
+    color: #ff5500; 
+    text-shadow: 0 0 15px rgba(255, 85, 0, 0.7); 
+}
+
+/* GLITCH MATRIX - Matrix com Distorção */
+.preview-glitch {
+    background: 
+        linear-gradient(45deg, #000000 0%, #110011 25%, #001100 50%, #000011 75%, #000000 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.preview-glitch::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+        linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(255, 0, 0, 0.1) 20%, 
+            transparent 40%,
+            rgba(0, 255, 255, 0.1) 60%,
+            transparent 80%,
+            rgba(255, 0, 255, 0.1) 100%);
+    background-size: 200% 100%;
+    animation: glitchScan 2s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+.preview-glitch::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -10%; right: -10%; bottom: 0;
+    background: 
+        repeating-linear-gradient(0deg, 
+            transparent 0px, 
+            transparent 2px, 
+            rgba(255, 0, 0, 0.05) 3px, 
+            transparent 4px,
+            transparent 6px,
+            rgba(0, 255, 255, 0.05) 7px,
+            transparent 8px);
+    animation: glitchShift 0.1s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.preview-glitch .item-icon { 
+    color: #ff00ff; 
+    text-shadow: 0 0 15px rgba(255, 0, 255, 0.7); 
+    animation: glitch 0.5s infinite;
+}
+
+/* TEMA GALAXY (ESPECIAL) - Mantido */
 .preview-galaxy {
     background: 
         radial-gradient(circle at 30% 30%, #c084fc 0%, #3730a3 30%, #1e1b4b 60%, #030712 100%),
@@ -226,7 +405,6 @@
     overflow: hidden;
 }
 
-/* Camada de Estrelas (com pointer-events: none para permitir clique) */
 .preview-galaxy::before {
     content: '';
     position: absolute;
@@ -237,7 +415,7 @@
     background-size: 50px 50px;
     opacity: 0.4;
     z-index: 1;
-    pointer-events: none; /* Permite clicar nos botões abaixo desta camada */
+    pointer-events: none;
 }
 
 .preview-galaxy .item-icon { 
@@ -247,7 +425,91 @@
 }
 
 /* =========================================
-   5. RESPONSIVIDADE
+   6. ANIMAÇÕES PARA OS NOVOS FUNDOS
+   ========================================= */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes quantumFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-5px) rotate(120deg); }
+    66% { transform: translateY(5px) rotate(240deg); }
+}
+
+@keyframes binaryRain {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+@keyframes binaryStream {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+@keyframes neuralPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes glitchScan {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes glitchShift {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(20px); }
+}
+
+/* =========================================
+   7. ÍCONES PARA NOVOS TÍTULOS (MANTIDO)
+   ========================================= */
+
+
+.shop-item .fa-user { color: #38bdf8; } /* Padrão */
+.shop-item .fa-bug { color: #84cc16; } /* Bug Hunter */
+.shop-item .fa-ruler-combined { color: #f59e0b; } /* Architect */
+.shop-item .fa-hat-wizard { color: #8b5cf6; } /* Code Wizard */
+.shop-item .fa-user-secret { color: #ef4444; } /* Elite Hacker */
+.shop-item .fa-layer-group { color: #0ea5e9; } /* Fullstack */
+.shop-item .fa-coffee { color: #78350f; } /* Coffee Lover */
+.shop-item .fa-user-ninja { color: #a855f7; } /* Ninja */
+.shop-item .fa-om { color: #10b981; } /* Tech Guru */
+.shop-item .fa-meteor { color: #7e22ce; } /* Void Walker */
+.shop-item .fa-robot { color: #00ffcc; } /* AI Overlord */
+.shop-item .fa-hourglass-half { color: #f97316; } /* Time Traveler */
+.shop-item .fa-eye { color: #06b6d4; } /* Digital Shaman */
+.shop-item .fa-khanda { color: #ef4444; } /* Neon Samurai */
+.shop-item .fa-ghost { color: #c084fc; } /* Quantum Ghost */
+.shop-item .fa-flask { color: #22c55e; } /* Data Alchemist */
+.shop-item .fa-dragon { color: #dc2626; } /* Cyber Dragon */
+
+.shop-item .fa-shield-alt { color: #00ff88; }
+.shop-item .fa-unlock { color: #ff5500; }
+.shop-item .fa-running { color: #00eeff; }
+.shop-item .fa-code { color: #ff00ff; }
+.shop-item .fa-dumbbell { color: #ffd700; }
+.shop-item .fa-helmet-safety { color: #84cc16; }
+.shop-item .fa-atom { color: #00f7ff; }
+.shop-item .fa-user-ninja { color: #a855f7; }
+.shop-item .fa-robot { color: #00ffcc; }
+.shop-item .fa-spray-can { color: #ef4444; }
+.shop-item .fa-memory { color: #b026ff; }
+.shop-item .fa-swords { color: #fcee0a; }
+
+/* =========================================
+   8. RESPONSIVIDADE (MANTIDO)
    ========================================= */
 @media (max-width: 768px) {
     .shop-hero {
@@ -259,5 +521,25 @@
     .wallet-display {
         width: 100%;
         justify-content: center;
+    }
+
+    .items-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .items-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .shop-item {
+        padding: 1rem;
+    }
+    
+    .item-icon {
+        font-size: 2.5rem;
+        height: 60px;
     }
 }

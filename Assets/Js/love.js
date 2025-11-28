@@ -4,15 +4,25 @@
 // 1. CONFIGURAÇÕES & DADOS
 // =================================================
 
-// Data de Início (Ano, Mês-1, Dia). Mês 5 = Junho.
-const START_DATE = new Date(2025, 5, 9); 
+// Data de Início (Ano, Mês-1, Dia).
+// Mês 4 = MAIO (Janeiro é 0). Isso corrige a contagem para 201 dias.
+const START_DATE = new Date(2025, 4, 10); 
 
 // Fotos para a Galeria (Carrossel)
-// Substitua as URLs abaixo pelas fotos reais de vocês!
 const PHOTOS = [
-    "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=400", // Foto 1
-    "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=400", // Foto 2
-    "https://images.unsplash.com/photo-1516589178581-a70df693c9ce?q=80&w=400"  // Foto 3
+    "../assets/img/1.jpeg",
+    "../assets/img/2.jpeg",
+    "../assets/img/3.jpeg",
+    "../assets/img/4.jpeg",
+    "../assets/img/5.jpeg", 
+    "../assets/img/6.jpeg",
+    "../assets/img/7.jpeg",
+    "../assets/img/8.jpeg", 
+    "../assets/img/9.jpeg",
+    "../assets/img/10.jpeg",
+    "../assets/img/11.jpeg",
+    "../assets/img/12.jpeg",
+    "../assets/img/13.jpeg"
 ];
 let currentPhotoIndex = 0;
 
@@ -121,13 +131,14 @@ function atualizarContador() {
     const agora = new Date();
     const diff = agora - START_DATE;
 
-    // Lógica para mostrar tempo decorrido (ou falta)
+    // Lógica para mostrar tempo decorrido
     const diffAbs = Math.abs(diff);
     const dias = Math.floor(diffAbs / (1000 * 60 * 60 * 24));
     const horas = Math.floor((diffAbs / (1000 * 60 * 60)) % 24);
     const minutos = Math.floor((diffAbs / 1000 / 60) % 60);
     const segundos = Math.floor((diffAbs / 1000) % 60);
 
+    // Se a data for no futuro, mostra contagem regressiva, senão mostra tempo juntos
     const prefixo = diff > 0 ? "" : "Contagem regressiva: ";
     
     const timerEl = document.getElementById('relationship-timer');
@@ -335,7 +346,7 @@ function criarCoracao() {
     
     // Posição aleatória na largura da tela
     heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.top = '80vh'; // Começa abaixo da tela
+    heart.style.top = '100vh'; // Começa abaixo da tela
     
     // Tamanho variável
     const size = Math.random() * 20 + 10;
