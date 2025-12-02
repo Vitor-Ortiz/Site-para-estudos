@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/components.css">
     <link rel="stylesheet" href="assets/css/home.css">
     <link rel="stylesheet" href="assets/css/modules.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -21,9 +22,8 @@
 
     <section class="hero">
         <div class="container">
-            <span class="badge-new animate__animated animate__fadeInDown">v2.0 ONLINE</span>
-            <h1 class="animate__animated animate__fadeInUp">Domine o <span class="text-highlight typing-cursor"></span>
-            </h1>
+            <span class="badge-new animate__animated animate__fadeInDown">SYSTEM v6.0 ONLINE</span>
+            <h1 class="animate__animated animate__fadeInUp">Domine o <span class="text-highlight typing-cursor"></span></h1>
             <p class="animate__animated animate__fadeInUp animate__delay-1s">
                 A plataforma gamificada onde cada linha de código vale XP.
                 Evolua de Neófito a Lenda Cyberpunk enquanto constrói projetos reais.
@@ -157,23 +157,22 @@
 
                 <div class="card lab-card">
                     <div class="card-header">
-                        <i class="fas fa-clock"></i> foco_neural.exe
-                        <span id="timer-status" class="project-status"
-                            style="margin-left: auto; border:1px solid #94a3b8; color:#94a3b8;">AGUARDANDO</span>
+                        <i class="fas fa-clock"></i> Focus Timer
+                        <span id="pomoStatus" class="project-status status-active" style="margin-left: auto;">READY</span>
                     </div>
                     <div class="card-body">
                         <h3>Temporizador de Foco</h3>
-                        <p>25 minutos de foco total. Complete para ganhar XP.</p>
+                        <p>Defina o tempo (Min: 5 min). Ganhe XP ao concluir.</p>
 
                         <div class="pomodoro-wrapper">
-                            <div id="timer-display" class="timer-display">25:00</div>
+                            <div class="timer-input-container">
+                                <input type="number" id="pomo-minutes" class="timer-input" value="25" min="5" max="120">
+                                <span class="timer-separator">:</span>
+                                <input type="text" id="pomo-seconds" class="timer-input" value="00" readonly>
+                            </div>
                             <div class="timer-controls">
-                                <button class="btn-timer start" onclick="startTimer()"><i
-                                        class="fas fa-play"></i></button>
-                                <button class="btn-timer stop" onclick="pauseTimer()"><i
-                                        class="fas fa-pause"></i></button>
-                                <button class="btn-timer reset" onclick="resetTimer()"><i
-                                        class="fas fa-undo"></i></button>
+                                <button class="btn-timer start" onclick="iniciarPomodoro()" title="Iniciar"><i class="fas fa-play"></i></button>
+                                <button class="btn-timer stop" onclick="resetarPomodoro()" title="Resetar"><i class="fas fa-redo"></i></button>
                             </div>
                         </div>
                     </div>
@@ -188,19 +187,58 @@
                         <p>Organize suas tarefas por prioridade.</p>
 
                         <div class="task-input-group">
-                            <input type="text" id="novaTarefa" placeholder="Nova missão..." class="cyber-input"
-                                style="margin:0;">
+                            <input type="text" id="novaTarefa" placeholder="Nova missão..." class="cyber-input" style="margin:0;">
                             <select id="taskPriority" class="priority-select">
                                 <option value="low">Baixa</option>
                                 <option value="medium" selected>Média</option>
                                 <option value="high">Alta</option>
                             </select>
-                            <button class="interactive-btn" onclick="adicionarTarefa()" style="margin:0;"><i
-                                    class="fas fa-plus"></i></button>
+                            <button class="interactive-btn" onclick="adicionarTarefa()" style="margin:0;"><i class="fas fa-plus"></i></button>
                         </div>
                         <ul id="listaTarefas" class="task-list"></ul>
                     </div>
                 </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-calculator"></i> Calculadora
+                        <span id="calcStatus" class="project-status status-bug" style="margin-left: auto;">BUG DETECTADO</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Debug Challenge</h3>
+                        <p>A soma (+) está corrompida. Use o Debug para corrigir.</p>
+                        
+                        <div class="calc-wrapper">
+                            <input type="text" id="display" class="calc-display" readonly value="0">
+                            <div class="calc-keys">
+                                <button class="interactive-btn" onclick="adicionarNumero('7')">7</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('8')">8</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('9')">9</button>
+                                <button class="interactive-btn op" onclick="adicionarOperador('/')">/</button>
+                                
+                                <button class="interactive-btn" onclick="adicionarNumero('4')">4</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('5')">5</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('6')">6</button>
+                                <button class="interactive-btn op" onclick="adicionarOperador('*')">*</button>
+                                
+                                <button class="interactive-btn" onclick="adicionarNumero('1')">1</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('2')">2</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('3')">3</button>
+                                <button class="interactive-btn op" onclick="adicionarOperador('-')">-</button>
+                                
+                                <button class="interactive-btn clear" onclick="limparDisplay()">C</button>
+                                <button class="interactive-btn" onclick="adicionarNumero('0')">0</button>
+                                <button class="interactive-btn equal" onclick="calcular()">=</button>
+                                <button class="interactive-btn op" onclick="adicionarOperador('+')">+</button>
+                            </div>
+                        </div>
+
+                        <button id="btnDebugCalc" class="btn btn-outline" style="width:100%; margin-top:15px; color:#38bdf8; border-color:#38bdf8;" onclick="debugCalculadora()">
+                            <i class="fas fa-bug"></i> RODAR DEBUG (+50 XP)
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -228,8 +266,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <script src="assets/js/header.js"></script>
     <script src="game-data.js"></script>
+    <script src="assets/js/header.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 
