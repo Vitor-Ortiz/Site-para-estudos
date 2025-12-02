@@ -1,115 +1,99 @@
-/* assets/js/main.js - Lógica da Home V5
-   Inclui: Animação Hero, Pomodoro (Foco Neural) e Missões (Tasks)
-*/
+/* assets/js/main.js - Lógica da Home Limpa (V7) */
 
-// --- 1. Helpers e Configuração ---
-
-// Wrapper para usar sons globais (definidos no game-data.js)
+// =================================================
+// 1. HELPERS E ANIMAÇÕES GERAIS
+// =================================================
 function playSound(type) {
-    if (window.playSoundGlobal) {
-        window.playSoundGlobal(type);
-    }
+    if (window.playSoundGlobal) window.playSoundGlobal(type);
 }
 
-// Wrapper para XP (com proteção)
 function ganharXP(qtd) {
     if (typeof adicionarXP === "function") {
-        adicionarXP(qtd); 
-    } else {
-        console.warn("Sistema de XP (game-data.js) não carregado.");
+        window.adicionarXP(qtd);
     }
 }
 
-// --- 2. Animação de Digitação (Hero) ---
+// Animação de Digitação
 document.addEventListener('DOMContentLoaded', () => {
-    const heroTitle = document.querySelector('.hero h1');
-    
-    // Só inicia se o elemento existir
-    if (heroTitle && !heroTitle.classList.contains('typed')) {
-        const text = "Domine o Código.";
-        typeWriter(heroTitle, text);
+    const heroTitle = document.querySelector('.typing-cursor');
+    if (heroTitle) {
+        const text = "Código.";
+        let index = 0;
+        function type() {
+            if (index < text.length) {
+                heroTitle.textContent += text.charAt(index);
+                index++;
+                setTimeout(type, 150);
+            }
+        }
+        heroTitle.textContent = "";
+        type();
     }
+
+    const interactives = document.querySelectorAll('.btn, .interactive-btn, .menu-card');
+    interactives.forEach(el => {
+        el.addEventListener('mouseenter', () => playSound('hover'));
+    });
 });
 
-function typeWriter(element, text, speed = 100) {
-    element.innerHTML = ""; 
-    element.classList.add('typing-cursor', 'typed');
-    element.style.visibility = 'visible';
-    
-    let i = 0;
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    type();
+// CSS Injetado para animações
+if (!document.getElementById('dynamic-styles')) {
+    const style = document.createElement('style');
+    style.id = 'dynamic-styles';
+    style.textContent = `@keyframes floatUp { 0% { transform: translate(-50%, -50%); opacity: 1; } 100% { transform: translate(-50%, -150%); opacity: 0; } }`;
+    document.head.appendChild(style);
 }
 
-// Injeta CSS da animação de XP flutuante (caso não exista)
-const styleSheet = document.createElement("style");
-styleSheet.innerText = `
-@keyframes floatUp {
-    0% { transform: translate(-50%, -50%); opacity: 1; }
-    100% { transform: translate(-50%, -150%); opacity: 0; }
-}`;
-document.head.appendChild(styleSheet);
-
-
-// Variáveis do Pomodoro
+// =================================================
+// 2. POMODORO (FOCUS TIMER)
+// =================================================
 let pomoInterval;
 let isPomoRunning = false;
 
-function iniciarPomodoro() {
+window.iniciarPomodoro = function() {
     if (isPomoRunning) return;
 
     const minInput = document.getElementById('pomo-minutes');
     const secInput = document.getElementById('pomo-seconds');
     const statusEl = document.getElementById('pomoStatus');
     
+    if (!minInput || !secInput) return;
+
     let minutos = parseInt(minInput.value);
 
-    // 1. Validação de Segurança (Mínimo 5 minutos)
     if (isNaN(minutos) || minutos < 5) {
         alert("⚠️ O tempo mínimo de foco é 5 minutos!");
-        minInput.value = "05"; // Corrige visualmente
+        minInput.value = 25;
         return;
     }
 
-    // 2. Bloqueia edição
-    minInput.disabled = true;
     isPomoRunning = true;
+    minInput.disabled = true;
     
-    // Atualiza Status
     if(statusEl) {
         statusEl.innerText = "FOCADO";
         statusEl.style.color = "#facc15";
         statusEl.style.borderColor = "#facc15";
+        statusEl.className = "project-status";
     }
     
     playSound('click');
 
-    // 3. Lógica do Timer
-    let tempoTotal = minutos * 60; // Converte para segundos
+    let tempoTotal = minutos * 60; 
 
     pomoInterval = setInterval(() => {
         tempoTotal--;
-
         let m = Math.floor(tempoTotal / 60);
         let s = tempoTotal % 60;
-
-        // Atualiza visual (adiciona zero à esquerda se menor que 10)
         minInput.value = m < 10 ? "0" + m : m;
         secInput.value = s < 10 ? "0" + s : s;
 
-        // FIM DO TEMPO
         if (tempoTotal <= 0) {
             clearInterval(pomoInterval);
             finalizarPomodoro();
         }
     }, 1000);
-}
+};
 
 function finalizarPomodoro() {
     isPomoRunning = false;
@@ -117,29 +101,20 @@ function finalizarPomodoro() {
     const secInput = document.getElementById('pomo-seconds');
     const statusEl = document.getElementById('pomoStatus');
 
-    // Toca som de vitória
     if(window.playSoundGlobal) window.playSoundGlobal('success');
     
-    // Dá XP e Moedas (Chama função do game-data.js)
     if (window.registrarPomodoro) {
-        window.registrarPomodoro(); // Isso já dá o XP e mostra o Toast
+        window.registrarPomodoro(); 
     } else {
-        alert("Pomodoro Concluído! +100 XP"); // Fallback
+        alert("Pomodoro Concluído! (XP não salvo)");
     }
 
-    // Reseta visual
-    minInput.disabled = false;
-    minInput.value = "25";
-    secInput.value = "00";
-    
-    if(statusEl) {
-        statusEl.innerText = "CONCLUÍDO";
-        statusEl.style.color = "#4ade80";
-        statusEl.style.borderColor = "#4ade80";
-    }
+    if(minInput) { minInput.disabled = false; minInput.value = "25"; }
+    if(secInput) secInput.value = "00";
+    if(statusEl) { statusEl.innerText = "CONCLUÍDO"; statusEl.style.color = "#4ade80"; statusEl.style.borderColor = "#4ade80"; }
 }
 
-function resetarPomodoro() {
+window.resetarPomodoro = function() {
     clearInterval(pomoInterval);
     isPomoRunning = false;
     
@@ -147,91 +122,85 @@ function resetarPomodoro() {
     const secInput = document.getElementById('pomo-seconds');
     const statusEl = document.getElementById('pomoStatus');
 
-    minInput.disabled = false;
-    minInput.value = "25"; // Volta ao padrão
-    secInput.value = "00";
+    if(minInput) { minInput.disabled = false; minInput.value = "25"; }
+    if(secInput) secInput.value = "00";
+    if(statusEl) { statusEl.innerText = "READY"; statusEl.style.color = ""; statusEl.style.borderColor = ""; statusEl.className = "project-status status-active"; }
     
-    if(statusEl) {
-        statusEl.innerText = "READY";
-        statusEl.style.color = "var(--success)";
-        statusEl.style.borderColor = "var(--success)";
-    }
-    
-    if(window.playSoundGlobal) window.playSoundGlobal('click');
-}
+    playSound('click');
+};
 
-// --- 4. WIDGET: MISSÕES (TODO LIST) ---
-function adicionarTarefa() {
+// --- NOVA FUNÇÃO: ALTERNAR TEMPO ---
+window.alternarTempo = function() {
+    if (isPomoRunning) return; // Não muda se estiver a rodar
+    
+    const minInput = document.getElementById('pomo-minutes');
+    let current = parseInt(minInput.value);
+    
+    // Ciclo de tempos: 25 -> 45 -> 60 -> 15 -> 25
+    if (current === 25) minInput.value = 45;
+    else if (current === 45) minInput.value = 60;
+    else if (current === 60) minInput.value = 15;
+    else minInput.value = 25;
+    
+    playSound('click');
+};
+
+// =================================================
+// 3. LISTA DE TAREFAS (TODO LIST)
+// =================================================
+window.adicionarTarefa = function() {
     const inputTarefa = document.getElementById('novaTarefa');
     const prioritySelect = document.getElementById('taskPriority');
+    const lista = document.getElementById('listaTarefas');
     
-    if(!inputTarefa) return;
+    if(!inputTarefa || !lista) return;
     
     const texto = inputTarefa.value.trim();
     const prioridade = prioritySelect ? prioritySelect.value : 'medium';
 
     if (texto !== '') {
-        const lista = document.getElementById('listaTarefas');
         const li = document.createElement('li');
-        
-        // Adiciona a classe da prioridade para cor da borda
-        li.className = `task-item ${prioridade}`;
+        let borderClass = '';
+        if(prioridade === 'high') li.style.borderLeft = '3px solid #facc15';
+        else if(prioridade === 'medium') li.style.borderLeft = '3px solid #38bdf8';
+        else li.style.borderLeft = '3px solid #94a3b8';
         
         li.innerHTML = `
             <span>${texto}</span>
             <div class="task-actions">
-                <button class="btn-icon btn-check" onclick="concluirTarefa(this)" title="Concluir">
-                    <i class="fas fa-check"></i>
-                </button>
-                <button class="btn-icon btn-trash" onclick="removerTarefa(this)" title="Remover">
-                    <i class="fas fa-trash"></i>
-                </button>
+                <button class="btn-icon btn-check" onclick="concluirTarefa(this)" title="Concluir"><i class="fas fa-check"></i></button>
+                <button class="btn-icon btn-trash" onclick="removerTarefa(this)" title="Remover"><i class="fas fa-trash"></i></button>
             </div>
         `;
         
         lista.appendChild(li);
         inputTarefa.value = '';
-        
-        // Ganha XP por criar (pequeno incentivo)
         ganharXP(2);
+        playSound('click');
     }
-}
+};
 
-// Função Global para Concluir (acessível via onclick no HTML)
 window.concluirTarefa = function(btn) {
     const li = btn.closest('li');
     const span = li.querySelector('span');
-    
-    // Se já estiver concluída, ignora
     if (span.style.textDecoration === 'line-through') return;
 
-    // Efeito visual de conclusão
     span.style.textDecoration = 'line-through';
-    span.style.color = 'var(--text-muted)';
-    span.style.opacity = '0.6';
-    
-    // Esconde o botão de check para não clicar de novo
+    span.style.color = '#64748b';
+    li.style.background = 'rgba(74, 222, 128, 0.1)';
+    li.style.borderLeft = '3px solid #4ade80';
     btn.style.display = 'none';
-    li.style.borderColor = '#4ade80'; // Fica verde
-    li.style.background = 'rgba(74, 222, 128, 0.05)';
     
     playSound('success');
-    
-    // Regista conquista
     if(window.registrarTarefa) window.registrarTarefa();
     else ganharXP(15);
-}
+};
 
-// Função Global para Remover
 window.removerTarefa = function(btn) {
     const li = btn.closest('li');
     playSound('click');
-    
-    // Animação de saída
+    li.style.transition = "opacity 0.3s, transform 0.3s";
     li.style.opacity = '0';
     li.style.transform = 'translateX(20px)';
-    
-    setTimeout(() => {
-        if(li.parentNode) li.parentNode.removeChild(li);
-    }, 300);
-}
+    setTimeout(() => { li.remove(); }, 300);
+};

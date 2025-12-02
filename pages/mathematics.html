@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStudy | Laboratório Lógico</title>
+    
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/math.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header></header>
+
+    <div class="container">
+        <section class="math-hero">
+            <div class="hero-icon"><i class="fas fa-square-root-alt"></i></div>
+            <h1>Laboratório Lógico</h1>
+            <p>Ferramentas essenciais para algoritmos e computação.</p>
+        </section>
+
+        <div class="math-grid">
+            
+            <div class="math-card converter-card">
+                <div class="card-header-math">
+                    <i class="fas fa-exchange-alt"></i> Bases Numéricas
+                </div>
+                <div class="card-body-math">
+                    <div class="input-group-math">
+                        <label>Decimal (10)</label>
+                        <input type="number" id="input-dec" placeholder="Ex: 255" oninput="converterBases('dec')">
+                    </div>
+                    <div class="input-group-math">
+                        <label>Binário (2)</label>
+                        <input type="text" id="input-bin" placeholder="Ex: 11111111" oninput="converterBases('bin')">
+                    </div>
+                    <div class="input-group-math">
+                        <label>Hexadecimal (16)</label>
+                        <input type="text" id="input-hex" placeholder="Ex: FF" oninput="converterBases('hex')">
+                    </div>
+                </div>
+            </div>
+
+            <div class="math-card rule3-card">
+                <div class="card-header-math">
+                    <i class="fas fa-percent"></i> Regra de Três
+                </div>
+                <div class="card-body-math">
+                    <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:15px;">Se A está para B, então C está para X.</p>
+                    <div class="rule3-grid">
+                        <input type="number" id="r3-a" placeholder="A" oninput="calcRegra3()">
+                        <span class="arrow">→</span>
+                        <input type="number" id="r3-b" placeholder="B" oninput="calcRegra3()">
+                        
+                        <input type="number" id="r3-c" placeholder="C" oninput="calcRegra3()">
+                        <span class="arrow">→</span>
+                        <div id="r3-result" class="result-box">X</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="math-card pxrem-card">
+                <div class="card-header-math">
+                    <i class="fas fa-ruler-combined"></i> PX para REM
+                </div>
+                <div class="card-body-math">
+                    <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:15px;">Baseado em 16px (Root Padrão).</p>
+                    <div class="rule3-grid">
+                        <input type="number" id="input-px" placeholder="16px" oninput="calcPxRem('px')">
+                        <span class="arrow">⇄</span>
+                        <input type="number" id="input-rem" placeholder="1rem" oninput="calcPxRem('rem')">
+                    </div>
+                </div>
+            </div>
+
+            <div class="math-card logic-card full-width">
+                <div class="card-header-math">
+                    <i class="fas fa-brain"></i> Treino Booleano (+XP)
+                </div>
+                <div class="card-body-math centered">
+                    <p class="logic-desc">Resolva a expressão lógica:</p>
+                    <div class="logic-expression" id="logic-expr">true && false</div>
+                    <div class="logic-buttons">
+                        <button class="btn-logic true" onclick="checkLogic(true)">TRUE</button>
+                        <button class="btn-logic false" onclick="checkLogic(false)">FALSE</button>
+                    </div>
+                    <div id="logic-feedback"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="../game-data.js"></script>
+    <script src="../assets/js/header.js"></script>
+    <script src="../assets/js/math.js"></script>
+</body>
+</html>
