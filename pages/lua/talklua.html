@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStudy | Neural Link (Lua)</title>
+    
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/header.css">
+    <link rel="stylesheet" href="../../assets/css/lua.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="security-overlay">
+        <i class="fas fa-fingerprint fa-spin" style="font-size: 3rem; margin-bottom: 20px;"></i>
+        <h2>VERIFICANDO CREDENCIAIS...</h2>
+    </div>
+
+    <a href="../admin.html" class="back-btn"><i class="fas fa-arrow-left"></i> Voltar ao Admin</a>
+
+    <div class="chat-wrapper">
+        <div class="lua-header">
+            <div class="avatar-lua">🌕</div>
+            <div>
+                <h2 style="margin:0; color:white; font-family:'Fira Code';">LUA <span style="font-size:0.8rem; color:#9333ea;">v3.3 (Neural Link)</span></h2>
+                <div style="font-size:0.8rem; color:#94a3b8; display:flex; align-items:center; margin-top:5px;">
+                    <span class="status-dot"></span> Conectado ao Núcleo
+                </div>
+            </div>
+        </div>
+
+        <div class="messages-area" id="chat-box">
+            <div class="msg lua">
+                Olá, Admin! 👋<br>
+                Sou a Lua. O que vamos aprender hoje?
+            </div>
+        </div>
+
+        <div class="input-dock">
+            <div class="controls">
+                <label class="teach-toggle">
+                    <input type="checkbox" id="teach-check">
+                    <div class="toggle-switch"></div>
+                    <span>MODO ENSINO (GRAVAR NA MEMÓRIA)</span>
+                </label>
+                <button class="btn-sm" onclick="document.getElementById('chat-box').innerHTML=''; " style="background:transparent; border:none; color:#64748b; cursor:pointer;">
+                    <i class="fas fa-trash"></i> Limpar
+                </button>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="user-input" placeholder="Digite sua mensagem aqui..." autocomplete="off">
+                <button id="btn-send"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="../../game-data.js"></script>
+    
+    <script src="../../assets/js/lua.js"></script> </body>
+</html>

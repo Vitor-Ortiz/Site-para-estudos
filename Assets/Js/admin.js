@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p style="font-size:0.8rem; margin-top:20px; color:#64748b;">Redirecionando para a base...</p>
                 </div>
             `;
-            setTimeout(() => window.location.href = "../index.html", 3000);
+            setTimeout(() => window.location.href = "../../index.html", 3000);
         } else {
             // Se for admin, carrega a tabela
             carregarUsuarios();
@@ -27,10 +27,10 @@ async function carregarUsuarios() {
     try {
         // Busca todos os jogadores ordenados por XP
         const snapshot = await window.db.collection('jogadores').orderBy('xp', 'desc').get();
-        
+
         let html = '';
         let totalXP = 0;
-        
+
         if (snapshot.empty) {
             tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#94a3b8;">Nenhum utilizador encontrado.</td></tr>';
             return;
@@ -39,14 +39,14 @@ async function carregarUsuarios() {
         snapshot.forEach(doc => {
             const user = doc.data();
             totalXP += (user.xp || 0);
-            
+
             // Badges
-            const roleBadge = user.isAdmin 
-                ? '<span class="badge-admin"><i class="fas fa-shield-alt"></i> ADMIN</span>' 
+            const roleBadge = user.isAdmin
+                ? '<span class="badge-admin"><i class="fas fa-shield-alt"></i> ADMIN</span>'
                 : '<span class="badge-user">USER</span>';
-                
-            const titleDisplay = user.customTitle 
-                ? `<span class="custom-title-tag">${user.customTitle}</span>` 
+
+            const titleDisplay = user.customTitle
+                ? `<span class="custom-title-tag">${user.customTitle}</span>`
                 : `<span style="color:#64748b; font-size:0.8rem;">${window.getRole ? window.getRole(user.level || 1) : '-'}</span>`;
 
             // Verifica se é o próprio admin (para bloquear reset acidental fácil)
@@ -60,7 +60,7 @@ async function carregarUsuarios() {
                     <td>
                         <div style="display:flex; flex-direction:column;">
                             <strong style="font-size:0.95rem; color:white;">${user.nome || 'Desconhecido'}</strong>
-                            <span style="font-size:0.65rem; color:#64748b; font-family:monospace;">ID: ${doc.id.substring(0,8)}...</span>
+                            <span style="font-size:0.65rem; color:#64748b; font-family:monospace;">ID: ${doc.id.substring(0, 8)}...</span>
                         </div>
                     </td>
                     <td>
@@ -94,12 +94,12 @@ async function carregarUsuarios() {
         });
 
         tbody.innerHTML = html;
-        
+
         // Atualiza métricas da sidebar
         const totalEl = document.getElementById('stat-total');
         const xpEl = document.getElementById('stat-xp');
-        if(totalEl) totalEl.innerText = snapshot.size;
-        if(xpEl) xpEl.innerText = totalXP.toLocaleString();
+        if (totalEl) totalEl.innerText = snapshot.size;
+        if (xpEl) xpEl.innerText = totalXP.toLocaleString();
 
     } catch (e) {
         console.error(e);
@@ -112,30 +112,30 @@ async function carregarUsuarios() {
 // 1. Dar XP
 async function darXP(uid, nome) {
     const qtd = prompt(`Quanto XP deseja ADICIONAR para ${nome}?\n(Use valor negativo para remover)`, "1000");
-    if(!qtd) return;
-    
+    if (!qtd) return;
+
     try {
         const docRef = window.db.collection('jogadores').doc(uid);
         const doc = await docRef.get();
-        
+
         if (doc.exists) {
             const currentXP = doc.data().xp || 0;
             const newXP = Math.max(0, currentXP + parseInt(qtd));
             // Recalcula nível simples
             const newLevel = Math.floor(newXP / 100) + 1;
-            
+
             await docRef.update({ xp: newXP, level: newLevel });
             alert(`✅ Sucesso! ${nome} agora tem ${newXP} XP (Nível ${newLevel}).`);
             carregarUsuarios();
         }
-    } catch(e) { alert("Erro: " + e.message); }
+    } catch (e) { alert("Erro: " + e.message); }
 }
 
 // 2. Definir Nível
 async function setarNivel(uid, nome) {
     const nivel = prompt(`Definir nível EXATO para ${nome}:`, "50");
-    if(!nivel) return;
-    
+    if (!nivel) return;
+
     if (window.definirNivel) {
         await window.definirNivel(uid, nivel);
         carregarUsuarios(); // Recarrega a tabela após a alteração
@@ -147,13 +147,13 @@ async function setarNivel(uid, nome) {
 // 3. Mudar Título
 async function mudarTitulo(uid, nome) {
     const titulo = prompt(`Novo Título para ${nome} (Deixe vazio para remover):`, "Mestre Jedi");
-    if(titulo === null) return;
-    
+    if (titulo === null) return;
+
     try {
         await window.db.collection('jogadores').doc(uid).update({ customTitle: titulo });
         alert("✅ Título atualizado com sucesso!");
         carregarUsuarios();
-    } catch(e) { alert("Erro: " + e.message); }
+    } catch (e) { alert("Erro: " + e.message); }
 }
 
 // 4. Resetar Usuário
@@ -180,11 +180,11 @@ async function resetarUsuario(uid, nome) {
 // Limpeza em Massa
 async function apagarVisitantes() {
     if (!confirm("☢️ LIMPEZA DE SISTEMA\n\nDeseja APAGAR PERMANENTEMENTE do banco de dados todos os utilizadores com nome 'Visitante' ou 'Convidado'?\n\nEsta ação é irreversível.\n\nContinuar?")) return;
-    
+
     const btn = document.querySelector('button[onclick="apagarVisitantes()"]');
     const originalText = btn ? btn.innerHTML : '';
-    if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A limpar...';
-    
+    if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A limpar...';
+
     try {
         const batch = window.db.batch();
         let count = 0;
@@ -204,16 +204,16 @@ async function apagarVisitantes() {
             alert(`✅ LIMPEZA CONCLUÍDA: ${count} contas temporárias foram eliminadas.`);
             carregarUsuarios();
         }
-    } catch (e) { 
-        alert("Erro na limpeza: " + e.message); 
+    } catch (e) {
+        alert("Erro na limpeza: " + e.message);
     } finally {
-        if(btn) btn.innerHTML = originalText;
+        if (btn) btn.innerHTML = originalText;
     }
 }
 
 // Atalho para dar XP a si mesmo
 function giveSelfXP() {
-    if(window.adicionarXP) {
+    if (window.adicionarXP) {
         window.adicionarXP(1000);
         setTimeout(carregarUsuarios, 1000);
     }
@@ -221,7 +221,7 @@ function giveSelfXP() {
 
 // Atalho para resetar a si mesmo
 function resetSelf() {
-    if(window.currentUser && confirm("Tem a certeza que quer resetar o seu PRÓPRIO perfil?")) {
+    if (window.currentUser && confirm("Tem a certeza que quer resetar o seu PRÓPRIO perfil?")) {
         resetarUsuario(window.currentUser.uid, "VOCÊ (ADMIN)");
     }
 }
