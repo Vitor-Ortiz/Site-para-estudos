@@ -11,6 +11,10 @@ from supabase import create_client
 load_dotenv()
 app = FastAPI()
 
+@app.get("/")
+def health_check():
+    return {"status": "online", "msg": "DevStudy API operante"}
+
 # Configuração de Segurança (CORS)
 app.add_middleware(
     CORSMiddleware,
