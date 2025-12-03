@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStudy AI - Teste</title>
+    <style>
+        body { font-family: sans-serif; background: #1e1e1e; color: white; padding: 20px; }
+        .container { max_width: 800px; margin: 0 auto; }
+        textarea { width: 100%; height: 100px; background: #2d2d2d; color: #0f0; border: 1px solid #444; padding: 10px; margin-bottom: 10px; }
+        input { width: 100%; padding: 10px; margin-bottom: 10px; background: #2d2d2d; color: white; border: 1px solid #444; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        
+        #resposta-ia { 
+            margin-top: 20px; 
+            padding: 15px; 
+            border-left: 5px solid #007bff; 
+            background: #252526; 
+            display: none; /* Escondido até a IA responder */
+        }
+        .loading { color: yellow; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🤖 DevStudy AI Teste</h1>
+    
+    <label>Seu Código:</label>
+    <textarea id="codigoInput" placeholder="Ex: console.log('ola'"></textarea>
+
+    <label>Erro (Simulando o Console):</label>
+    <input type="text" id="erroInput" placeholder="Ex: SyntaxError: missing ) after argument list">
+
+    <button onclick="pedirAjuda()">Pedir Ajuda à IA</button>
+
+    <p id="loading" class="loading">🧠 A IA está pensando...</p>
+
+    <div id="resposta-ia">
+        <h3>💡 Dica do Mentor:</h3>
+        <p id="conteudo-dica"></p>
+    </div>
+</div>
+
+<script>
+    async function pedirAjuda() {
+        const codigo = document.getElementById('codigoInput').value;
+        const erro = document.getElementById('erroInput').value;
+        const loading = document.getElementById('loading');
+        const boxResposta = document.getElementById('resposta-ia');
+        const textoDica = document.getElementById('conteudo-dica');
+
+        // Mostra carregando
+        loading.style.display = 'block';
+        boxResposta.style.display = 'none';
+
+        try {
+            // AQUI ACONTECE A MÁGICA: O JS FALA COM O PYTHON
+            const resposta = await fetch('http://127.0.0.1:8000/analisar_erro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    codigo_aluno: codigo,
+                    erro_console: erro,
+                    linguagem: "javascript" // Hardcoded para teste
+                })
+            });
+
+            const dados = await resposta.json();
+
+            // Mostra a resposta
+            textoDica.innerText = dados.dica;
+            boxResposta.style.display = 'block';
+
+        } catch (error) {
+            alert("Erro ao conectar com a IA! O servidor Python está ligado?");
+            console.error(error);
+        } finally {
+            loading.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>

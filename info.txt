@@ -1,63 +1,59 @@
-git config --global user.name Vitor-Ortiz
-git config --global user.email vitorortizoficial@gmail.com
-
-
 ================================================================================
-🚀 FLUXO DE TRABALHO APEX PULSE (GIT CHEAT SHEET)
+🧠 FLUXO DE TRABALHO DEVSTUDY + IA (FULLSTACK CHEAT SHEET)
 ================================================================================
 
-# --- 1. ROTINA DE DEPLOY (DEV -> MAIN) ---
-# Use isso quando finalizar uma funcionalidade e quiser colocar no ar (Netlify)
+# --- 0. LIGANDO O MOTOR (TODO DIA QUANDO ABRIR O PC) ---
+# O site não funciona 100% sem o Python rodando.
+# Abra um terminal separado só para o servidor e deixe ele aberto.
 
-# A. Salvar o trabalho na DEV
-git checkout DEV
+cd ia_brain
+.\venv\Scripts\activate           # (No Mac/Linux: source venv/bin/activate)
+uvicorn app:app --reload
+
+# ✅ Se aparecer "Uvicorn running on http://127.0.0.1:8000", está valendo.
+# ❌ Se der erro, verifique se instalou tudo: pip install -r requirements.txt
+
+--------------------------------------------------------------------------------
+
+# --- 1. ROTINA DE SALVAMENTO (GIT) ---
+# A rotina é a mesma, mas cuidado com arquivos de configuração (.env)
+
+# A. Salvar o trabalho
+git status  # (Confira se não está enviando arquivos 'venv' ou '.env' sem querer!)
 git add .
-git commit -m "Escreva aqui o que você fez"
+git commit -m "Ex: Adicionei IA no exercício de JavaScript"
 git push origin DEV
 
-# B. Jogar na MAIN (Produção)
-git checkout main
-git pull origin main   # (Garante que a main local está atualizada)
-git merge DEV          # (Traz as novidades da DEV para a MAIN)
-git push origin main   # (Envia pro GitHub e dispara o Netlify)
-
-# C. Voltar para trabalhar
-git checkout DEV       # (Nunca fique na main!)
+# B. Se você instalou biblioteca nova no Python (Ex: pandas, numpy)
+# Execute isso na pasta ia_brain para salvar a lista de ferramentas:
+cd ia_brain
+pip freeze > requirements.txt
+cd ..
 
 --------------------------------------------------------------------------------
 
-# --- 2. ROTINA INVERSA (MAIN -> DEV) ---
-# Use isso se você mexeu na main sem querer ou se outra pessoa mexeu no projeto
-# Isso atualiza sua branch de desenvolvimento com o que está em produção.
+# --- 2. COMANDOS DE EMERGÊNCIA ---
 
-git checkout DEV
-git merge main
-git push origin DEV
+# IA Travou ou deu erro estranho?
+# Clique no terminal do Python, aperte CTRL + C (para matar) e rode o uvicorn de novo.
 
---------------------------------------------------------------------------------
-
-# --- 3. COMANDOS DE EMERGÊNCIA (ÚTEIS) ---
-
-# Saber onde estou e o que falta salvar
-git status
-
-# Desfazer o último commit LOCAL (se escreveu a mensagem errada, mas não deu push)
-# O código continua lá, só o commit que desfaz.
-git reset --soft HEAD~1
-
-# Descartar alterações num arquivo específico (Voltar como era antes)
-# CUIDADO: Isso apaga o que você fez no arquivo desde o último save.
-git checkout -- nome_do_arquivo.html
-
-# Forçar o Git a esquecer um arquivo (ex: passos.txt) que já foi subido, 
-# mas agora você colocou no .gitignore
-git rm --cached passos.txt
+# Matar o servidor se a porta 8000 estiver presa
+# (Windows) taskkill /F /IM python.exe
 
 --------------------------------------------------------------------------------
 
-# --- 4. CHECKLIST ANTES DO DEPLOY ---
-[ ] Ocultou as chaves de API extras? (Se houver)
-[ ] Testou o login com Google?
-[ ] Testou o envio de mensagem no WhatsApp?
-[ ] Verificou se o menu abre no celular (F12)?
-[ ] O console (F12) está sem erros vermelhos?
+# --- 3. SEGURANÇA CRÍTICA (NÃO IGNORE) ---
+# Certifique-se que o arquivo .gitignore na raiz tem essas linhas:
+# .env
+# venv/
+# __pycache__/
+#
+# SE VOCÊ SUBIR O .ENV PRO GITHUB, ROUBAM SUA CHAVE DA GROQ/SUPABASE!
+
+--------------------------------------------------------------------------------
+
+# --- 4. CHECKLIST ANTES DO TESTE ---
+[ ] O servidor Python (Uvicorn) está rodando na porta 8000?
+[ ] O arquivo .env está com as chaves certas (Groq/Supabase)?
+[ ] O JavaScript do site está apontando para localhost:8000?
+[ ] O console do navegador (F12) mostra erros de "CORS" ou "Fetch"?

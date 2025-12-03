@@ -1,4 +1,4 @@
-/* assets/js/dashboard.js - Lógica da Matrix, Editor e Conquistas (V32) */
+/* assets/js/dashboard.js - Lógica da Matrix, Editor e Conquistas (V33 - Com IA) */
 
 // Variáveis para os editores (CodeJar)
 let jarHTML, jarHTMLForm, jarCSS, jarGrid, jarJS, jarLoop;
@@ -111,8 +111,9 @@ function validarHTML() {
     if (code.includes('<ol>') && code.includes('<li>')) {
         const count = (code.match(/<li>/g) || []).length;
         if(count >= 3) mostrarSucesso(feedback, "Lista Válida! (+50 XP)", 50);
-        else mostrarErro(feedback, ["Precisa de pelo menos 3 itens <li>."]);
-    } else mostrarErro(feedback, ["Use as tags <ol> e <li>."]);
+        // ATUALIZADO: Passa o código e a linguagem
+        else mostrarErro(feedback, ["Precisa de pelo menos 3 itens <li>."], code, 'html');
+    } else mostrarErro(feedback, ["Use as tags <ol> e <li>."], code, 'html');
 }
 
 function validarHTMLForm() {
@@ -123,7 +124,8 @@ function validarHTMLForm() {
     const hasInput = code.includes('<input') && code.includes('type="submit"');
     
     if (hasButton || hasInput) mostrarSucesso(feedback, "Botão de Envio Criado! (+60 XP)", 60);
-    else mostrarErro(feedback, ["Use <button type='submit'> ou <input type='submit'>."]);
+    // ATUALIZADO
+    else mostrarErro(feedback, ["Use <button type='submit'> ou <input type='submit'>."], code, 'html');
 }
 
 // --- CSS ---
@@ -137,7 +139,8 @@ function validarFlexbox() {
     if (!code.includes('center')) errors.push("Use 'center' para centralizar.");
     
     if (errors.length === 0) mostrarSucesso(feedback, "Flexbox Perfeito! (+60 XP)", 60);
-    else mostrarErro(feedback, errors);
+    // ATUALIZADO: Passa 'css'
+    else mostrarErro(feedback, errors, code, 'css');
 }
 
 function validarGrid() {
@@ -146,8 +149,9 @@ function validarGrid() {
     
     if (code.includes('grid-template-columns')) {
         if (code.includes('1fr 1fr') || code.includes('repeat(2')) mostrarSucesso(feedback, "Grid Configurado! (+70 XP)", 70);
-        else mostrarErro(feedback, ["Defina 2 colunas (ex: 1fr 1fr)."]);
-    } else mostrarErro(feedback, ["Use a propriedade 'grid-template-columns'."]);
+        // ATUALIZADO
+        else mostrarErro(feedback, ["Defina 2 colunas (ex: 1fr 1fr)."], code, 'css');
+    } else mostrarErro(feedback, ["Use a propriedade 'grid-template-columns'."], code, 'css');
 }
 
 // --- JS ---
@@ -161,7 +165,8 @@ function validarJSIf() {
     if (!code.includes('>=')) errors.push("Verifique a condição >= 18.");
     
     if (errors.length === 0) mostrarSucesso(feedback, "Lógica Aprovada! (+70 XP)", 70);
-    else mostrarErro(feedback, errors);
+    // ATUALIZADO: Passa 'javascript'
+    else mostrarErro(feedback, errors, code, 'javascript');
 }
 
 function validarJSLoop() {
@@ -170,8 +175,9 @@ function validarJSLoop() {
     
     if (code.includes('for') && code.includes('let')) {
         if (code.includes('++') || code.includes('i = i + 1')) mostrarSucesso(feedback, "Loop Correto! (+80 XP)", 80);
-        else mostrarErro(feedback, ["Faltou o incremento (i++)."]);
-    } else mostrarErro(feedback, ["Use: for (let i=0; i<N; i++)"]);
+        // ATUALIZADO
+        else mostrarErro(feedback, ["Faltou o incremento (i++)."], code, 'javascript');
+    } else mostrarErro(feedback, ["Use: for (let i=0; i<N; i++)"], code, 'javascript');
 }
 
 // =================================================
@@ -190,9 +196,6 @@ function verificarConquistas() {
     // Atualiza Troféus de Stats (Novos!)
     unlockTrophy('trophy-pomodoro', stats.pomodoros >= 1);
     unlockTrophy('trophy-taskmaster', stats.tasks >= 3);
-    
-    // Debug (Calculadora)
-    // unlockTrophy('trophy-debug', ...);
 }
 
 function unlockTrophy(elementId, condition) {
@@ -220,10 +223,31 @@ function mostrarSucesso(el, msg, xp) {
     }
 }
 
-function mostrarErro(el, erros) {
+// ATUALIZADO: Aceita código e linguagem para ativar a IA
+function mostrarErro(el, erros, codigoContexto = null, langContexto = null) {
     if (!el) return;
-    el.innerHTML = `<div class="msg-error"><i class="fas fa-times-circle"></i> ${erros.join(" ")}</div>`;
+    
+    // Junta os erros em uma string
+    const textoErro = erros.join(" ");
+    
+    let html = `<div class="msg-error">
+                    <div><i class="fas fa-times-circle"></i> ${textoErro}</div>`;
+
+    // Se passarmos o código e a linguagem, adiciona o botão da IA
+    if (codigoContexto && langContexto) {
+        // Truque para passar strings no onclick sem quebrar as aspas
+        const codigoSafe = encodeURIComponent(codigoContexto);
+        const erroSafe = encodeURIComponent(textoErro);
+        
+        html += `<button class="btn-ai-help" onclick="perguntarMentorIA(this, decodeURIComponent('${codigoSafe}'), decodeURIComponent('${erroSafe}'), '${langContexto}')">
+                    <i class="fas fa-brain"></i> Perguntar à IA
+                 </button>`;
+    }
+
+    html += `</div>`;
+    el.innerHTML = html;
     el.style.display = 'block';
+
     if(window.playSoundGlobal) window.playSoundGlobal('error');
 }
 
@@ -250,5 +274,52 @@ function ganharXP(qtd) {
         adicionarXP(qtd);
     } else {
         console.warn("game-data.js não carregado ou função adicionarXP não encontrada.");
+    }
+}
+
+// =================================================
+// 7. INTEGRAÇÃO COM MENTOR IA (PYTHON)
+// =================================================
+
+async function perguntarMentorIA(btn, codigo, erroTexto, linguagem) {
+    const parentDiv = btn.parentElement; // A div msg-error
+    
+    // 1. Muda botão para "Pensando..."
+    btn.innerHTML = '<i class="fas fa-circle-notch ai-loading-icon"></i> Analisando...';
+    btn.disabled = true;
+
+    try {
+        // 2. Chama o seu servidor Python (app.py)
+        // Certifique-se que o uvicorn está rodando na porta 8000
+        const resposta = await fetch('http://127.0.0.1:8000/analisar_erro', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                codigo_aluno: codigo,
+                erro_console: erroTexto,
+                linguagem: linguagem
+            })
+        });
+
+        if (!resposta.ok) throw new Error("Servidor IA Offline");
+
+        const dados = await resposta.json();
+
+        // 3. Cria a caixa de resposta
+        const respostaDiv = document.createElement('div');
+        respostaDiv.className = 'ai-response-box';
+        respostaDiv.innerHTML = `<strong>💡 Dica do Mentor:</strong><br>${dados.dica}`;
+        
+        // Insere abaixo do botão
+        parentDiv.appendChild(respostaDiv);
+        
+        // Remove o botão para não clicar de novo
+        btn.remove();
+
+    } catch (error) {
+        console.error(error);
+        btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Erro na IA';
+        btn.style.background = '#ef4444';
+        alert("Certifique-se que o arquivo 'app.py' está rodando no terminal com 'uvicorn app:app --reload'!");
     }
 }

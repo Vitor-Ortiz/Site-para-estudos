@@ -461,6 +461,48 @@
 .trophy-card h4 { color: white; margin-bottom: 5px; font-size: 1.1rem; font-family: var(--font-code); }
 .trophy-card p { color: var(--text-muted); font-size: 0.85rem; }
 
+/* =========================================
+   9. INTEGRAÇÃO IA (NOVO)
+   ========================================= */
+.btn-ai-help {
+    margin-top: 10px;
+    background: linear-gradient(90deg, #9333ea, #7e22ce); /* Roxo IA */
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--font-code);
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-ai-help:hover {
+    box-shadow: 0 0 15px rgba(147, 51, 234, 0.5);
+    transform: translateY(-2px);
+}
+
+.ai-response-box {
+    margin-top: 15px;
+    background: rgba(147, 51, 234, 0.1); /* Fundo roxo leve */
+    border-left: 4px solid #9333ea;
+    padding: 15px;
+    border-radius: 0 8px 8px 0;
+    color: #e9d5ff;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    animation: fadeIn 0.5s;
+}
+
+.ai-loading-icon {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
 @keyframes bounce {
     0%, 100% { transform: translateY(0) scale(1.1); }
     50% { transform: translateY(-5px) scale(1.1); }
