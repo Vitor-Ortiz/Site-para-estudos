@@ -291,7 +291,7 @@ async function perguntarMentorIA(btn, codigo, erroTexto, linguagem) {
     try {
         // 2. Chama o seu servidor Python (app.py)
         // Certifique-se que o uvicorn está rodando na porta 8000
-       const resposta = await fetch('https://devstudy-api-SEU-CODIGO.onrender.com/analisar_erro', {
+       const resposta = await fetch('https://devstudy-api.onrender.com/analisar_erro', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
