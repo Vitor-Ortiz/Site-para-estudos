@@ -2,3 +2,6 @@ ia_brain/venv/
 ia_brain/.env
 ia_brain/__pycache__/
 .DS_Store
+
+# Ignorar o arquivo de anotações com senhas
+info.txt
