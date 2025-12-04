@@ -13,15 +13,7 @@ from supabase import create_client
 load_dotenv()
 app = FastAPI()
 
-<<<<<<< HEAD
-@app.get("/")
-def health_check():
-    return {"status": "online", "msg": "DevStudy API operante"}
-
 # Configuração de Segurança (CORS)
-=======
-# Configuração de Segurança (CORS) - Permite acesso de qualquer lugar (para testes)
->>>>>>> DEV
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -31,17 +23,21 @@ app.add_middleware(
 )
 
 # Conexão com Banco de Dados (Memória)
-supabase = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
+# Tenta conectar, se falhar (ex: variáveis não configuradas no Render), segue sem memória
+try:
+    supabase = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
+except:
+    supabase = None
+    print("⚠️ Aviso: Supabase não conectado.")
 
 # Conexão com o Cérebro (Llama 3 via Groq)
-# temperature=0.6: Criatividade média (bom para ensinar e simular)
 llm = ChatGroq(
     temperature=0.6, 
     model_name="llama-3.3-70b-versatile", 
     api_key=os.getenv("GROQ_API_KEY")
 )
 
-# Modelo de Vetores (Tradutor de Texto para Números)
+# Modelo de Vetores
 embedder = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 # --- PERSONALIDADE GLOBAL DA LUA ---
@@ -71,12 +67,13 @@ async def analisar_erro(dados: ErroRequest):
     
     # 2. Busca na memória se já vimos algo parecido
     memoria_util = ""
-    try:
-        busca = supabase.rpc("match_erros", {"query_embedding": vetor_erro, "match_threshold": 0.7, "match_count": 1}).execute()
-        if busca.data:
-            memoria_util = f"NOTA MENTAL: Eu já ajudei com um erro parecido antes: '{busca.data[0]['conteudo']}'."
-    except Exception as e:
-        print(f"⚠️ Erro ao buscar memória: {e}")
+    if supabase:
+        try:
+            busca = supabase.rpc("match_erros", {"query_embedding": vetor_erro, "match_threshold": 0.7, "match_count": 1}).execute()
+            if busca.data:
+                memoria_util = f"NOTA MENTAL: Eu já ajudei com um erro parecido antes: '{busca.data[0]['conteudo']}'."
+        except Exception as e:
+            print(f"⚠️ Erro ao buscar memória: {e}")
 
     # 3. Monta o Prompt para a Lua
     prompt = f"""
@@ -96,9 +93,10 @@ async def analisar_erro(dados: ErroRequest):
     resp = llm.invoke(prompt)
     
     # 5. Salva esse novo erro para aprender (Auto-aprendizado passivo)
-    try:
-        supabase.table("erros_aprendidos").insert({"conteudo": texto_erro, "embedding": vetor_erro}).execute()
-    except: pass
+    if supabase:
+        try:
+            supabase.table("erros_aprendidos").insert({"conteudo": texto_erro, "embedding": vetor_erro}).execute()
+        except: pass
     
     return {"dica": resp.content}
 
@@ -175,7 +173,7 @@ async def chat_lua(dados: ChatLuaRequest):
     print(f"🌕 Lua ouviu: {dados.mensagem} (Modo Ensino: {dados.memorizar})")
     
     # 1. MODO ENSINO (GRAVAR)
-    if dados.memorizar:
+    if dados.memorizar and supabase:
         vetor = embedder.embed_query(dados.mensagem)
         try:
             supabase.table("erros_aprendidos").insert({
@@ -189,13 +187,14 @@ async def chat_lua(dados: ChatLuaRequest):
     # 2. MODO CONVERSA (RECUPERAR)
     vetor_busca = embedder.embed_query(dados.mensagem)
     contexto = ""
-    try:
-        # Busca conhecimentos prévios relevantes no banco
-        busca = supabase.rpc("match_erros", {"query_embedding": vetor_busca, "match_threshold": 0.6, "match_count": 3}).execute()
-        if busca.data:
-            textos_memoria = "\n".join([f"- {item['conteudo']}" for item in busca.data])
-            contexto = f"USE SEU CONHECIMENTO PRÉVIO ABAIXO:\n{textos_memoria}"
-    except: pass
+    if supabase:
+        try:
+            # Busca conhecimentos prévios relevantes no banco
+            busca = supabase.rpc("match_erros", {"query_embedding": vetor_busca, "match_threshold": 0.6, "match_count": 3}).execute()
+            if busca.data:
+                textos_memoria = "\n".join([f"- {item['conteudo']}" for item in busca.data])
+                contexto = f"USE SEU CONHECIMENTO PRÉVIO ABAIXO:\n{textos_memoria}"
+        except: pass
 
     prompt = f"""
     {SYSTEM_PERSONA}
