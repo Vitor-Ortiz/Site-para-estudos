@@ -7,7 +7,9 @@
     
     <link rel="stylesheet" href="../../assets/css/base.css">
     <link rel="stylesheet" href="../../assets/css/header.css">
-    <link rel="stylesheet" href="../../assets/css/lua.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/lua.css"> 
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -61,5 +63,21 @@
     
     <script src="../../game-data.js"></script>
     
-    <script src="../../assets/js/lua.js"></script> </body>
+    <script src="../../assets/js/lua.js"></script>
+
+    <script>
+        // Sobrescreve o redirecionamento padrão do lua.js se necessário
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                if (!window.isAdminUser) {
+                    // Se não for admin, volta para a raiz (../../index.html)
+                    const overlay = document.getElementById('security-overlay');
+                    if(overlay) overlay.innerHTML = `<i class="fas fa-lock" style="font-size: 4rem; margin-bottom: 20px;"></i><h1 style="margin-bottom:10px;">ACESSO NEGADO</h1>`;
+                    setTimeout(() => window.location.href = "../../index.html", 2000);
+                }
+            }, 2100); // Roda um pouco depois do lua.js
+        });
+    </script>
+
+</body>
 </html>

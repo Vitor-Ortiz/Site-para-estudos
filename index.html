@@ -27,10 +27,10 @@
             </p>
 
             <div class="hero-actions animate__animated animate__fadeInUp animate__delay-1s">
-                <a href="pages/challenges.html" class="btn btn-primary">
+                <a href="pages/challenges.html" class="btn btn-primary auth-guard">
                     <i class="fas fa-terminal"></i> INICIAR TREINO
                 </a>
-                <a href="pages/game.html" class="btn btn-outline">
+                <a href="pages/game.html" class="btn btn-outline auth-guard">
                     <i class="fas fa-gamepad"></i> ARCADE
                 </a>
             </div>
@@ -80,7 +80,7 @@
                         <p>Aprenda a criar o esqueleto semântico da Web. Tags, formulários e SEO básico.</p>
                         <div class="content-actions">
                             <a href="pages/docs.html" class="btn-sm"><i class="fas fa-book"></i> Ler Docs</a>
-                            <a href="pages/challenges.html" onclick="carregarAba('html')" class="btn-sm btn-glow">
+                            <a href="pages/challenges.html" onclick="carregarAba('html')" class="btn-sm btn-glow auth-guard">
                                 <i class="fas fa-code"></i> Desafios (+XP)
                             </a>
                         </div>
@@ -97,7 +97,7 @@
                         <p>Domine a arte visual. Flexbox, Grid, Animações e Design Responsivo.</p>
                         <div class="content-actions">
                             <a href="pages/docs.html" class="btn-sm"><i class="fas fa-flask"></i> Laboratório</a>
-                            <a href="pages/challenges.html" onclick="carregarAba('css')" class="btn-sm btn-glow">
+                            <a href="pages/challenges.html" onclick="carregarAba('css')" class="btn-sm btn-glow auth-guard">
                                 <i class="fas fa-paint-brush"></i> Estilizar
                             </a>
                         </div>
@@ -114,7 +114,7 @@
                         <p>Lógica, manipulação do DOM e consumo de APIs.</p>
                         <div class="content-actions">
                             <a href="pages/game.html" class="btn-sm"><i class="fas fa-gamepad"></i> Jogar</a>
-                            <a href="pages/challenges.html" onclick="carregarAba('js')" class="btn-sm btn-glow">
+                            <a href="pages/challenges.html" onclick="carregarAba('js')" class="btn-sm btn-glow auth-guard">
                                 <i class="fas fa-terminal"></i> Hackear
                             </a>
                         </div>
@@ -182,12 +182,11 @@
                             </button>
                         </div>
                         
-                        <ul id="listaTarefas" class="task-list">
-                            </ul>
+                        <ul id="listaTarefas" class="task-list"></ul>
                     </div>
                 </div>
                 
-                </div>
+            </div>
         </div>
     </section>
 
@@ -217,5 +216,30 @@
     <script src="game-data.js"></script>
     <script src="assets/js/header.js"></script>
     <script src="assets/js/main.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Seleciona todos os botões com a classe 'auth-guard'
+            const protectedButtons = document.querySelectorAll('.auth-guard');
+
+            protectedButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Impede de abrir o link direto
+                    
+                    const destino = btn.getAttribute('href');
+
+                    if (window.currentUser) {
+                        // Se estiver logado, libera a passagem
+                        window.location.href = destino;
+                    } else {
+                        // Se NÃO estiver logado, manda pro login
+                        // Salva onde ele queria ir para redirecionar depois (opcional, mas legal)
+                        sessionStorage.setItem('redirect_after_login', destino);
+                        window.location.href = "pages/login.html";
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
