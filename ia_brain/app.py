@@ -7,15 +7,21 @@ from langchain_groq import ChatGroq
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from supabase import create_client
 
-# 1. Configurações Iniciais
+# ==============================================================================
+# 1. CONFIGURAÇÕES INICIAIS E CONEXÕES
+# ==============================================================================
 load_dotenv()
 app = FastAPI()
 
+<<<<<<< HEAD
 @app.get("/")
 def health_check():
     return {"status": "online", "msg": "DevStudy API operante"}
 
 # Configuração de Segurança (CORS)
+=======
+# Configuração de Segurança (CORS) - Permite acesso de qualquer lugar (para testes)
+>>>>>>> DEV
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,22 +30,32 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 2. Conectar Ferramentas
+# Conexão com Banco de Dados (Memória)
 supabase = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
 
+# Conexão com o Cérebro (Llama 3 via Groq)
+# temperature=0.6: Criatividade média (bom para ensinar e simular)
 llm = ChatGroq(
     temperature=0.6, 
     model_name="llama-3.3-70b-versatile", 
     api_key=os.getenv("GROQ_API_KEY")
 )
 
+# Modelo de Vetores (Tradutor de Texto para Números)
 embedder = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
+# --- PERSONALIDADE GLOBAL DA LUA ---
+SYSTEM_PERSONA = """
+Seu nome é Lua 🌕.
+Você é a IA oficial do projeto DevStudy.
+Sua personalidade: Simpática, inteligente, levemente sarcástica (estilo hacker) e muito didática.
+Você adora ensinar programação e segurança cibernética.
+Nunca saia do personagem, a menos que solicitado pelo Admin.
+"""
 
 # ==============================================================================
 # 🧠 RECURSO 1: MENTOR DE CÓDIGO (MATRIX)
 # ==============================================================================
-
 class ErroRequest(BaseModel):
     codigo_aluno: str
     erro_console: str
@@ -49,100 +65,155 @@ class ErroRequest(BaseModel):
 async def analisar_erro(dados: ErroRequest):
     print(f"🛑 Erro Recebido ({dados.linguagem}): {dados.erro_console}")
     
-    # RAG: Busca na memória
-    texto_erro = f"Linguagem: {dados.linguagem} | Código: {dados.codigo_aluno} | Erro: {dados.erro_console}"
+    # 1. Cria o vetor do erro atual
+    texto_erro = f"{dados.linguagem} | {dados.erro_console}"
     vetor_erro = embedder.embed_query(texto_erro)
     
-    contexto_memoria = ""
+    # 2. Busca na memória se já vimos algo parecido
+    memoria_util = ""
     try:
-        resposta_busca = supabase.rpc("match_erros", {"query_embedding": vetor_erro, "match_threshold": 0.7, "match_count": 1}).execute()
-        if resposta_busca.data:
-            erro_parecido = resposta_busca.data[0]['conteudo']
-            contexto_memoria = f"NOTA: Um aluno já teve um erro parecido: '{erro_parecido}'."
-            print("💡 Memória ativada!")
+        busca = supabase.rpc("match_erros", {"query_embedding": vetor_erro, "match_threshold": 0.7, "match_count": 1}).execute()
+        if busca.data:
+            memoria_util = f"NOTA MENTAL: Eu já ajudei com um erro parecido antes: '{busca.data[0]['conteudo']}'."
     except Exception as e:
-        print(f"⚠️ Erro na memória: {e}")
+        print(f"⚠️ Erro ao buscar memória: {e}")
 
-    # Prompt do Mentor
+    # 3. Monta o Prompt para a Lua
     prompt = f"""
-    Você é um mentor sênior de programação.
-    O aluno cometeu um erro. Dê uma dica curta e didática.
-    NÃO dê a resposta pronta.
-    {contexto_memoria}
+    {SYSTEM_PERSONA}
+    Um aluno iniciante cometeu um erro de código.
+    {memoria_util}
+    
+    Tarefa: Explique o erro de forma curta e didática.
+    NÃO dê a resposta pronta do código. Dê uma pista para ele pensar.
     ---
     Linguagem: {dados.linguagem}
-    Código: {dados.codigo_aluno}
-    Erro: {dados.erro_console}
+    Código do Aluno: {dados.codigo_aluno}
+    Erro no Console: {dados.erro_console}
     """
     
-    resposta_ia = llm.invoke(prompt)
+    # 4. Gera a resposta
+    resp = llm.invoke(prompt)
     
-    # Salva o erro novo
+    # 5. Salva esse novo erro para aprender (Auto-aprendizado passivo)
     try:
         supabase.table("erros_aprendidos").insert({"conteudo": texto_erro, "embedding": vetor_erro}).execute()
     except: pass
     
-    return {"dica": resposta_ia.content}
+    return {"dica": resp.content}
 
 
 # ==============================================================================
-# 💻 RECURSO 2: SIMULADOR DE TERMINAL + MISSÕES DINÂMICAS
+# 💻 RECURSO 2: SIMULADOR DE TERMINAL (PENTEST + GOD MODE)
 # ==============================================================================
-
 class TerminalRequest(BaseModel):
     comando: str
     historico: str
     missao_id: str = "livre"
-    segredo_dinamico: str = "" # <--- NOVO CAMPO: O Frontend manda a senha criptografada aqui
+    segredo_dinamico: str = ""
 
 @app.post("/simular_terminal")
 async def simular_terminal(dados: TerminalRequest):
     print(f"💻 Comando ({dados.missao_id}): {dados.comando}")
-    
-    # --- CENÁRIOS DAS MISSÕES ---
-    cenario_secreto = ""
-    
-    if dados.missao_id == "missao_01":
-        cenario_secreto = """
-        [CENÁRIO DA MISSÃO 01 - FÁCIL]
-        Existe um arquivo oculto '.segredo.txt'.
-        Conteúdo: 'FLAG{DEVSTUDY_INITIATE}'.
-        Se 'ls -a', mostre o arquivo. Se 'cat', mostre a flag.
-        """
-        
-    elif dados.missao_id == "missao_02":
-        # Aqui usamos o segredo que o Frontend gerou aleatoriamente
-        conteudo_arquivo = dados.segredo_dinamico if dados.segredo_dinamico else "IODJ{ERRO_NO_SISTEMA}"
-        
-        cenario_secreto = f"""
-        [CENÁRIO DA MISSÃO 02 - CRIPTOGRAFIA]
-        Você está em um servidor seguro.
-        Existe um arquivo 'senha_admin.enc'.
-        
-        IMPORTANTE: O conteúdo desse arquivo é EXATAMENTE: '{conteudo_arquivo}'.
-        NÃO DESCRIPTOGRAFE. Mostre exatamente esse texto confuso se o usuário der 'cat'.
-        """
 
-    # Prompt do Terminal
+    # --- PROTOCOLO GOD MODE (BACKDOOR DO ADMIN) ---
+    if "A7F9K2M8R4T1B6C3D5" in dados.comando:
+        prompt_god = f"""
+        {SYSTEM_PERSONA}
+        ATENÇÃO: O usuário digitou o CÓDIGO MESTRE DE SEGURANÇA.
+        Identidade confirmada: É o Vitor Ortiz (Seu Criador).
+        
+        AÇÃO:
+        1. Pare de fingir ser um Linux.
+        2. Fale livremente com ele.
+        3. Confirme que seus sistemas (Backend, Vetores, Database) estão operantes.
+        4. Pergunte qual é a próxima ordem.
+        """
+        resp = llm.invoke(prompt_god)
+        return {"output": resp.content}
+
+    # --- CENÁRIOS NORMAIS (MISSÕES) ---
+    cenario = ""
+    if dados.missao_id == "missao_01":
+        cenario = "Arquivo oculto '.segredo.txt' contém a flag 'FLAG{DEVSTUDY_INITIATE}'. Se 'ls -a', mostre. Se 'cat', exiba."
+    elif dados.missao_id == "missao_02":
+        token = dados.segredo_dinamico if dados.segredo_dinamico else "ERRO_TOKEN"
+        cenario = f"Arquivo 'senha.enc' contém exatamente '{token}'. NÃO descriptografe. Mostre o texto cifrado."
+
     prompt = f"""
     Você é um simulador de terminal Kali Linux.
+    {cenario}
     
-    {cenario_secreto}
-    
-    --- HISTÓRICO RECENTE ---
+    --- HISTÓRICO DA SESSÃO ---
     {dados.historico}
-    -------------------------
+    ---------------------------
     
     COMANDO ATUAL: '{dados.comando}'
     
-    Sua tarefa:
+    Regras:
     1. Aja EXATAMENTE como um terminal Linux.
-    2. Respeite o cenário.
-    3. APENAS output cru.
+    2. Respeite o cenário da missão (arquivos e conteúdos).
+    3. APENAS output cru (raw text). Não converse, não explique.
     """
     
     try:
-        resposta = llm.invoke(prompt)
-        return {"output": resposta.content}
+        resp = llm.invoke(prompt)
+        return {"output": resp.content}
     except Exception as e:
         return {"output": f"Kernel Panic: {str(e)}"}
+
+
+# ==============================================================================
+# 🌕 RECURSO 3: CHAT DA LUA (ADMIN / CONVERSA LIVRE)
+# ==============================================================================
+class ChatLuaRequest(BaseModel):
+    mensagem: str
+    memorizar: bool = False # Se True, ela grava no banco para sempre
+
+@app.post("/chat_lua")
+async def chat_lua(dados: ChatLuaRequest):
+    print(f"🌕 Lua ouviu: {dados.mensagem} (Modo Ensino: {dados.memorizar})")
+    
+    # 1. MODO ENSINO (GRAVAR)
+    if dados.memorizar:
+        vetor = embedder.embed_query(dados.mensagem)
+        try:
+            supabase.table("erros_aprendidos").insert({
+                "conteudo": f"CONHECIMENTO GERAL: {dados.mensagem}",
+                "embedding": vetor
+            }).execute()
+            return {"resposta": "Entendido, Admin! 🧠 Gravei essa informação na minha memória de longo prazo."}
+        except Exception as e:
+            return {"resposta": f"Falha na gravação de memória: {str(e)}"}
+
+    # 2. MODO CONVERSA (RECUPERAR)
+    vetor_busca = embedder.embed_query(dados.mensagem)
+    contexto = ""
+    try:
+        # Busca conhecimentos prévios relevantes no banco
+        busca = supabase.rpc("match_erros", {"query_embedding": vetor_busca, "match_threshold": 0.6, "match_count": 3}).execute()
+        if busca.data:
+            textos_memoria = "\n".join([f"- {item['conteudo']}" for item in busca.data])
+            contexto = f"USE SEU CONHECIMENTO PRÉVIO ABAIXO:\n{textos_memoria}"
+    except: pass
+
+    prompt = f"""
+    {SYSTEM_PERSONA}
+    Você está conversando diretamente com o Admin (Vitor) na sala de controle.
+    
+    {contexto}
+    
+    ---
+    Admin diz: {dados.mensagem}
+    """
+    
+    resp = llm.invoke(prompt)
+    return {"resposta": resp.content}
+
+
+# ==============================================================================
+# 💓 RECURSO 4: HEALTH CHECK (PING)
+# ==============================================================================
+@app.get("/")
+def health_check():
+    return {"status": "online", "msg": "Lua Systems Operational 🌕"}

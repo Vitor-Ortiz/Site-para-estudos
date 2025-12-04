@@ -1,29 +1,31 @@
-/* assets/js/header.js - Versão Final (Correção de Caminhos) */
+/* assets/js/header.js - Versão Final (Caminhos + Login Inteligente) */
 
 document.addEventListener("DOMContentLoaded", () => {
     const header = document.querySelector("header");
     if (!header) return;
 
     // 1. DETECÇÃO DE CAMINHO INTELIGENTE
-    // Verifica onde o arquivo atual está para ajustar os links (../ ou ../../)
     const pathname = window.location.pathname;
     let rootPath = "./";
 
-    // Se estiver dentro de /pages/atlas/ (2 níveis de profundidade)
-    if (pathname.includes("/pages/atlas/")) {
+    // Nível 2: Dentro de /pages/admin/ ou /pages/lua/
+    if (pathname.includes("/pages/admin/") || pathname.includes("/pages/lua/") || pathname.includes("/pages/atlas/")) {
         rootPath = "../../";
     } 
-    // Se estiver apenas em /pages/ (1 nível de profundidade)
+    // Nível 1: Dentro de /pages/
     else if (pathname.includes("/pages/")) {
         rootPath = "../";
     }
-    // Se estiver na raiz (index.html), mantém "./"
+    // Nível 0: Raiz (index.html) usa "./"
 
-    // 2. RENDERIZAÇÃO DO HTML
+    // 2. LOGO DESTINO (Padrão para Index, muda se logado depois)
+    let logoLink = `${rootPath}index.html`;
+
+    // 3. RENDERIZAÇÃO DO HTML
     header.innerHTML = `
         <div class="container">
             <div class="header-content">
-                <a href="${rootPath}index.html" class="logo" id="app-logo">&lt;Dev<span>Study</span>/&gt;</a>
+                <a href="${logoLink}" class="logo" id="app-logo">&lt;Dev<span>Study</span>/&gt;</a>
                 
                 <nav class="main-nav">
                     <ul>
@@ -33,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         
                         <li><a href="${rootPath}pages/docs.html">Docs</a></li>
                         <li><a href="${rootPath}pages/challenges.html">Matrix</a></li>
+                        <li><a href="${rootPath}pages/pentest.html" style="color:#ef4444;"><i class="fas fa-terminal"></i> Pentest</a></li>
                         
                         <li><a href="${rootPath}pages/chat.html" style="color:var(--primary-neon)"><i class="fas fa-comments"></i> Taverna</a></li>
                         
@@ -50,9 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 </nav>
 
                 <div class="user-area">
-                    <div id="user-info-display"></div>
+                    <div id="user-info-display">
+                        <a href="${rootPath}pages/login.html" class="btn-sm btn-outline" style="text-decoration:none; color:#94a3b8; border:1px solid #334155; padding:5px 15px; border-radius:6px; font-size:0.8rem;">
+                            Login
+                        </a>
+                    </div>
                     
-                    <div class="xp-container">
+                    <div class="xp-container" style="display:none;" id="xp-display-box">
                         <span class="xp-label">LVL <span id="userLevel">...</span></span>
                         <span class="xp-value"><span id="userXP">...</span> XP</span>
                     </div>
@@ -62,36 +69,58 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     
     highlightActiveLink();
-    checkVisibility();
+    
+    // Inicia verificação de Auth
+    monitorarLogin(rootPath);
 });
 
-// 3. VERIFICAÇÃO DE PERMISSÕES (ADMIN/LOVE)
-// Ouve o evento disparado pelo game-data.js quando o login termina
-window.addEventListener('gameDataLoaded', checkVisibility);
+// 4. LÓGICA DE LOGIN E VISIBILIDADE
+function monitorarLogin(rootPath) {
+    // Tenta esperar o Firebase carregar
+    const check = setInterval(() => {
+        if (window.auth && window.db) {
+            clearInterval(check);
+            
+            window.auth.onAuthStateChanged((user) => {
+                const logo = document.getElementById('app-logo');
+                const adminItem = document.getElementById('admin-nav-item');
+                const loveItem = document.getElementById('love-nav-item');
+                const xpBox = document.getElementById('xp-display-box');
 
-function checkVisibility() {
-    // Botão Admin
-    const adminItem = document.getElementById('admin-nav-item');
-    if (window.isAdminUser && adminItem) {
-        adminItem.style.display = 'block';
-    }
+                if (user) {
+                    // SE LOGADO:
+                    // 1. Logo vai para Home (ou Challenges se não tiver Home)
+                    logo.href = `${rootPath}pages/home.html`; 
+                    logo.title = "Ir para Dashboard";
+                    
+                    // 2. Mostra XP
+                    if(xpBox) xpBox.style.display = "flex";
 
-    // Botão Love
-    const loveItem = document.getElementById('love-nav-item');
-    if ((window.isAdminUser || window.isLoveUser) && loveItem) {
-        loveItem.style.display = 'block';
-    }
+                    // 3. Verifica Admin no Banco (Delay pequeno pra dar tempo do game-data)
+                    setTimeout(() => {
+                        if (window.isAdminUser) adminItem.style.display = 'block';
+                        if (window.isAdminUser || window.isLoveUser) loveItem.style.display = 'block';
+                    }, 500);
+
+                } else {
+                    // SE DESLOGADO:
+                    logo.href = `${rootPath}index.html`;
+                    if(xpBox) xpBox.style.display = "none";
+                    if(adminItem) adminItem.style.display = 'none';
+                }
+            });
+        }
+    }, 200); // Checa a cada 200ms
 }
 
-// 4. DESTAQUE DO LINK ATIVO
+// 5. DESTAQUE DO LINK ATIVO
 function highlightActiveLink() {
     const currentFile = window.location.pathname.split("/").pop();
     const links = document.querySelectorAll("nav a");
     
     links.forEach(link => {
         const href = link.getAttribute("href");
-        // Marca ativo se for o arquivo atual e não for um link âncora (#)
-        if (href.includes(currentFile) && currentFile !== "" && !href.includes("#")) {
+        if (href && href.includes(currentFile) && currentFile !== "" && !href.includes("#")) {
             link.classList.add("active-link");
         }
     });

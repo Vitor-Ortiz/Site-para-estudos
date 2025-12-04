@@ -1,0 +1,192 @@
+/* assets/css/lua.css - Estilo da Sala Neural (Versão Blindada) */
+
+/* =========================================
+   1. LAYOUT PRINCIPAL
+   ========================================= */
+body {
+    background-image: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #020617 100%);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Trava scroll da janela */
+    margin: 0;
+    padding: 0;
+    font-family: 'Fira Code', monospace;
+    color: #e2e8f0;
+}
+
+.chat-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100%; /* Garante altura total */
+}
+
+/* =========================================
+   2. CABEÇALHO
+   ========================================= */
+.lua-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    border-radius: 16px 16px 0 0;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.avatar-lua {
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, #9333ea, #7e22ce);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 0 15px rgba(147, 51, 234, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    animation: pulse-purple 3s infinite;
+    flex-shrink: 0;
+}
+
+.status-dot { 
+    width: 8px; height: 8px; 
+    background: #4ade80; border-radius: 50%; 
+    display: inline-block; margin-right: 6px; 
+    box-shadow: 0 0 8px #4ade80;
+}
+
+/* =========================================
+   3. ÁREA DE MENSAGENS (A CORREÇÃO)
+   ========================================= */
+.messages-area {
+    flex: 1;
+    background: rgba(2, 6, 23, 0.7);
+    border-left: 1px solid rgba(255,255,255,0.05);
+    border-right: 1px solid rgba(255,255,255,0.05);
+    
+    /* Configuração Flex Obrigatória */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important; /* Padrão tudo na esquerda */
+    gap: 15px;
+    
+    padding: 20px;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* Scrollbar */
+.messages-area::-webkit-scrollbar { width: 6px; }
+.messages-area::-webkit-scrollbar-track { background: transparent; }
+.messages-area::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+.messages-area::-webkit-scrollbar-thumb:hover { background: #9333ea; }
+
+/* BALÕES - USO DE !IMPORTANT PARA FORÇAR O VISUAL */
+.msg {
+    max-width: 80% !important;        /* Limita largura */
+    width: fit-content !important;    /* Abraça o texto */
+    display: inline-block !important; /* Comporta como bloco de texto */
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    position: relative;
+    word-wrap: break-word;
+    word-break: break-word;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    animation: popIn 0.3s ease;
+    margin-bottom: 0 !important; /* Remove margens extras se houver */
+}
+
+/* LUA (Esquerda) */
+.msg.lua { 
+    align-self: flex-start !important; /* Força esquerda */
+    background: #1e293b; 
+    color: #e2e8f0; 
+    border-bottom-left-radius: 2px;
+    border: 1px solid rgba(147, 51, 234, 0.3);
+}
+
+/* USUÁRIO (Direita) */
+.msg.user { 
+    align-self: flex-end !important; /* Força direita */
+    background: #2563eb; 
+    color: white; 
+    border-bottom-right-radius: 2px;
+    text-align: left;
+}
+
+/* SISTEMA (Centro) */
+.msg.system { 
+    align-self: center !important; /* Força meio */
+    background: rgba(250, 204, 21, 0.1); 
+    color: #facc15; 
+    border: 1px dashed rgba(250, 204, 21, 0.3); 
+    font-size: 0.8rem; 
+    padding: 6px 15px;
+    border-radius: 20px;
+    width: auto !important;
+}
+
+/* =========================================
+   4. ÁREA DE INPUT
+   ========================================= */
+.input-dock {
+    background: #0f172a;
+    padding: 20px;
+    border-radius: 0 0 16px 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.controls { display: flex; align-items: center; justify-content: space-between; }
+
+/* Toggle */
+.teach-toggle { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; color: #94a3b8; font-size: 0.8rem; }
+.teach-toggle input { display: none; }
+.toggle-switch { width: 36px; height: 18px; background: #334155; border-radius: 20px; position: relative; transition: 0.3s; }
+.toggle-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; background: white; border-radius: 50%; transition: 0.3s; }
+.teach-toggle input:checked + .toggle-switch { background: #facc15; }
+.teach-toggle input:checked + .toggle-switch::after { transform: translateX(18px); }
+.teach-toggle input:checked ~ span { color: #facc15; font-weight: bold; }
+
+/* Inputs */
+.input-group { display: flex; gap: 10px; }
+#user-input { flex: 1; padding: 15px; background: #1e293b; border: 1px solid #475569; color: white; border-radius: 8px; font-family: inherit; font-size: 1rem; outline: none; transition: all 0.3s; }
+#user-input:focus { border-color: #9333ea; background: #0f172a; }
+#btn-send { padding: 0 25px; background: #9333ea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.2rem; transition: 0.2s; display: flex; align-items: center; justify-content: center;}
+#btn-send:hover { background: #7e22ce; transform: scale(1.05); }
+
+/* Voltar */
+.back-btn { position: absolute; top: 25px; left: 25px; color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); transition: 0.2s; font-size: 0.85rem; z-index: 20; }
+.back-btn:hover { color: white; background: rgba(255,255,255,0.1); }
+
+/* Overlay */
+#security-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020617; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; color: #ef4444; }
+
+/* Animações */
+@keyframes pulse-purple { 0% {box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.7);} 70% {box-shadow: 0 0 0 10px rgba(147, 51, 234, 0);} 100% {box-shadow: 0 0 0 0 rgba(147, 51, 234, 0);} }
+@keyframes popIn { from { opacity: 0; transform: scale(0.8) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+/* Mobile */
+@media (max-width: 600px) {
+    .chat-wrapper { padding: 0; height: 100vh; }
+    .lua-header { border-radius: 0; padding: 15px 15px 15px 60px; }
+    .input-dock { border-radius: 0; padding: 15px; }
+    .msg { max-width: 85% !important; }
+    .back-btn span { display: none; }
+}
