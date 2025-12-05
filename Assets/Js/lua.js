@@ -1,14 +1,16 @@
-/* assets/js/lua.js - Lógica da Sala da Lua (V Final) */
+/* assets/js/lua.js - Lógica da Sala da Lua (Com Upload) */
 
 // CONFIGURAÇÃO DE API
-// Use localhost para testes na escola e Render para produção
+// Use localhost para testes locais. Quando subir pro Render, troque o link.
 const API_URL = "http://127.0.0.1:8000"; 
 // const API_URL = "https://devstudy-api.onrender.com"; 
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. SEGURANÇA: Verifica Admin
+    
+    // ========================================================
+    // 1. SEGURANÇA: Verifica se é Admin
+    // ========================================================
     setTimeout(() => {
-        // Se window.isAdminUser for undefined ou false, bloqueia
         if (!window.isAdminUser) {
             const overlay = document.getElementById('security-overlay');
             if(overlay) {
@@ -22,18 +24,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => overlay.remove(), 500);
             }
         }
-    }, 2000);
+    }, 2000); // Aguarda game-data.js carregar
 
-    // 2. ELEMENTOS
+    // ========================================================
+    // 2. ELEMENTOS DO DOM
+    // ========================================================
     const chatBox = document.getElementById('chat-box');
     const userInput = document.getElementById('user-input');
     const teachCheck = document.getElementById('teach-check');
     const btnSend = document.getElementById('btn-send');
+    const fileInput = document.getElementById('file-upload'); // O input escondido
+    const btnAttach = document.getElementById('btn-attach');  // O botão de clipe
 
-    // 3. EVENTOS
-    userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') enviarMensagem(); });
+    // ========================================================
+    // 3. EVENTOS (CLIQUES E TECLAS)
+    // ========================================================
+    
+    // Enviar com Enter
+    userInput.addEventListener('keydown', (e) => { 
+        if (e.key === 'Enter') enviarMensagem(); 
+    });
+    
+    // Enviar com Botão
     if(btnSend) btnSend.addEventListener('click', enviarMensagem);
 
+    // Mudança visual do "Modo Ensino"
     if(teachCheck) {
         teachCheck.addEventListener('change', () => {
             if (teachCheck.checked) {
@@ -54,12 +69,62 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. ENVIO DE MENSAGEM
+    // ========================================================
+    // 4. LÓGICA DE UPLOAD DE ARQUIVO (NOVO!)
+    // ========================================================
+    if(fileInput) {
+        fileInput.addEventListener('change', async () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            // Feedback visual no chat
+            const loadingId = addMsg(`📂 Enviando arquivo: <strong>${file.name}</strong> para análise...`, 'lua', true);
+
+            // Prepara o pacote do arquivo
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                // Envia para o Python
+                const response = await fetch(`${API_URL}/upload_conhecimento`, {
+                    method: 'POST',
+                    body: formData // O navegador define o Content-Type automaticamente aqui
+                });
+
+                const data = await response.json();
+                
+                // Remove mensagem de "carregando"
+                const loadingEl = document.getElementById(loadingId);
+                if(loadingEl) loadingEl.remove();
+
+                if (data.status === 'sucesso') {
+                    // Mensagem de sucesso
+                    addMsg(`✅ ARQUIVO PROCESSADO: ${file.name}`, 'system');
+                    addMsg(`Li o conteúdo do arquivo e gravei na minha memória. Pode me fazer perguntas sobre ele!`, 'lua');
+                } else {
+                    addMsg(`❌ Erro no processamento: ${data.msg}`, 'system');
+                }
+
+            } catch (error) {
+                const loadingEl = document.getElementById(loadingId);
+                if(loadingEl) loadingEl.remove();
+                addMsg("❌ Erro de upload. O servidor Python está rodando?", 'system');
+                console.error(error);
+            }
+            
+            // Limpa o input para permitir enviar o mesmo arquivo de novo se precisar
+            fileInput.value = '';
+        });
+    }
+
+    // ========================================================
+    // 5. LÓGICA DE ENVIO DE TEXTO
+    // ========================================================
     async function enviarMensagem() {
         const texto = userInput.value.trim();
         if (!texto) return;
 
-        // Adiciona msg do usuário
+        // Adiciona msg do usuário na tela
         addMsg(texto, 'user');
         
         userInput.value = '';
@@ -84,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             addMsg(data.resposta, 'lua');
 
+            // Se estava ensinando, desliga o modo e avisa
             if (isTeaching) {
                 teachCheck.checked = false;
                 teachCheck.dispatchEvent(new Event('change'));
@@ -93,12 +159,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             const loadingEl = document.getElementById(loadingId);
             if(loadingEl) loadingEl.remove();
-            addMsg("❌ Erro: O servidor Python não respondeu. Verifique o terminal uvicorn.", 'system');
+            addMsg("❌ Erro: O servidor Python não respondeu.", 'system');
             console.error(error);
         }
     }
 
-    // 5. HELPER VISUAL (CRIA AS DIVS)
+    // ========================================================
+    // 6. HELPER VISUAL (CRIA OS BALÕES)
+    // ========================================================
     function addMsg(html, tipo, isLoading = false) {
         const div = document.createElement('div');
         

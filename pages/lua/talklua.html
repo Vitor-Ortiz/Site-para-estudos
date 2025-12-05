@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevStudy | Neural Link (Lua)</title>
-    
+
     <link rel="stylesheet" href="../../assets/css/base.css">
     <link rel="stylesheet" href="../../assets/css/header.css">
-    <link rel="stylesheet" href="../../assets/css/lua.css"> 
-    
+    <link rel="stylesheet" href="../../assets/css/lua.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
 
     <div id="security-overlay">
@@ -24,7 +26,8 @@
         <div class="lua-header">
             <div class="avatar-lua">🌕</div>
             <div>
-                <h2 style="margin:0; color:white; font-family:'Fira Code';">LUA <span style="font-size:0.8rem; color:#9333ea;">v3.3 (Neural Link)</span></h2>
+                <h2 style="margin:0; color:white; font-family:'Fira Code';">LUA <span
+                        style="font-size:0.8rem; color:#9333ea;">v3.3 (Neural Link)</span></h2>
                 <div style="font-size:0.8rem; color:#94a3b8; display:flex; align-items:center; margin-top:5px;">
                     <span class="status-dot"></span> Conectado ao Núcleo
                 </div>
@@ -45,12 +48,20 @@
                     <div class="toggle-switch"></div>
                     <span>MODO ENSINO (GRAVAR NA MEMÓRIA)</span>
                 </label>
-                <button class="btn-sm" onclick="document.getElementById('chat-box').innerHTML=''; " style="background:transparent; border:none; color:#64748b; cursor:pointer;">
+                <button class="btn-sm" onclick="document.getElementById('chat-box').innerHTML=''; "
+                    style="background:transparent; border:none; color:#64748b; cursor:pointer;">
                     <i class="fas fa-trash"></i> Limpar
                 </button>
             </div>
 
             <div class="input-group">
+                <input type="file" id="file-upload" style="display: none;">
+
+                <button id="btn-attach" onclick="document.getElementById('file-upload').click()"
+                    style="padding: 0 15px; background: #334155; color: #94a3b8;" title="Enviar Arquivo para Estudo">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+
                 <input type="text" id="user-input" placeholder="Digite sua mensagem aqui..." autocomplete="off">
                 <button id="btn-send"><i class="fas fa-paper-plane"></i></button>
             </div>
@@ -60,9 +71,9 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    
+
     <script src="../../game-data.js"></script>
-    
+
     <script src="../../assets/js/lua.js"></script>
 
     <script>
@@ -72,7 +83,7 @@
                 if (!window.isAdminUser) {
                     // Se não for admin, volta para a raiz (../../index.html)
                     const overlay = document.getElementById('security-overlay');
-                    if(overlay) overlay.innerHTML = `<i class="fas fa-lock" style="font-size: 4rem; margin-bottom: 20px;"></i><h1 style="margin-bottom:10px;">ACESSO NEGADO</h1>`;
+                    if (overlay) overlay.innerHTML = `<i class="fas fa-lock" style="font-size: 4rem; margin-bottom: 20px;"></i><h1 style="margin-bottom:10px;">ACESSO NEGADO</h1>`;
                     setTimeout(() => window.location.href = "../../index.html", 2000);
                 }
             }, 2100); // Roda um pouco depois do lua.js
@@ -80,4 +91,5 @@
     </script>
 
 </body>
+
 </html>
